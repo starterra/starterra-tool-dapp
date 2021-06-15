@@ -1,17 +1,30 @@
-# StarTerra Tool for dApps
+# starterra-tool-dapp
 
-Powered by [Terra](https://www.terra.money/) blockchain.
+> Library for easy use of Terra wallet in custom dApp
 
-## What is it?
+[![NPM](https://img.shields.io/npm/v/starterra-tool-dapp.svg)](https://www.npmjs.com/package/starterra-tool-dapp) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Open source library, available through node package manager (NPM), written in TypeScript ready to download and include in your own project.
+## Install
 
-## What you need it for?
+```bash
+npm install --save starterra-tool-dapp
+```
 
-Software to authenticate by address from the [Terra](https://www.terra.money/) blockchain using one of the supported provider:
-- Terra Station browser extension (Chrome),
-- the Terra Station mobile application.
+## Usage
 
-### Credits
+```tsx
+import React, { Component } from 'react'
 
-[StarTerra](https://starterra.io/) almighty team.
+import MyComponent from 'starterra-tool-dapp'
+import 'starterra-tool-dapp/dist/index.css'
+
+class Example extends Component {
+  render() {
+    return <MyComponent />
+  }
+}
+```
+
+## License
+
+MIT © [StarTerra devs](https://github.com/StarTerra devs)
