@@ -55,9 +55,25 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@terra-money/terra.js": "^1.8.1",
+    "@terra-money/wallet-provider": "^0.15.0",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/uuid": "^8.3.0",
+    "react-router-dom": "^5.2.0",
+    "react-use-clipboard": "^1.0.7",
+    "react-uuid": "^1.0.2",
+    "styled-components": "^5.3.0",
+    "uuid": "^8.3.2"
+  }
 }

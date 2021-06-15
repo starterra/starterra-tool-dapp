@@ -24,6 +24,8 @@
     "starterra-tool-dapp": "file:.."
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
   },
   "eslintConfig": {
