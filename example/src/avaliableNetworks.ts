@@ -15,5 +15,3 @@ export const avaliableNetworks: Record<string, NetworkInfo> = {
     lcd: "https://tequila-lcd.terra.dev",
   },
 }
-
-export const TERRA_FINDER = "https://finder.terra.money"
