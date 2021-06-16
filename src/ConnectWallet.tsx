@@ -1,60 +1,60 @@
-import useAddress from "./hooks/useAddress";
-import ConnectButton from "./components/ConnectButton";
-import ConnectedButton from "./components/ConnectedButton";
-import ConnectWalletOptionList from "./components/ConnectWalletOpionList";
-import WalletContent from "./components/WalletContent";
-import { ClickAwayListener } from "@material-ui/core";
-import React, { useCallback, useState } from "react";
-import useNetwork from "./hooks/useNetwork";
-
-import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import useAddress from './hooks/useAddress'
+import ConnectButton from './components/ConnectButton'
+import ConnectedButton from './components/ConnectedButton'
+import ConnectWalletOptionList from './components/ConnectWalletOpionList'
+import WalletContent from './components/WalletContent'
+import { ClickAwayListener } from '@material-ui/core'
+import React, { useCallback, useState } from 'react'
+import useNetwork from './hooks/useNetwork'
+import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
+import * as trans from './translation'
 
 const ConnectWallet = () => {
-  const address = useAddress();
-  const [showOptions, setShowOptions] = useState<boolean>(false);
-  const [showContent, setShowContent] = useState<boolean>(false);
+  const address = useAddress()
+  const [showOptions, setShowOptions] = useState<boolean>(false)
+  const [showContent, setShowContent] = useState<boolean>(false)
   const { status, connect, disconnect, network, availableConnectTypes } =
-    useWallet();
+    useWallet()
 
-  const { terraFinderGenerateLink } = useNetwork();
+  const { terraFinderGenerateLink } = useNetwork()
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
-      setShowOptions(true);
+      setShowOptions(true)
     } else if (availableConnectTypes.length === 1) {
-      connect(availableConnectTypes[0]);
+      connect(availableConnectTypes[0])
     }
-  }, [availableConnectTypes, connect]);
+  }, [availableConnectTypes, connect])
 
   const disconnectWallet = () => {
-    disconnect();
-    setShowContent(false);
-  };
+    disconnect()
+    setShowContent(false)
+  }
 
   const onClickAway = () => {
-    setShowOptions(false);
-    setShowContent(false);
-  };
+    setShowOptions(false)
+    setShowContent(false)
+  }
 
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
         <div>
-          <ConnectButton>Initializing Wallet...</ConnectButton>
+          <ConnectButton>{trans.INITIALIZING_TXT}</ConnectButton>
         </div>
-      );
+      )
     case WalletStatus.WALLET_NOT_CONNECTED:
       return (
         <ClickAwayListener onClickAway={onClickAway}>
           <div>
             <ConnectButton onClick={connectWallet}>
-              Connect Wallet
+            {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
             {showOptions && <ConnectWalletOptionList />}
           </div>
         </ClickAwayListener>
-      );
+      )
 
     case WalletStatus.WALLET_CONNECTED:
       return (
@@ -74,8 +74,8 @@ const ConnectWallet = () => {
             )}
           </div>
         </ClickAwayListener>
-      );
+      )
   }
-};
+}
 
-export default ConnectWallet;
+export default ConnectWallet
