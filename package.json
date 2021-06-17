@@ -64,12 +64,15 @@
     "dist"
   ],
   "dependencies": {
+    "@apollo/client": "^3.3.20",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@terra-money/terra.js": "^1.8.1",
     "@terra-money/wallet-provider": "^0.15.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
+    "graphql": "^15.5.0",
+    "react-query": "^3.17.1",
     "react-router-dom": "^5.2.0",
     "react-use-clipboard": "^1.0.7",
     "styled-components": "^5.3.0",
