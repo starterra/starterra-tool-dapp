@@ -5,12 +5,12 @@ import { avaliableNetworks } from './avaliableNetworks'
 import 'starterra-tool-dapp/dist/index.css'
 
 const App = () => {
-  return (<WalletProvider
-      defaultNetwork={avaliableNetworks["testnet"]}
-      walletConnectChainIds={avaliableNetworks}
-    >
-      <Wallet />
-    </WalletProvider>)
+  return<WalletProvider
+  defaultNetwork={avaliableNetworks["testnet"]}
+  walletConnectChainIds={avaliableNetworks}
+>
+  <Wallet />
+</WalletProvider>
 }
 
 export default App

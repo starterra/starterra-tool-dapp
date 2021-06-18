@@ -21,15 +21,18 @@
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && npm install && npm run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "install-peers": "install-peers"
   },
   "peerDependencies": {
     "react": "^16.0.0",
-    "@material-ui/core": "^4.11.4",
-    "styled-components": "^5.3.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@material-ui/core": "^4.11.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -41,7 +44,6 @@
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
-    "microbundle-crl": "^0.13.10",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
@@ -55,15 +57,17 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.2.0",
+    "install-peers-cli": "^2.2.0",
+    "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "styled-components": "^5.3.0",
     "typescript": "^3.7.5",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
-    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    "@material-ui/core": "^4.11.4"
   },
   "files": [
     "dist"
@@ -72,7 +76,6 @@
     "@material-ui/icons": "^4.11.2",
     "@terra-money/terra.js": "^1.8.1",
     "@terra-money/wallet-provider": "^0.15.0",
-    "react-router-dom": "^5.2.0",
-    "react-use-clipboard": "^1.0.7",
+    "react-use-clipboard": "^1.0.7"
   }
 }
