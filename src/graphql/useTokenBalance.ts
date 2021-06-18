@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery,ApolloError } from '@apollo/client'
 
 import alias from './alias'
 
@@ -46,7 +46,7 @@ const queries = (address: string) =>
 
 const useTokenBalance = (
   address: string
-): { loading: boolean; list?: TokenBalance[] } => {
+): { loading: boolean; error:ApolloError|undefined, list?: TokenBalance[] } => {
   const [result, setResult] = useState<Record<string, string>>()
   const { loading, error, data } = useQuery(queries(address))
 
@@ -59,6 +59,7 @@ const useTokenBalance = (
 
   return {
     loading,
+    error,
     list:
       result &&
       contracts &&

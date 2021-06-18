@@ -25,7 +25,7 @@ import {
 interface Props {
   text: string
 }
-import ApolloClientComp from "./components/ApolloClient";
+import ApolloClientComp from "./graphql/ApolloClient";
 
 export const ExampleComponent = ({ text }: Props) => {
   return <div className={styles.test}>Example Component: {text}</div>
