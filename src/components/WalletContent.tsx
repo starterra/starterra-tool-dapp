@@ -6,7 +6,8 @@ import { getEllipsisTxt } from '../utils'
 import LaunchIcon from '@material-ui/icons/Launch'
 import Check from '@material-ui/icons/Check'
 import * as trans from '../translation'
-import useBalance from '../hooks/useBalance'
+import useTokenBalance from '../graphql/useTokenBalance'
+//import useBalance from '../graphql/useBalance'
 
 interface WalletContentProps {
   address: string
@@ -21,8 +22,10 @@ const WalletContent = (props: WalletContentProps) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
-  const balance = useBalance();
+  const balance = useTokenBalance(address);
+  //const bank = useBalance(address);
   console.log(balance);
+  //console.log(bank);
   
   return (
     <Paper elevation={3}>

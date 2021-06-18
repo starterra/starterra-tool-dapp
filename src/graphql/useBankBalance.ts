@@ -12,7 +12,5 @@ const QUERY = gql`
 `
 export default (address: string) => {
   const { loading, error, data } = useQuery(QUERY, { variables: { address } })
-  console.log(data);
-  console.log(error);
-  return { loading, ...data }
+  return { loading, error, ...data }
 }

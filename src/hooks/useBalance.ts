@@ -3,7 +3,7 @@ import { useWallet } from '@terra-money/wallet-provider'
 import { avaliableNetworks } from '../avaliableNetworks'
 import useAddress from '../hooks/useAddress'
 import { tokenValue } from '../utils'
-import useBankBalances from '../graphql/useBalance'
+import useBankBalances from '../graphql/useBankBalance'
 
 const DATA_MAPPING: { [key: string]: string } = {
   uusd: 'UST',
@@ -29,7 +29,7 @@ const useBalance = () => {
   const url = `${currentNetwork?.lcd}/bank/balances/${address}`
   const bankBalance = useBankBalances(address)
   console.log(bankBalance);
-  
+
   const fetchBalance = useCallback(() => {
     return fetch(url, {
       method: 'GET',

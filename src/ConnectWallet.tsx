@@ -48,7 +48,7 @@ const ConnectWallet = () => {
         <ClickAwayListener onClickAway={onClickAway}>
           <div>
             <ConnectButton onClick={connectWallet}>
-            {trans.CONNECT_WALLET_TXT}
+              {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
             {showOptions && <ConnectWalletOptionList />}
