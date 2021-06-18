@@ -7,7 +7,7 @@ import LaunchIcon from '@material-ui/icons/Launch'
 import Check from '@material-ui/icons/Check'
 import * as trans from '../translation'
 import useTokenBalance from '../graphql/useTokenBalance'
-//import useBalance from '../graphql/useBalance'
+import useBankBalance from '../graphql/useBankBalance'
 
 interface WalletContentProps {
   address: string
@@ -23,9 +23,9 @@ const WalletContent = (props: WalletContentProps) => {
     successDuration: 10000
   })
   const balance = useTokenBalance(address);
-  //const bank = useBalance(address);
+  const bank = useBankBalance(address);
   console.log(balance);
-  //console.log(bank);
+  console.log(bank);
   
   return (
     <Paper elevation={3}>
