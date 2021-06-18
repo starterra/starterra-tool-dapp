@@ -26,15 +26,15 @@ const ConnectWallet = () => {
     }
   }, [availableConnectTypes, connect])
 
-  const disconnectWallet = () => {
+  const disconnectWallet = useCallback(() => {
     disconnect()
     setShowContent(false)
-  }
-
-  const onClickAway = () => {
+  },[disconnect]
+  )
+  const onClickAway = useCallback(() => {
     setShowOptions(false)
     setShowContent(false)
-  }
+  },[])
 
   switch (status) {
     case WalletStatus.INITIALIZING:
