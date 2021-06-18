@@ -30,18 +30,14 @@ const QUERY = gql`
 `
 export default (address: string) => {
   const { loading, error, data } = useQuery(QUERY, { variables: { address } })
-  let result: TokenBalanceResponse[] = []
-  if (data && data.BankBalancesAddress) {
-    result = data.BankBalancesAddress.Result
-  }
   return {
     loading,
     error,
     list:
       contracts &&
-      result &&
-      result.map((item: TokenBalanceResponse) => {
-        console.log(item)
+      data &&
+      data.BankBalancesAddress && 
+      data.BankBalancesAddress.Result.map((item: TokenBalanceResponse) => {
         return {
           ...contracts[item.Denom],
           balance: item.Amount
