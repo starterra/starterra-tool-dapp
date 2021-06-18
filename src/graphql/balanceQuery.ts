@@ -5,7 +5,7 @@ interface Item {
   walletAddress: string
 }
 
-const aliasItem = ({ token, walletAddress }: Item) => `
+const balanceItem = ({ token, walletAddress }: Item) => `
     ${token}: WasmContractsContractAddressStore(
       ContractAddress: "${token}"
       QueryMsg: "{\\"balance\\": {\\"address\\": \\"${walletAddress}\\"}}"
@@ -16,7 +16,7 @@ const aliasItem = ({ token, walletAddress }: Item) => `
 
 export default (list: Item[]) => gql`
   query {
-    ${list.map(aliasItem)}
+    ${list.map(balanceItem)}
   }
 `
 

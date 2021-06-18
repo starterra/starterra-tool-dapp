@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery,ApolloError } from '@apollo/client'
 
-import alias from './alias'
+import alias from './balanceQuery'
 
 const contracts = {
   terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6: {
@@ -54,7 +54,6 @@ const useTokenBalance = (
     if (data) {
       setResult(parseResult(data))
     }
-    console.log(error)
   }, [address, data])
 
   return {
