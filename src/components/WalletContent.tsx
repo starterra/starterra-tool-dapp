@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import useClipboard from 'react-use-clipboard'
 import { Button, Paper, ButtonGroup } from '@material-ui/core'
 import { NetworkInfo } from '@terra-dev/wallet-types'
@@ -6,8 +6,9 @@ import { getEllipsisTxt } from '../utils'
 import LaunchIcon from '@material-ui/icons/Launch'
 import Check from '@material-ui/icons/Check'
 import * as trans from '../translation'
-import useTokenBalance from '../graphql/useTokenBalance'
+import useTokenBalance, { TokenBalance } from '../graphql/useTokenBalance'
 import useBankBalance from '../graphql/useBankBalance'
+import Balance from './Balance'
 
 interface WalletContentProps {
   address: string
@@ -22,11 +23,22 @@ const WalletContent = (props: WalletContentProps) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
-  const balance = useTokenBalance(address);
-  const bank = useBankBalance(address);
-  console.log(balance);
-  console.log(bank);
-  
+  const [assets, setAssets] = useState<TokenBalance[]>([])
+  const balance = useTokenBalance(address)
+  const bank = useBankBalance(address)
+  console.log(balance)
+  console.log(bank)
+
+  useEffect(() => {
+    console.log(assets);
+    if (!balance.loading && !bank.loading  && (bank.list||balance.list)) {
+      console.log(bank.list)
+      const bankItems = bank.list?{...bank.list}:[]
+      const balanceItems = balance.list?{...balance.list}:[]
+      setAssets(bankItems.concat(balanceItems));
+    }
+
+  }, [balance.loading, bank.loading])
   return (
     <Paper elevation={3}>
       <h3>{getEllipsisTxt(address)}</h3>
@@ -35,6 +47,7 @@ const WalletContent = (props: WalletContentProps) => {
         color='primary'
         aria-label='outlined secondary button group'
       >
+        <Balance tokenBalance={[]}></Balance>
         <Button
           color='primary'
           variant='outlined'

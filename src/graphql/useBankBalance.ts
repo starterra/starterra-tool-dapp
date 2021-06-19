@@ -1,4 +1,5 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, ApolloError } from '@apollo/client'
+import { TokenBalance } from './useTokenBalance'
 
 export interface TokenBalanceResponse {
   Denom: string
@@ -28,7 +29,13 @@ const QUERY = gql`
     }
   }
 `
-export default (address: string) => {
+export default (
+  address: string
+): {
+  loading: boolean
+  error: ApolloError | undefined
+  list?: TokenBalance[]
+} => {
   const { loading, error, data } = useQuery(QUERY, { variables: { address } })
   return {
     loading,
@@ -36,7 +43,7 @@ export default (address: string) => {
     list:
       contracts &&
       data &&
-      data.BankBalancesAddress && 
+      data.BankBalancesAddress &&
       data.BankBalancesAddress.Result.map((item: TokenBalanceResponse) => {
         return {
           ...contracts[item.Denom],

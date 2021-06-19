@@ -16,16 +16,15 @@ const contracts = {
   }
 }
 
-export interface Token {
+
+export interface TokenBalance {
   name: string
   isDefault: boolean
+  balance?: string,
+  decimal:number
 }
 
-export interface TokenBalance extends Token {
-  balance: string
-}
-
-export type Tokens = Record<string, Token>
+export type Tokens = Record<string, TokenBalance>
 
 const parseResult = (data: Record<string, { Result: string }>) =>
   Object.entries(data).reduce(

@@ -72,6 +72,7 @@
     "@terra-money/wallet-provider": "^0.15.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
+    "bignumber.js": "^9.0.1",
     "graphql": "^15.5.0",
     "react-router-dom": "^5.2.0",
     "react-use-clipboard": "^1.0.7",
