@@ -32,10 +32,7 @@ const WalletContent = (props: WalletContentProps) => {
   useEffect(() => {
     console.log(assets);
     if (!balance.loading && !bank.loading  && (bank.list||balance.list)) {
-      console.log(bank.list)
-      const bankItems = bank.list?{...bank.list}:[]
-      const balanceItems = balance.list?{...balance.list}:[]
-      setAssets(bankItems.concat(balanceItems));
+      setAssets([...(bank.list||[]),...(balance.list||[])]);
     }
 
   }, [balance.loading, bank.loading])
@@ -47,7 +44,7 @@ const WalletContent = (props: WalletContentProps) => {
         color='primary'
         aria-label='outlined secondary button group'
       >
-        <Balance tokenBalance={[]}></Balance>
+        <Balance tokenBalance={assets}></Balance>
         <Button
           color='primary'
           variant='outlined'
