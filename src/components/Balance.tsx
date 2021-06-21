@@ -6,9 +6,7 @@ interface BalanceProps {
   tokenBalance: TokenBalance[]
 }
 
-const Balance: FC<BalanceProps> = (props) => {
-  const { tokenBalance } = props
-  console.log(tokenBalance)
+const Balance: FC<BalanceProps> = ( { tokenBalance } ) => {
   return (
     <ul>
       {tokenBalance.map((item) => (

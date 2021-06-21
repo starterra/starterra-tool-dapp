@@ -19,7 +19,7 @@ const ConnectWallet = () => {
     useWallet()
 
   const { terraFinderGenerateLink } = useNetwork()
-  
+
   const balance = useTokenBalance(address)
   const bank = useBankBalance(address)
   const assets = [...(bank.list || []), ...(balance.list || [])]
@@ -68,6 +68,7 @@ const ConnectWallet = () => {
           <div>
             <ConnectedButton
               address={address}
+              defaultToken={assets.filter((a) => a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
             />
             {showContent && (
@@ -76,7 +77,7 @@ const ConnectWallet = () => {
                 network={network}
                 finderLink={terraFinderGenerateLink(address)}
                 disconnect={disconnectWallet}
-                assets = {assets}
+                assets={assets}
               />
             )}
           </div>
