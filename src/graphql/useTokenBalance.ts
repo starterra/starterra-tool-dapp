@@ -1,21 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery,ApolloError } from '@apollo/client'
-import { TokenBalance } from '../types/token'
+import { TokenBalance, Tokens } from '../types/token'
 import alias from './balanceQuery'
-
-const contracts = {
-  terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6: {
-    name: 'MIR',
-    isDefault: false,
-    decimal: 6
-  },
-  terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76: {
-    name: 'ANC',
-    isDefault: false,
-    decimal: 6
-  }
-}
-
 
 const parseResult = (data: Record<string, { Result: string }>) =>
   Object.entries(data).reduce(
@@ -26,19 +12,19 @@ const parseResult = (data: Record<string, { Result: string }>) =>
     {}
   )
 
-const queries = (address: string) =>
+const queries = (address: string, contracts:Tokens) =>
   alias(
-    Object.entries(contracts).map(([key]) => ({
-      token: key,
+    contracts.map((item:TokenBalance) => ({
+      token: item.address,
       walletAddress: address
     }))
   )
 
 const useTokenBalance = (
-  address: string
+  address: string, contracts:Tokens
 ): { loading: boolean; error:ApolloError|undefined, list?: TokenBalance[] } => {
   const [result, setResult] = useState<Record<string, string>>()
-  const { loading, error, data } = useQuery(queries(address))
+  const { loading, error, data } = useQuery(queries(address, contracts))
 
   useEffect(() => {
     if (data) {
@@ -53,7 +39,7 @@ const useTokenBalance = (
       result &&
       contracts &&
       Object.entries(result).map(([token, balance]) => ({
-        ...contracts[token],
+        ...contracts.filter(c=>c.address === token)[0],
         balance
       }))
   }

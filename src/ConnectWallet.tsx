@@ -16,7 +16,6 @@ interface ConnectWalletProps {
     tokens:Tokens
 }
 
-
 const ConnectWallet = ({tokens}:ConnectWalletProps) => {
   const address = useAddress()
   const [showOptions, setShowOptions] = useState<boolean>(false)
@@ -25,12 +24,15 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
     useWallet()
 
   const { terraFinderGenerateLink } = useNetwork()
-  const nativeTokens = Object.entries(tokens).filter(([key])=>!key.startsWith('terra'))
-  const balanceTokens = Object.entries(tokens).filter(([key])=>key.startsWith('terra'))
+  const nativeTokens = tokens.filter(t=>!t.address.startsWith('terra'))
+   
+  const balanceTokens  = tokens.filter(t=>t.address.startsWith('terra'))
+  
+  // const balanceTokens = Object.entries(tokens).filter(([key])=>key.startsWith('terra'))
   console.log(nativeTokens)
   console.log(balanceTokens)
-  const balance = useTokenBalance(address)
-  const bank = useBankBalance(address)
+  const balance = useTokenBalance(address,balanceTokens)
+  const bank = useBankBalance(address,nativeTokens)
   const assets = [...(bank.list || []), ...(balance.list || [])]
 
   const connectWallet = useCallback(() => {

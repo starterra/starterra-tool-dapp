@@ -1,22 +1,9 @@
 import { gql, useQuery, ApolloError } from '@apollo/client'
-import { TokenBalance } from '../types/token'
+import { TokenBalance, Tokens } from '../types/token'
 
 export interface TokenBalanceResponse {
   Denom: string
   Amount: string
-}
-
-const contracts = {
-  uluna: {
-    name: 'LUNA',
-    isDefault: false,
-    decimal: 6
-  },
-  uusd: {
-    name: 'UST',
-    isDefault: true,
-    decimal: 6
-  }
 }
 
 const QUERY = gql`
@@ -30,7 +17,7 @@ const QUERY = gql`
   }
 `
 export default (
-  address: string
+  address: string, contracts:Tokens
 ): {
   loading: boolean
   error: ApolloError | undefined
@@ -46,7 +33,7 @@ export default (
       data.BankBalancesAddress &&
       data.BankBalancesAddress.Result.map((item: TokenBalanceResponse) => {
         return {
-          ...contracts[item.Denom],
+          ...contracts.find(c=>c.address === item.Denom),
           balance: item.Amount
         }
       })
