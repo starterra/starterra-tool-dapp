@@ -6,28 +6,27 @@ import { getEllipsisTxt } from '../utils'
 import LaunchIcon from '@material-ui/icons/Launch'
 import Check from '@material-ui/icons/Check'
 import * as trans from '../translation'
-import useTokenBalance from '../graphql/useTokenBalance'
-import useBankBalance from '../graphql/useBankBalance'
+
 import Balance from './Balance'
+import { TokenBalance } from '../graphql/useTokenBalance'
 
 interface WalletContentProps {
   address: string
   network: NetworkInfo
   finderLink: string
+  assets: TokenBalance[]
   disconnect?: () => void
 }
 
 const WalletContent: FC<WalletContentProps> = ({
   address,
   disconnect,
-  finderLink
+  finderLink,
+  assets
 }) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
-  const balance = useTokenBalance(address)
-  const bank = useBankBalance(address)
-  const assets = [...(bank.list || []), ...(balance.list || [])]
 
   return (
     <Paper elevation={3}>

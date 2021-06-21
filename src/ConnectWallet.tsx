@@ -8,6 +8,8 @@ import React, { useCallback, useState } from 'react'
 import useNetwork from './hooks/useNetwork'
 import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
+import useTokenBalance from './graphql/useTokenBalance'
+import useBankBalance from './graphql/useBankBalance'
 
 const ConnectWallet = () => {
   const address = useAddress()
@@ -17,6 +19,10 @@ const ConnectWallet = () => {
     useWallet()
 
   const { terraFinderGenerateLink } = useNetwork()
+  
+  const balance = useTokenBalance(address)
+  const bank = useBankBalance(address)
+  const assets = [...(bank.list || []), ...(balance.list || [])]
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
@@ -70,6 +76,7 @@ const ConnectWallet = () => {
                 network={network}
                 finderLink={terraFinderGenerateLink(address)}
                 disconnect={disconnectWallet}
+                assets = {assets}
               />
             )}
           </div>
