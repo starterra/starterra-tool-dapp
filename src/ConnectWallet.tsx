@@ -10,13 +10,13 @@ import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
 import useTokenBalance from './graphql/useTokenBalance'
 import useBankBalance from './graphql/useBankBalance'
-import {Tokens} from './types/token'
+import { Tokens } from './types/token'
 
 interface ConnectWalletProps {
-    tokens:Tokens
+  tokens: Tokens
 }
 
-const ConnectWallet = ({tokens}:ConnectWalletProps) => {
+const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
   const address = useAddress()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
@@ -24,12 +24,12 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
     useWallet()
 
   const { terraFinderGenerateLink } = useNetwork()
-  const nativeTokens = tokens.filter(t=>!t.address.startsWith('terra'))
-  const balanceTokens  = tokens.filter(t=>t.address.startsWith('terra'))
+  const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
+  const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
 
-  const balance = useTokenBalance(address,balanceTokens)
+  const balance = useTokenBalance(address, balanceTokens)
 
-  const bank = useBankBalance(address,nativeTokens)
+  const bank = useBankBalance(address, nativeTokens)
   const assets = [...(bank.list || []), ...(balance.list || [])]
 
   const connectWallet = useCallback(() => {
@@ -43,12 +43,11 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
   const disconnectWallet = useCallback(() => {
     disconnect()
     setShowContent(false)
-  },[disconnect]
-  )
+  }, [disconnect])
   const onClickAway = useCallback(() => {
     setShowOptions(false)
     setShowContent(false)
-  },[])
+  }, [])
 
   switch (status) {
     case WalletStatus.INITIALIZING:

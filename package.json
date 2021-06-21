@@ -83,7 +83,6 @@
     "graphql": "^15.5.0",
     "react-router-dom": "^5.2.0",
     "react-use-clipboard": "^1.0.7",
-    "styled-components": "^5.3.0",
-    "uuid": "^8.3.2"
+    "styled-components": "^5.3.0"
   }
 }
