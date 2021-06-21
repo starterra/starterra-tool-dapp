@@ -39,7 +39,7 @@ const useTokenBalance = (
       result &&
       contracts &&
       Object.entries(result).map(([token, balance]) => ({
-        ...contracts.filter(c=>c.address === token)[0],
+        ...contracts.find(c=>c.address === token)!,
         balance
       }))
   }

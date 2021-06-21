@@ -25,12 +25,8 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
 
   const { terraFinderGenerateLink } = useNetwork()
   const nativeTokens = tokens.filter(t=>!t.address.startsWith('terra'))
-   
   const balanceTokens  = tokens.filter(t=>t.address.startsWith('terra'))
-  
-  // const balanceTokens = Object.entries(tokens).filter(([key])=>key.startsWith('terra'))
-  console.log(nativeTokens)
-  console.log(balanceTokens)
+
   const balance = useTokenBalance(address,balanceTokens)
   const bank = useBankBalance(address,nativeTokens)
   const assets = [...(bank.list || []), ...(balance.list || [])]
