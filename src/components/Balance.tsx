@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { tokenValue } from '../utils'
+import { tokenValueTxt } from '../utils'
 import { TokenBalance } from '../graphql/useTokenBalance'
 
 interface BalanceProps {
@@ -11,8 +11,7 @@ const Balance: FC<BalanceProps> = ( { tokenBalance } ) => {
     <ul>
       {tokenBalance.map((item) => (
         <li key={item.name}>
-          <span>{item.name} </span>
-          <span>{tokenValue(item.balance, item.decimal)}</span>
+          <span>{tokenValueTxt(item)}</span>
         </li>
       ))}
     </ul>

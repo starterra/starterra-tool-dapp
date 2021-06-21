@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button'
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import { getEllipsisTxt } from '../utils'
 import { TokenBalance } from '../graphql/useTokenBalance'
-import { tokenValue } from '../utils'
+import { tokenValueTxt } from '../utils'
 
 interface ConnectButtonProps {
   address: string
@@ -22,8 +22,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultTok
       <span>{getEllipsisTxt(address)}</span>
       {defaultToken && (
         <span>
-          { tokenValue(defaultToken.balance, defaultToken.decimal)}{' '}
-          {defaultToken.name}
+          {tokenValueTxt(defaultToken)}
         </span>
       )}
     </Button>
