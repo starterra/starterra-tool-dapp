@@ -15,17 +15,19 @@ npm install --save starterra-tool-dapp
 ```tsx
 import React, { Component } from 'react'
 
-import WalletProvider from 'starterra-tool-dapp'
+import { WalletProvider, Wallet } from 'starterra-tool-dapp'
 import 'starterra-tool-dapp/dist/index.css'
 
 class Example extends Component {
   render() {
-    return (<WalletProvider
-      defaultNetwork={avaliableNetworks["testnet"]}
-      walletConnectChainIds={avaliableNetworks}
-    >
-      <Wallet />
-    </WalletProvider>)
+    return (
+      <WalletProvider
+        defaultNetwork={avaliableNetworks['testnet']}
+        walletConnectChainIds={avaliableNetworks}
+      >
+        <Wallet />
+      </WalletProvider>
+    )
   }
 }
 ```
@@ -34,10 +36,10 @@ class Example extends Component {
 
 MIT © [StarTerra devs](https://github.com/StarTerra devs)
 
-
 # StarTerra Tool for dApps
 
 Powered by [Terra](https://www.terra.money/) blockchain.
+
 ## What is it?
 
 Open source library, available through node package manager (NPM), written in TypeScript ready to download and include in your own project.
@@ -45,8 +47,10 @@ Open source library, available through node package manager (NPM), written in Ty
 ## What you need it for?
 
 Software to authenticate by address from the [Terra](https://www.terra.money/) blockchain using one of the supported provider:
+
 - Terra Station browser extension (Chrome),
 - the Terra Station mobile application.
 
 ### Credits
+
 [StarTerra](https://starterra.io/) almighty team.
