@@ -26,9 +26,8 @@ const WalletContent = (props: WalletContentProps) => {
   const [assets, setAssets] = useState<TokenBalance[]>([])
   const balance = useTokenBalance(address)
   const bank = useBankBalance(address)
-  console.log(balance)
-  console.log(bank)
 
+  
   useEffect(() => {
     console.log(assets);
     if (!balance.loading && !bank.loading  && (bank.list||balance.list)) {
@@ -36,6 +35,7 @@ const WalletContent = (props: WalletContentProps) => {
     }
 
   }, [balance.loading, bank.loading])
+  
   return (
     <Paper elevation={3}>
       <h3>{getEllipsisTxt(address)}</h3>
