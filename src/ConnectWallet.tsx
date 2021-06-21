@@ -28,9 +28,10 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
   const balanceTokens  = tokens.filter(t=>t.address.startsWith('terra'))
 
   const balance = useTokenBalance(address,balanceTokens)
+
   const bank = useBankBalance(address,nativeTokens)
   const assets = [...(bank.list || []), ...(balance.list || [])]
-  console.log(assets);
+
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
       setShowOptions(true)

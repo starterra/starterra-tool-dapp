@@ -32,10 +32,10 @@ export default (
       data &&
       data.BankBalancesAddress &&
       data.BankBalancesAddress.Result.map((item: TokenBalanceResponse) => {
-        ({
-          ...contracts.find(c=>c.address === item.Denom),
+        return {
+          ...contracts.find(c=>c.address == item.Denom),
           balance: item.Amount
-        })
+        }
       })
   }
 }
