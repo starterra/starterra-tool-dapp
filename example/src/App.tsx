@@ -32,17 +32,6 @@ const tokens:Tokens=
   }
 ]
 
-
-
-
-// key.startsWith('terra'))
-// console.log(nativeTokens);
-
-  //return !key.startsWith('terra')?tokens[key]:undefined
-
-
-//const balanceTokens = Object.entries(tokens).filter(([key])=>key.startsWith('terra'))
-
 const App = () => {
   return (
     <WalletProvider

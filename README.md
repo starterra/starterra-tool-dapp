@@ -15,12 +15,17 @@ npm install --save starterra-tool-dapp
 ```tsx
 import React, { Component } from 'react'
 
-import MyComponent from 'starterra-tool-dapp'
+import WalletProvider from 'starterra-tool-dapp'
 import 'starterra-tool-dapp/dist/index.css'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return (<WalletProvider
+      defaultNetwork={avaliableNetworks["testnet"]}
+      walletConnectChainIds={avaliableNetworks}
+    >
+      <Wallet />
+    </WalletProvider>)
   }
 }
 ```

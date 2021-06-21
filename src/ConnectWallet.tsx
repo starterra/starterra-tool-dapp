@@ -30,7 +30,7 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
   const balance = useTokenBalance(address,balanceTokens)
   const bank = useBankBalance(address,nativeTokens)
   const assets = [...(bank.list || []), ...(balance.list || [])]
-
+  console.log(assets);
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
       setShowOptions(true)
@@ -75,7 +75,7 @@ const ConnectWallet = ({tokens}:ConnectWalletProps) => {
           <div>
             <ConnectedButton
               address={address}
-              defaultToken={assets.filter((a) => a.isDefault)[0]}
+              defaultToken={assets.filter((a) => a && a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
             />
             {showContent && (
