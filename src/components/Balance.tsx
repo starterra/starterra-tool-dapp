@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { tokenValueTxt } from '../utils'
-import { TokenBalance } from '../graphql/useTokenBalance'
+import { TokenBalance } from '../types/token'
 
 interface BalanceProps {
   tokenBalance: TokenBalance[]

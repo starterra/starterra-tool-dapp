@@ -1,6 +1,6 @@
 import * as React from 'react'
-import styles from './styles.module.css'
 import ConnectWallet from './ConnectWallet'
+import { TokenBalance, Tokens } from './types/token'
 import {
   WalletStatus,
   ConnectType,
@@ -18,21 +18,21 @@ import {
   useRouterWalletStatusRecheck,
   useInstallChromeExtension
 } from '@terra-money/wallet-provider'
-import {
-  NetworkInfo,
-  TxResult
-} from '@terra-dev/wallet-types'
+import { NetworkInfo, TxResult } from '@terra-dev/wallet-types'
+
 interface Props {
-  text: string
-}
-import ApolloClientComp from "./graphql/ApolloClient";
-
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+  tokens: Tokens
 }
 
-export const Wallet = () => {
-  return (<ApolloClientComp><ConnectWallet /></ApolloClientComp>)
+import ApolloClientComp from './graphql/ApolloClient'
+
+
+export const Wallet = ({tokens}: Props) => {
+  return (
+    <ApolloClientComp>
+      <ConnectWallet tokens={tokens}/>
+    </ApolloClientComp>
+  )
 }
 
 export {
@@ -52,8 +52,5 @@ export {
   useRouterWalletStatusRecheck,
   useInstallChromeExtension
 }
-export {
-  NetworkInfo,
-  TxResult
-}
-
+export { NetworkInfo, TxResult }
+export { TokenBalance, Tokens }

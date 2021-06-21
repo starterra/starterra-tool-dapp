@@ -10,8 +10,14 @@ import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
 import useTokenBalance from './graphql/useTokenBalance'
 import useBankBalance from './graphql/useBankBalance'
+import {Tokens} from './types/token'
 
-const ConnectWallet = () => {
+interface ConnectWalletProps {
+    tokens:Tokens
+}
+
+
+const ConnectWallet = ({tokens}:ConnectWalletProps) => {
   const address = useAddress()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
@@ -19,7 +25,10 @@ const ConnectWallet = () => {
     useWallet()
 
   const { terraFinderGenerateLink } = useNetwork()
-
+  const nativeTokens = Object.entries(tokens).filter(([key])=>!key.startsWith('terra'))
+  const balanceTokens = Object.entries(tokens).filter(([key])=>key.startsWith('terra'))
+  console.log(nativeTokens)
+  console.log(balanceTokens)
   const balance = useTokenBalance(address)
   const bank = useBankBalance(address)
   const assets = [...(bank.list || []), ...(balance.list || [])]

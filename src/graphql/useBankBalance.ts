@@ -1,5 +1,5 @@
 import { gql, useQuery, ApolloError } from '@apollo/client'
-import { TokenBalance } from './useTokenBalance'
+import { TokenBalance } from '../types/token'
 
 export interface TokenBalanceResponse {
   Denom: string

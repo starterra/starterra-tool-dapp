@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery,ApolloError } from '@apollo/client'
-
+import { TokenBalance } from '../types/token'
 import alias from './balanceQuery'
 
 const contracts = {
@@ -16,15 +16,6 @@ const contracts = {
   }
 }
 
-
-export interface TokenBalance {
-  name: string
-  isDefault: boolean
-  balance?: string,
-  decimal:number
-}
-
-export type Tokens = Record<string, TokenBalance>
 
 const parseResult = (data: Record<string, { Result: string }>) =>
   Object.entries(data).reduce(

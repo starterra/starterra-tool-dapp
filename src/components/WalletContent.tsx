@@ -8,7 +8,7 @@ import Check from '@material-ui/icons/Check'
 import * as trans from '../translation'
 
 import Balance from './Balance'
-import { TokenBalance } from '../graphql/useTokenBalance'
+import { TokenBalance } from '../types/token'
 
 interface WalletContentProps {
   address: string
