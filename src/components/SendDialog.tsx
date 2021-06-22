@@ -7,7 +7,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
@@ -19,7 +18,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
-  const [token, setToken] = useState<string>('UST')
+  const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
   const invalidAddress = useMemo(() => {
@@ -42,18 +41,16 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
     setOpen(false)
   }
 
-  const handleTokenChange = () =>{
-     setToken('uusd')
+  const handleTokenChange = (newValue: any) => {
+    // preventDefault();
+    console.log(newValue)
+    setToken(newValue)
   }
 
   const { post } = useWallet()
   const send = async () => {
     try {
-      const msgs = new MsgSend(
-        wallletAddress,
-        address,
-        { uusd: 1000000 }
-      )
+      const msgs = new MsgSend(wallletAddress, address, { uusd: 1000000 })
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
         memo: memo,
@@ -80,6 +77,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
       >
         <DialogTitle id='form-dialog-title'>Send</DialogTitle>
         <DialogContent>
+          <form>
           <TextField
             autoFocus
             variant='outlined'
@@ -87,28 +85,29 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
             id='address'
             label='Address'
             type='text'
-            helperText={invalidAddress && "Invalid address."}
+            helperText={invalidAddress && 'Invalid address.'}
             error={invalidAddress}
             fullWidth
             onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-            setAddress(target.value)
-          }
+              setAddress(target.value)
+            }
           />
           <FormControl variant='outlined'>
             <Select
-              labelId='demo-simple-select-filled-label'
-              id='demo-simple-select-filled'
+            native
+              id='select-token'
               value={token}
-              onChange={handleTokenChange}
+              inputProps={{
+                name: 'token',
+                id: 'token-native-simple',
+              }}
+              onChange={({ target }) => handleTokenChange(target.value)}
             >
-              <MenuItem value=''>
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>UST</MenuItem>
-              <MenuItem value={20}>LUNA</MenuItem>
-              <MenuItem value={30}>ANC</MenuItem>
+              <option value={'uusd'}>UST</option>
+              <option value={'luna'}>LUNA</option>
+              <option value={'ANC'}>ANC</option>
             </Select>
-          </FormControl>
+           </FormControl>
           <TextField
             variant='outlined'
             margin='dense'
@@ -118,8 +117,8 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
             fullWidth
             value={amount}
             onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-            setAmount(target.value)
-          }
+              setAmount(target.value)
+            }
           />
           <TextField
             variant='outlined'
@@ -133,9 +132,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               setMemo(target.value)
             }
           />
+          </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color='primary'>
+          <Button onClick={handleCancel} color='secondary'>
             Cancel
           </Button>
           <Button onClick={handleSubmit} color='primary'>
