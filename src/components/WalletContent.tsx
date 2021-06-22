@@ -5,6 +5,7 @@ import { NetworkInfo } from '@terra-dev/wallet-types'
 import { getEllipsisTxt } from '../utils'
 import LaunchIcon from '@material-ui/icons/Launch'
 import Check from '@material-ui/icons/Check'
+import SendDialog from './SendDialog'
 import * as trans from '../translation'
 
 interface WalletContentProps {
@@ -37,6 +38,7 @@ const WalletContent = (props: WalletContentProps) => {
         >
           {trans.COPY_TXT}
         </Button>
+        <SendDialog address={address}/>
         <Button color='primary' startIcon={<LaunchIcon />} href={finderLink}>
           {trans.VIEW_ON_TERRA_TXT}
         </Button>
