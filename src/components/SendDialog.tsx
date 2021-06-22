@@ -11,6 +11,45 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
 
+// Will be removed after merging balance ///
+interface TokenBalance {
+  address: string
+  name: string
+  isDefault: boolean
+  balance?: string
+  decimal: number
+}
+
+const tokensBalance: TokenBalance[] = [
+  {
+    address: 'uluna',
+    name: 'LUNA',
+    isDefault: false,
+    decimal: 6,
+    balance: '100000000'
+  },
+  {
+    address: 'uusd',
+    name: 'UST',
+    isDefault: true,
+    decimal: 6,
+    balance: '100000000'
+  },
+  {
+    address: 'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
+    name: 'MIR',
+    isDefault: false,
+    decimal: 6,
+    balance: '100000000'
+  },
+  {
+    address: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
+    name: 'ANC',
+    isDefault: false,
+    decimal: 6,
+    balance: '100000000'
+  }
+]
 interface SendProps {
   wallletAddress: string
 }
@@ -42,15 +81,13 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }
 
   const handleTokenChange = (newValue: any) => {
-    // preventDefault();
-    console.log(newValue)
     setToken(newValue)
   }
 
   const { post } = useWallet()
   const send = async () => {
     try {
-      const msgs = new MsgSend(wallletAddress, address, { uusd: 1000000 })
+      const msgs = new MsgSend(wallletAddress, address, { token: 1000000 })
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
         memo: memo,
@@ -78,60 +115,62 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
         <DialogTitle id='form-dialog-title'>Send</DialogTitle>
         <DialogContent>
           <form>
-          <TextField
-            autoFocus
-            variant='outlined'
-            margin='dense'
-            id='address'
-            label='Address'
-            type='text'
-            helperText={invalidAddress && 'Invalid address.'}
-            error={invalidAddress}
-            fullWidth
-            onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-              setAddress(target.value)
-            }
-          />
-          <FormControl variant='outlined'>
-            <Select
-            native
-              id='select-token'
-              value={token}
-              inputProps={{
-                name: 'token',
-                id: 'token-native-simple',
-              }}
-              onChange={({ target }) => handleTokenChange(target.value)}
-            >
-              <option value={'uusd'}>UST</option>
-              <option value={'luna'}>LUNA</option>
-              <option value={'ANC'}>ANC</option>
-            </Select>
-           </FormControl>
-          <TextField
-            variant='outlined'
-            margin='dense'
-            id='amount'
-            label='Amount'
-            type='number'
-            fullWidth
-            value={amount}
-            onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-              setAmount(target.value)
-            }
-          />
-          <TextField
-            variant='outlined'
-            margin='dense'
-            id='memo'
-            label='Memo (Optional)'
-            type='text'
-            fullWidth
-            value={memo}
-            onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-              setMemo(target.value)
-            }
-          />
+            <TextField
+              autoFocus
+              variant='outlined'
+              id='address'
+              label='Address'
+              margin='dense'
+              type='text'
+              helperText={invalidAddress && 'Invalid address.'}
+              error={invalidAddress}
+              fullWidth
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                setAddress(target.value)
+              }
+            />
+            <FormControl variant='outlined'>
+              <Select
+                native
+                id='select-token'
+                value={token}
+                margin='dense'
+                inputProps={{
+                  name: 'token',
+                  id: 'token-native-simple'
+                }}
+                onChange={({ target }) => handleTokenChange(target.value)}
+              >
+                {tokensBalance.map((token: TokenBalance) => (
+                  <option key={token.address} value={token.address}>
+                    {token.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              variant='outlined'
+              id='amount'
+              label='Amount'
+              type='number'
+              margin='dense'
+              value={amount}
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                setAmount(target.value)
+              }
+            />
+            <TextField
+              variant='outlined'
+              margin='dense'
+              id='memo'
+              label='Memo (Optional)'
+              type='text'
+              fullWidth
+              value={memo}
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                setMemo(target.value)
+              }
+            />
           </form>
         </DialogContent>
         <DialogActions>
