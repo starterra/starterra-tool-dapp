@@ -56,7 +56,7 @@ interface SendProps {
 const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
-  const [amount, setAmount] = useState<string>('')
+  const [amount, setAmount] = useState<number>(1)
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
@@ -66,6 +66,21 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
     }
     return !AccAddress.validate(address)
   }, [address])
+
+  const invalidAmount = useMemo(() => {
+    if (amount <= 0) return undefined
+    const tokenBalance: TokenBalance | undefined = tokensBalance.find(
+      (t) => t.address === token
+    )
+
+    if (!tokenBalance) return undefined
+
+    const balance: Number =
+      +(tokenBalance.balance ? tokenBalance.balance : 0) /
+      Math.pow(10, tokenBalance.decimal)
+
+    return balance < amount ? 'Not enough amount' : undefined
+  }, [amount])
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -122,7 +137,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               label='Address'
               margin='dense'
               type='text'
-              helperText={invalidAddress && 'Invalid address.'}
+              helperText={invalidAddress && 'Invalid address'}
               error={invalidAddress}
               fullWidth
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
@@ -154,9 +169,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               label='Amount'
               type='number'
               margin='dense'
+              error={!!invalidAmount}
+              helperText={invalidAmount && 'Not enough amount'}
               value={amount}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                setAmount(target.value)
+                setAmount(+target.value)
               }
             />
             <TextField
