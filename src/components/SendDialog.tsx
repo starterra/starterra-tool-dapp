@@ -17,7 +17,7 @@ import {
   TxFailed,
   TxUnspecifiedError
 } from '@terra-money/wallet-provider'
-import  TxHashLink from './TxHaskLink'
+import TxHashLink from './TxHaskLink'
 import * as trans from '../translation'
 
 export type TxError =
@@ -72,7 +72,7 @@ interface SendProps {
 const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
-  const [amount, setAmount] = useState<number | undefined>()
+  const [amount, setAmount] = useState<number>(1)
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
@@ -125,22 +125,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }
 
   const { post } = useWallet()
-  // * const { post } = useWallet()
-  // *
-  // * const callback = useCallback(async () => {
-  // *   try {
-  // *    const result: TxResult = await post({...CreateTxOptions})
-  // *    // DO SOMETHING...
-  // *   } catch (error) {
-  // *     if (error instanceof UserDenied) {
-  // *       // DO SOMETHING...
-  // *     } else {
-  // *       // DO SOMETHING...
-  // *     }
-  // *   }
-  // * }, [])
-  // * ```
-  // *
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
@@ -153,8 +137,8 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
       }
 
       const response = await post(txOptions)
-      console.log(response)
       setResponse(response)
+      console.log(response)
       setPending(false)
     } catch (error) {
       setError(error)
@@ -178,9 +162,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
 
             <DialogContent>
               <div>
-               {pending &&<div>waiting</div>}
+                {pending && <div>waiting</div>}
                 {error?.message}
-                <TxHashLink txHash={response?.result.txhash ?? ''} />
+                {response?.result.txhash && (
+                  <TxHashLink txHash={response?.result.txhash} />
+                )}
               </div>
             </DialogContent>
           </React.Fragment>
@@ -197,6 +183,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
                   label='Send to'
                   margin='dense'
                   type='text'
+                  value={address}
                   helperText={invalidAddress && trans.INVALID_ADDRESS}
                   error={invalidAddress}
                   fullWidth
@@ -226,7 +213,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
                 <TextField
                   variant='outlined'
                   id='amount'
-                  label='Amount'
                   type='number'
                   margin='dense'
                   error={invalidAmount}

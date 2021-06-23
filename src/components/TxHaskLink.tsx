@@ -8,16 +8,19 @@ interface TxHashProps {
   txHash: string
 }
 
-const TxHashLink: FC<TxHashProps> = ({ txHash } ) => {
+const TxHashLink: FC<TxHashProps> = ({ txHash }) => {
   const { network } = useWallet()
 
   return (
-    <Link
-      href={`${TERRA_FINDER}/${network.chainID}/tx/${txHash}`}
-      target='_blank'
-    >
-      {getEllipsisTxt(txHash)}
-    </Link>
+    <React.Fragment>
+      <div>Check on terra finder</div>
+      <Link
+        href={`${TERRA_FINDER}/${network.chainID}/tx/${txHash}`}
+        target='_blank'
+      >
+        {getEllipsisTxt(txHash)}
+      </Link>
+    </React.Fragment>
   )
 }
 export default TxHashLink
