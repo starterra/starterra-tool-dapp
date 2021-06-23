@@ -10,7 +10,21 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
+import {
+  TxResult,
+  UserDenied,
+  CreateTxFailed,
+  TxFailed,
+  TxUnspecifiedError
+} from '@terra-money/wallet-provider'
+import  TxHashLink from './TxHaskLink'
 import * as trans from '../translation'
+
+export type TxError =
+  | UserDenied
+  | CreateTxFailed
+  | TxFailed
+  | TxUnspecifiedError
 
 const GAS_ADJUSTMENT = 1.5
 // Will be removed after merging balance ///
@@ -62,6 +76,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
+  const [pending, setPending] = useState(false)
+  const [response, setResponse] = useState<TxResult>()
+  const [error, setError] = useState<TxError>()
+
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
       return false
@@ -94,8 +112,8 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }
 
   const handleSubmit = () => {
+    setPending(true)
     send()
-    setOpen(false)
   }
 
   const handleCancel = () => {
@@ -107,6 +125,22 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }
 
   const { post } = useWallet()
+  // * const { post } = useWallet()
+  // *
+  // * const callback = useCallback(async () => {
+  // *   try {
+  // *    const result: TxResult = await post({...CreateTxOptions})
+  // *    // DO SOMETHING...
+  // *   } catch (error) {
+  // *     if (error instanceof UserDenied) {
+  // *       // DO SOMETHING...
+  // *     } else {
+  // *       // DO SOMETHING...
+  // *     }
+  // *   }
+  // * }, [])
+  // * ```
+  // *
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
@@ -120,9 +154,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
 
       const response = await post(txOptions)
       console.log(response)
+      setResponse(response)
+      setPending(false)
     } catch (error) {
-      console.log(error)
-      alert(error)
+      setError(error)
+      setPending(false)
     }
   }
 
@@ -136,81 +172,98 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
         onClose={handleCancel}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Send</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              autoFocus
-              variant='outlined'
-              id='address'
-              label='Send to'
-              margin='dense'
-              type='text'
-              helperText={invalidAddress && trans.INVALID_ADDRESS}
-              error={invalidAddress}
-              fullWidth
-              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                setAddress(target.value)
-              }
-            />
-            <FormControl variant='outlined'>
-              <Select
-                native
-                id='select-token'
-                value={token}
-                margin='dense'
-                inputProps={{
-                  name: 'token',
-                  id: 'token-native-simple'
-                }}
-                onChange={({ target }) => handleTokenChange(target.value)}
+        {error || response || pending ? (
+          <React.Fragment>
+            <DialogTitle id='form-dialog-title'>Status</DialogTitle>
+
+            <DialogContent>
+              <div>
+               {pending &&<div>waiting</div>}
+                {error?.message}
+                <TxHashLink txHash={response?.result.txhash ?? ''} />
+              </div>
+            </DialogContent>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <DialogTitle id='form-dialog-title'>Send</DialogTitle>
+
+            <DialogContent>
+              <form>
+                <TextField
+                  autoFocus
+                  variant='outlined'
+                  id='address'
+                  label='Send to'
+                  margin='dense'
+                  type='text'
+                  helperText={invalidAddress && trans.INVALID_ADDRESS}
+                  error={invalidAddress}
+                  fullWidth
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                    setAddress(target.value)
+                  }
+                />
+                <FormControl variant='outlined'>
+                  <Select
+                    native
+                    id='select-token'
+                    value={token}
+                    margin='dense'
+                    inputProps={{
+                      name: 'token',
+                      id: 'token-native-simple'
+                    }}
+                    onChange={({ target }) => handleTokenChange(target.value)}
+                  >
+                    {tokensBalance.map((token: TokenBalance) => (
+                      <option key={token.address} value={token.address}>
+                        {token.name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  variant='outlined'
+                  id='amount'
+                  label='Amount'
+                  type='number'
+                  margin='dense'
+                  error={invalidAmount}
+                  helperText={invalidAmount && trans.INVALID_AMOUNT}
+                  value={amount}
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                    setAmount(+target.value)
+                  }
+                />
+                <TextField
+                  variant='outlined'
+                  margin='dense'
+                  id='memo'
+                  label='Memo (Optional)'
+                  type='text'
+                  fullWidth
+                  value={memo}
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                    setMemo(target.value)
+                  }
+                />
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCancel} color='secondary'>
+                {trans.CALNCEL_TXT}
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                color='primary'
+                disabled={sendDisable()}
               >
-                {tokensBalance.map((token: TokenBalance) => (
-                  <option key={token.address} value={token.address}>
-                    {token.name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              variant='outlined'
-              id='amount'
-              label='Amount'
-              type='number'
-              margin='dense'
-              error={invalidAmount}
-              helperText={invalidAmount && trans.INVALID_AMOUNT}
-              value={amount}
-              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                setAmount(+target.value)
-              }
-            />
-            <TextField
-              variant='outlined'
-              margin='dense'
-              id='memo'
-              label='Memo (Optional)'
-              type='text'
-              fullWidth
-              value={memo}
-              onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                setMemo(target.value)
-              }
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel} color='secondary'>
-            {trans.CALNCEL_TXT}
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            color='primary'
-            disabled={sendDisable()}
-          >
-            {trans.SEND_TXT}
-          </Button>
-        </DialogActions>
+                {trans.SEND_TXT}
+              </Button>
+            </DialogActions>
+          </React.Fragment>
+        )}
       </Dialog>
     </div>
   )
