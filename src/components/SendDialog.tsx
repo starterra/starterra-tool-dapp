@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
+import * as trans from '../translation';
 
 // Will be removed after merging balance ///
 interface TokenBalance {
@@ -62,7 +63,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
 
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
-      return undefined
+      return false
     }
     return !AccAddress.validate(address)
   }, [address])
@@ -120,7 +121,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   return (
     <div>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Send
+        {trans.SEND_TXT}
       </Button>
       <Dialog
         open={open}
@@ -137,7 +138,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               label='Address'
               margin='dense'
               type='text'
-              helperText={invalidAddress && 'Invalid address'}
+              helperText={invalidAddress &&  trans.INVALID_ADDRESS}
               error={invalidAddress}
               fullWidth
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
@@ -170,7 +171,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               type='number'
               margin='dense'
               error={invalidAmount}
-              helperText={invalidAmount && 'Not enough amount'}
+              helperText={invalidAmount && trans.INVALID_AMOUNT}
               value={amount}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
                 setAmount(+target.value)
@@ -192,10 +193,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color='secondary'>
-            Cancel
+          {trans.CALNCEL_TXT}
           </Button>
           <Button onClick={handleSubmit} color='primary'>
-            Send
+          {trans.SEND_TXT}
           </Button>
         </DialogActions>
       </Dialog>
