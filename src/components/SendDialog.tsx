@@ -68,18 +68,18 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }, [address])
 
   const invalidAmount = useMemo(() => {
-    if (amount <= 0) return undefined
+    if (amount <= 0) return false
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
       (t) => t.address === token
     )
 
-    if (!tokenBalance) return undefined
+    if (!tokenBalance) return false
 
     const balance: Number =
       +(tokenBalance.balance ? tokenBalance.balance : 0) /
       Math.pow(10, tokenBalance.decimal)
 
-    return balance < amount ? 'Not enough amount' : undefined
+    return balance < amount
   }, [amount])
 
   const handleClickOpen = () => {
@@ -169,7 +169,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               label='Amount'
               type='number'
               margin='dense'
-              error={!!invalidAmount}
+              error={invalidAmount}
               helperText={invalidAmount && 'Not enough amount'}
               value={amount}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
