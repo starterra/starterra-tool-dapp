@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
 import * as trans from '../translation'
 
+const GAS_ADJUSTMENT = 1.5
 // Will be removed after merging balance ///
 interface TokenBalance {
   address: string
@@ -57,7 +58,7 @@ interface SendProps {
 const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
-  const [amount, setAmount] = useState<number>(1)
+  const [amount, setAmount] = useState<number | undefined>()
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
@@ -69,7 +70,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   }, [address])
 
   const invalidAmount = useMemo(() => {
-    if (amount <= 0) return false
+    if (amount && amount <= 0) return false
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
       (t) => t.address === token
     )
@@ -80,13 +81,13 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
       +(tokenBalance.balance ? tokenBalance.balance : 0) /
       Math.pow(10, tokenBalance.decimal)
 
-    return balance < amount
+    return amount ? balance < amount : false
   }, [amount])
 
   const sendDisable = (): boolean => {
-    
-      return address.length === 0 || amount === 0 || invalidAmount || invalidAddress
-    
+    return (
+      address.length === 0 || amount === 0 || invalidAmount || invalidAddress
+    )
   }
   const handleClickOpen = () => {
     setOpen(true)
@@ -108,11 +109,13 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const { post } = useWallet()
   const send = async () => {
     try {
-      const msgs = new MsgSend(wallletAddress, address, { token: 1000000 })
+      const decimal = tokensBalance.find((t) => t.address === token)?.decimal
+      const txAmount = amount! * Math.pow(10, decimal || 6)
+      const msgs = new MsgSend(wallletAddress, address, txAmount + token)
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
         memo: memo,
-        gasAdjustment: 1.5
+        gasAdjustment: GAS_ADJUSTMENT
       }
 
       const response = await post(txOptions)
@@ -140,7 +143,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               autoFocus
               variant='outlined'
               id='address'
-              label='Address'
+              label='Send to'
               margin='dense'
               type='text'
               helperText={invalidAddress && trans.INVALID_ADDRESS}
@@ -200,7 +203,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
           <Button onClick={handleCancel} color='secondary'>
             {trans.CALNCEL_TXT}
           </Button>
-          <Button onClick={handleSubmit} color='primary' disabled={sendDisable()}>
+          <Button
+            onClick={handleSubmit}
+            color='primary'
+            disabled={sendDisable()}
+          >
             {trans.SEND_TXT}
           </Button>
         </DialogActions>
