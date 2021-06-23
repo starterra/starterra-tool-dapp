@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress } from '@terra-money/terra.js'
-import * as trans from '../translation';
+import * as trans from '../translation'
 
 // Will be removed after merging balance ///
 interface TokenBalance {
@@ -83,6 +83,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
     return balance < amount
   }, [amount])
 
+  const sendDisable = (): boolean => {
+    
+      return address.length === 0 || amount === 0 || invalidAmount || invalidAddress
+    
+  }
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -138,7 +143,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
               label='Address'
               margin='dense'
               type='text'
-              helperText={invalidAddress &&  trans.INVALID_ADDRESS}
+              helperText={invalidAddress && trans.INVALID_ADDRESS}
               error={invalidAddress}
               fullWidth
               onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
@@ -193,10 +198,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color='secondary'>
-          {trans.CALNCEL_TXT}
+            {trans.CALNCEL_TXT}
           </Button>
-          <Button onClick={handleSubmit} color='primary'>
-          {trans.SEND_TXT}
+          <Button onClick={handleSubmit} color='primary' disabled={sendDisable()}>
+            {trans.SEND_TXT}
           </Button>
         </DialogActions>
       </Dialog>
