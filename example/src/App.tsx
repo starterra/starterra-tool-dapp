@@ -4,12 +4,8 @@ import { WalletProvider, Wallet, Tokens } from 'starterra-tool-dapp'
 import { avaliableNetworks } from './avaliableNetworks'
 import 'starterra-tool-dapp/dist/index.css'
 
-<<<<<<< HEAD
-const tokens:Tokens= 
-=======
 
 const testnetTokens:Tokens= 
->>>>>>> origin/allow-to-display-wallet-ballance
    [{
     address: 'uluna',
     name: 'LUNA',
@@ -35,8 +31,6 @@ const testnetTokens:Tokens=
     decimal: 6
   },
   {
-<<<<<<< HEAD
-=======
     address:'terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u',
     name: 'MIR',
     isDefault: false,
@@ -76,7 +70,6 @@ const mainnetTokens:Tokens=
     decimal: 6
   },
   {
->>>>>>> origin/allow-to-display-wallet-ballance
     address:'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
     name: 'MIR',
     isDefault: false,
