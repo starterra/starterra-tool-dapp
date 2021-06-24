@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { LCDClient } from '@terra-money/terra.js'
 import { Tokens } from '../types/token'
+import BigNumber from 'bignumber.js'
 
 interface IResponse{
   balance:string
@@ -26,7 +27,7 @@ const useTokenBalance = (
           }
         })
       )
-      setBalance(results)
+      setBalance(results.filter(r=>new BigNumber(r.balance).toNumber()>0))
     }
   }, [address])
 
