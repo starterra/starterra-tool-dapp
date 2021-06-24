@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import useClipboard from 'react-use-clipboard'
 import { Button, Paper, ButtonGroup } from '@material-ui/core'
 import { NetworkInfo } from '@terra-dev/wallet-types'
@@ -8,16 +8,23 @@ import Check from '@material-ui/icons/Check'
 import SendDialog from './SendDialog'
 import * as trans from '../translation'
 
+import Balance from './Balance'
+import { TokenBalance } from '../types/token'
+
 interface WalletContentProps {
   address: string
   network: NetworkInfo
   finderLink: string
+  assets: TokenBalance[]
   disconnect?: () => void
 }
 
-const WalletContent = (props: WalletContentProps) => {
-  const { address, disconnect, finderLink } = props
-
+const WalletContent: FC<WalletContentProps> = ({
+  address,
+  disconnect,
+  finderLink,
+  assets
+}) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
@@ -30,6 +37,7 @@ const WalletContent = (props: WalletContentProps) => {
         color='primary'
         aria-label='outlined secondary button group'
       >
+        <Balance tokenBalance={assets}></Balance>
         <Button
           color='primary'
           variant='outlined'
