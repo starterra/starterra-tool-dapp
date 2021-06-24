@@ -19,6 +19,18 @@ const tokens:Tokens=
     decimal: 6
   },
   {
+    address:'ukrw',
+    name: 'KRW',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'usdr',
+    name: 'SDR',
+    isDefault: false,
+    decimal: 6
+  },
+  {
     address:'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
     name: 'MIR',
     isDefault: false,
