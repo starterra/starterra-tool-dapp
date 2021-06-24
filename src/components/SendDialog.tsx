@@ -118,10 +118,21 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
 
   const handleCancel = () => {
     setOpen(false)
+    resetState()
   }
 
   const handleTokenChange = (newValue: any) => {
     setToken(newValue)
+  }
+
+  const resetState = () =>{
+    setAddress('')
+    setAmount(1)
+    setToken('uusd')
+    setMemo('')
+    setPending(false)
+    setResponse(undefined)
+    setError(undefined)
   }
 
   const { post } = useWallet()

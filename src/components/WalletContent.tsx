@@ -39,7 +39,7 @@ const WalletContent = (props: WalletContentProps) => {
           {trans.COPY_TXT}
         </Button>
         <SendDialog wallletAddress={address}/>
-        <Button color='primary' startIcon={<LaunchIcon />} href={finderLink}>
+        <Button color='primary' startIcon={<LaunchIcon />} href={finderLink} target='_balank'>
           {trans.VIEW_ON_TERRA_TXT}
         </Button>
         <Button variant='outlined' onClick={disconnect} color='secondary'>
