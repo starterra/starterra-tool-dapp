@@ -24,6 +24,7 @@ export default (
   list?: TokenBalance[]
 } => {
   const { loading, error, data } = useQuery(QUERY, { variables: { address } })
+  
   return {
     loading,
     error,

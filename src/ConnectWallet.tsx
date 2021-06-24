@@ -8,10 +8,10 @@ import React, { useCallback, useState } from 'react'
 import useNetwork from './hooks/useNetwork'
 import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
-import useTokenBalance from './graphql/useTokenBalance'
-import useBankBalance from './graphql/useBankBalance'
 import { Tokens } from './types/token'
-
+import { LCDClient } from '@terra-money/terra.js'
+import { useEffect } from 'react'
+import useBankBalance from './hooks/useBankBalance'
 interface ConnectWalletProps {
   tokens: Tokens
 }
@@ -25,12 +25,29 @@ const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
 
   const { terraFinderGenerateLink } = useNetwork()
   const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
-  const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
+  // const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
+  const terraClient = new LCDClient({
+    URL: 'https://tequila-lcd.terra.dev',
+    chainID: 'tequila-0004'
+  })
+  const terraBalance = useBankBalance(address,nativeTokens, terraClient)
+  // const getBank= useCallback(async () => {
+  //   if (address) {
+  //     console.log(address)
 
-  const balance = useTokenBalance(address, balanceTokens)
+  //     const terraBank = await terraClient.bank.balance(address)
+  //     console.log(terraBank)
 
-  const bank = useBankBalance(address, nativeTokens)
-  const assets = [...(bank.list || []), ...(balance.list || [])]
+  //     const terraBalance = await terraClient.wasm.contractQuery(
+  //       balanceTokens[0].address,
+  //       { balance: { address: address } }
+  //     )
+  //     console.log(terraBalance)
+
+  //   }
+  // }, [address])
+
+  const assets = [...(terraBalance.balance || [])]
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
@@ -49,6 +66,7 @@ const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
     setShowContent(false)
   }, [])
 
+  useEffect
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
