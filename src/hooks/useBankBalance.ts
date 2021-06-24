@@ -10,15 +10,18 @@ const useBankBalance = (
   const [balance, setBalance] = useState<Tokens>([])
 
   const fetchBalance = useCallback(async () => {
-    const response = await terraClient.bank.balance(address)
-    const result: Tokens = response.map((item: Coin) => {
-      return {
-        ...contracts.find((c) => c.address == item.denom)!,
-        balance: item.amount.toString()
-      }
-    })
-    console.log(result)
-    setBalance(result)
+    if (address) {
+     
+      const response = await terraClient.bank.balance(address)
+
+      const result: Tokens = response.map((item: Coin) => {
+        return {
+          ...contracts.find((c) => c.address == item.denom)!,
+          balance: item.amount.toString()
+        }
+      })
+      setBalance(result)
+    }
   }, [address])
 
   useEffect(() => {

@@ -12,42 +12,29 @@ import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
 import { useEffect } from 'react'
 import useBankBalance from './hooks/useBankBalance'
+import useTokenBalance from './hooks/useTokenBalance'
 interface ConnectWalletProps {
   tokens: Tokens
 }
 
 const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
   const address = useAddress()
+  const network = useNetwork()
+  const { terraFinderGenerateLink} = useNetwork()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
-  const { status, connect, disconnect, network, availableConnectTypes } =
+  const { status, connect, disconnect, network:walletNetwork, availableConnectTypes } =
     useWallet()
 
-  const { terraFinderGenerateLink } = useNetwork()
   const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
-  // const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
+  const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
   const terraClient = new LCDClient({
-    URL: 'https://tequila-lcd.terra.dev',
-    chainID: 'tequila-0004'
+    URL: network.lcd,
+    chainID: network.chainID
   })
-  const terraBalance = useBankBalance(address,nativeTokens, terraClient)
-  // const getBank= useCallback(async () => {
-  //   if (address) {
-  //     console.log(address)
-
-  //     const terraBank = await terraClient.bank.balance(address)
-  //     console.log(terraBank)
-
-  //     const terraBalance = await terraClient.wasm.contractQuery(
-  //       balanceTokens[0].address,
-  //       { balance: { address: address } }
-  //     )
-  //     console.log(terraBalance)
-
-  //   }
-  // }, [address])
-
-  const assets = [...(terraBalance.balance || [])]
+  const bankBalance = useBankBalance(address, nativeTokens, terraClient)
+  const tokenBalance = useTokenBalance(address, balanceTokens, terraClient)
+  const assets = [...(bankBalance.balance || []),...(tokenBalance.balance || [])]
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
@@ -99,7 +86,7 @@ const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
             {showContent && (
               <WalletContent
                 address={address}
-                network={network}
+                network={walletNetwork}
                 finderLink={terraFinderGenerateLink(address)}
                 disconnect={disconnectWallet}
                 assets={assets}
