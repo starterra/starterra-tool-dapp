@@ -4,7 +4,12 @@ import { WalletProvider, Wallet, Tokens } from 'starterra-tool-dapp'
 import { avaliableNetworks } from './avaliableNetworks'
 import 'starterra-tool-dapp/dist/index.css'
 
+<<<<<<< HEAD
 const tokens:Tokens= 
+=======
+
+const testnetTokens:Tokens= 
+>>>>>>> origin/allow-to-display-wallet-ballance
    [{
     address: 'uluna',
     name: 'LUNA',
@@ -30,6 +35,48 @@ const tokens:Tokens=
     decimal: 6
   },
   {
+<<<<<<< HEAD
+=======
+    address:'terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u',
+    name: 'MIR',
+    isDefault: false,
+    decimal: 6
+  },
+   {
+    address:'terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc',
+    name: 'ANC',
+    isDefault: false,
+    decimal: 6
+  }
+]
+
+const mainnetTokens:Tokens= 
+   [{
+    address: 'uluna',
+    name: 'LUNA',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'uusd',
+    name: 'UST',
+    isDefault: true,
+    decimal: 6
+  },
+  {
+    address:'ukrw',
+    name: 'KRW',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'usdr',
+    name: 'SDR',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+>>>>>>> origin/allow-to-display-wallet-ballance
     address:'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
     name: 'MIR',
     isDefault: false,
@@ -42,14 +89,13 @@ const tokens:Tokens=
     decimal: 6
   }
 ]
-
 const App = () => {
   return (
     <WalletProvider
       defaultNetwork={avaliableNetworks['testnet']}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={tokens}/>
+      <Wallet tokens={testnetTokens}/>
     </WalletProvider>
   )
 }
