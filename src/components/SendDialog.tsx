@@ -21,7 +21,7 @@ import TxHashLink from './TxHaskLink'
 import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TokenBalance, Tokens } from '../types/token'
-
+import { tokenValueNumber } from '../utils'
 export type TxError =
   | UserDenied
   | CreateTxFailed
@@ -31,13 +31,13 @@ export type TxError =
 const GAS_ADJUSTMENT = 1.5
 
 interface SendProps {
-  wallletAddress: string,
+  wallletAddress: string
   tokensBalance: Tokens
 }
-const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
+const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
-  const [amount, setAmount] = useState<number>(1)
+  const [amount, setAmount] = useState<number>()
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
@@ -60,9 +60,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
 
     if (!tokenBalance) return false
 
-    const balance: Number =
-      +(tokenBalance.balance ? tokenBalance.balance : 0) /
-      Math.pow(10, tokenBalance.decimal)
+    const balance: Number = tokenValueNumber(
+      tokenBalance.balance,
+      tokenBalance.decimal
+    )
 
     return amount ? balance < amount : false
   }, [amount])
@@ -90,7 +91,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
     setToken(newValue)
   }
 
-  const resetState = () =>{
+  const resetState = () => {
     setAddress('')
     setAmount(1)
     setToken('uusd')
@@ -104,7 +105,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
-      const txAmount = amount * Math.pow(10, decimal || 6)
+      const txAmount = amount && amount * Math.pow(10, decimal || 6)
       const msgs = new MsgSend(wallletAddress, address, txAmount + token)
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
@@ -122,6 +123,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
     }
   }
 
+  const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
   return (
     <div>
       <Button variant='outlined' color='primary' onClick={handleClickOpen}>
@@ -138,7 +140,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
 
             <DialogContent>
               <div>
-                {pending && <Spinner/>}
+                {pending && <Spinner />}
                 {error?.message}
                 {response?.result.txhash && (
                   <TxHashLink txHash={response?.result.txhash} />
@@ -191,12 +193,15 @@ const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
                   id='amount'
                   type='number'
                   margin='dense'
+                  inputProps={{ pattern: '[0-9.]*' }}
                   error={invalidAmount}
                   helperText={invalidAmount && trans.INVALID_AMOUNT}
                   value={amount}
-                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                    setAmount(+target.value)
-                  }
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                    if (DECIMAL_REGEXP.test(target.value)) {
+                      setAmount(+target.value)
+                    }
+                  }}
                 />
                 <TextField
                   variant='outlined'
