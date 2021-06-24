@@ -24,14 +24,9 @@ interface Props {
   tokens: Tokens
 }
 
-import ApolloClientComp from './graphql/ApolloClient'
-
-
 export const Wallet = ({tokens}: Props) => {
   return (
-    <ApolloClientComp>
       <ConnectWallet tokens={tokens}/>
-    </ApolloClientComp>
   )
 }
 

@@ -88,7 +88,7 @@ const App = () => {
       defaultNetwork={avaliableNetworks['testnet']}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={mainnetTokens}/>
+      <Wallet tokens={testnetTokens}/>
     </WalletProvider>
   )
 }
