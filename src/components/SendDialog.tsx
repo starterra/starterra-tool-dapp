@@ -20,6 +20,7 @@ import {
 import TxHashLink from './TxHaskLink'
 import * as trans from '../translation'
 import Spinner from './Spinner'
+import { TokenBalance, Tokens } from '../types/token'
 
 export type TxError =
   | UserDenied
@@ -28,49 +29,12 @@ export type TxError =
   | TxUnspecifiedError
 
 const GAS_ADJUSTMENT = 1.5
-// Will be removed after merging balance ///
-interface TokenBalance {
-  address: string
-  name: string
-  isDefault: boolean
-  balance?: string
-  decimal: number
-}
 
-const tokensBalance: TokenBalance[] = [
-  {
-    address: 'uluna',
-    name: 'LUNA',
-    isDefault: false,
-    decimal: 6,
-    balance: '100000000'
-  },
-  {
-    address: 'uusd',
-    name: 'UST',
-    isDefault: true,
-    decimal: 6,
-    balance: '100000000'
-  },
-  {
-    address: 'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
-    name: 'MIR',
-    isDefault: false,
-    decimal: 6,
-    balance: '100000000'
-  },
-  {
-    address: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
-    name: 'ANC',
-    isDefault: false,
-    decimal: 6,
-    balance: '100000000'
-  }
-]
 interface SendProps {
-  wallletAddress: string
+  wallletAddress: string,
+  tokensBalance: Tokens
 }
-const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
+const SendDialog: FC<SendProps> = ({ wallletAddress,tokensBalance}) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)

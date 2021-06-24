@@ -46,7 +46,7 @@ const WalletContent: FC<WalletContentProps> = ({
         >
           {trans.COPY_TXT}
         </Button>
-        <SendDialog wallletAddress={address}/>
+        <SendDialog wallletAddress={address} tokensBalance={assets}/>
         <Button color='primary' startIcon={<LaunchIcon />} href={finderLink} target='_balank'>
           {trans.VIEW_ON_TERRA_TXT}
         </Button>
