@@ -19,6 +19,7 @@ import {
 } from '@terra-money/wallet-provider'
 import TxHashLink from './TxHaskLink'
 import * as trans from '../translation'
+import Spinner from './Spinner'
 
 export type TxError =
   | UserDenied
@@ -139,7 +140,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
-      const txAmount = amount! * Math.pow(10, decimal || 6)
+      const txAmount = amount * Math.pow(10, decimal || 6)
       const msgs = new MsgSend(wallletAddress, address, txAmount + token)
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
@@ -173,7 +174,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress }) => {
 
             <DialogContent>
               <div>
-                {pending && <div>waiting</div>}
+                {pending && <Spinner/>}
                 {error?.message}
                 {response?.result.txhash && (
                   <TxHashLink txHash={response?.result.txhash} />
