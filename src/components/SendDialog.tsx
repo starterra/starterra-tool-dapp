@@ -1,4 +1,5 @@
 import React, { FC, useState, ChangeEvent, useMemo } from 'react'
+import Send from '@material-ui/icons/Send'
 import { MsgSend, CreateTxOptions } from '@terra-money/terra.js'
 import { useWallet } from '@terra-money/wallet-provider'
 import { Button } from '@material-ui/core'
@@ -22,6 +23,8 @@ import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TokenBalance, Tokens } from '../types/token'
 import { tokenValueNumber } from '../utils'
+import useStyles from '../styles/useStyles'
+
 export type TxError =
   | UserDenied
   | CreateTxFailed
@@ -121,11 +124,18 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       setPending(false)
     }
   }
-
+  const classes = useStyles()
   const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
   return (
     <div>
-      <Button variant='outlined' color='primary' onClick={handleClickOpen}>
+      <Button
+        variant='contained'
+        startIcon={<Send />}
+        className={classes.button}
+
+        color='primary'
+        onClick={handleClickOpen}
+      >
         {trans.SEND_TXT}
       </Button>
       <Dialog

@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
 import useClipboard from 'react-use-clipboard'
-import { Button, Paper, ButtonGroup } from '@material-ui/core'
+import { Button, Paper, IconButton } from '@material-ui/core'
 import { NetworkInfo } from '@terra-dev/wallet-types'
 import { getEllipsisTxt } from '../utils'
 import LaunchIcon from '@material-ui/icons/Launch'
-import Check from '@material-ui/icons/Check'
+import FilterNone from '@material-ui/icons/FilterNone'
 import SendDialog from './SendDialog'
 import * as trans from '../translation'
-
 import Balance from './Balance'
 import { TokenBalance } from '../types/token'
+import useStyles from '../styles/useStyles'
 
 interface WalletContentProps {
   address: string
@@ -28,32 +28,41 @@ const WalletContent: FC<WalletContentProps> = ({
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
-
+  const classes = useStyles()
   return (
-    <Paper elevation={3}>
-      <h3>{getEllipsisTxt(address)}</h3>
-      <ButtonGroup
-        orientation='vertical'
-        color='primary'
-        aria-label='outlined secondary button group'
-      >
+    <Paper elevation={3} className={classes.root}>
+      <div className={classes.section}>
+        <div className={classes.header}>
+        <p>{getEllipsisTxt(address,9)}</p>
+        <IconButton
+          aria-label='copy'
+          color={isCopied ? 'secondary':'primary'}
+          onClick={setCopied}
+          size="small"
+        >
+          <FilterNone fontSize="small"/>
+        </IconButton>
+        </div>
         <Balance tokenBalance={assets}></Balance>
+        <SendDialog wallletAddress={address} tokensBalance={assets} />
         <Button
           color='primary'
-          variant='outlined'
-          onClick={setCopied}
-          endIcon={isCopied && <Check />}
+          startIcon={<LaunchIcon />}
+          className={classes.button}
+          href={finderLink}
+          target='_balank'
         >
-          {trans.COPY_TXT}
-        </Button>
-        <SendDialog wallletAddress={address} tokensBalance={assets}/>
-        <Button color='primary' startIcon={<LaunchIcon />} href={finderLink} target='_balank'>
           {trans.VIEW_ON_TERRA_TXT}
         </Button>
-        <Button variant='outlined' onClick={disconnect} color='secondary'>
-          {trans.DISCONNECT_TXT}
-        </Button>
-      </ButtonGroup>
+      </div>
+      <Button
+        variant='outlined'
+        className={classes.disconnect}
+        onClick={disconnect}
+        color='primary'
+      >
+        {trans.DISCONNECT_TXT}
+      </Button>
     </Paper>
   )
 }
