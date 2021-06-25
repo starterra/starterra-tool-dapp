@@ -47,6 +47,12 @@ const theme = createMuiTheme({
         borderRadius: '20px',
         fontSize: '12px'
       }
+    },
+    MuiInputBase:{
+      input:{
+        color:'#2043b5',
+        border: '1px solid rgba(12,54,148,.2)'
+      }
     }
   }
 });

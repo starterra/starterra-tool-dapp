@@ -7,6 +7,22 @@ const useStyles = makeStyles(() =>
       top: '5px',
       right: '10px'
     },
+    buttonBalance: {
+      fontWeight: 700,
+      position: 'relative',
+      display: 'inline-block',
+
+      marginLeft: '1em',
+      paddingLeft: '1em',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: '1px',
+        bottom: '1px',
+        left: '0',
+        borderLeft: '1px solid rgba(255, 255, 255, 0.2)'
+      }
+    },
     root: {
       position: 'absolute',
       display: 'block',
@@ -46,6 +62,10 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       height: '35px',
       fontSize: '14px'
+    },
+    formAmount: {
+      marginTop: '3px',
+      width: '100%'
     }
   })
 )

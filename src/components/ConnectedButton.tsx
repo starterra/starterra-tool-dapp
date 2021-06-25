@@ -24,7 +24,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultTok
     >
       <span>{getEllipsisTxt(address)}</span>
       {defaultToken && (
-        <span>
+        <span className={classes.buttonBalance}> 
           { tokenValueTxt(defaultToken)}
         </span>
       )}
