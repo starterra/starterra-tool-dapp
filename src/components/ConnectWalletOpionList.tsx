@@ -4,6 +4,7 @@ import { Paper, Button, ButtonGroup } from '@material-ui/core'
 import { TerraIcon, WalletIcon } from './Icons'
 import { v4 as uuidv4 } from 'uuid'
 import * as trans from '../translation'
+import useStyles from '../styles/useStyles'
 
 type ConnectOption = { label: string; icon?: ReactNode; onClick: () => void }
 
@@ -45,9 +46,9 @@ const ConnectWalletOptionList = () => {
       onClick: () => connect(ConnectType.READONLY)
     }
   }
-
+  const classes = useStyles()
   return (
-    <Paper elevation={3}>
+    <Paper elevation={3} className={classes.root}>
       <ButtonGroup
         orientation='vertical'
         color='primary'

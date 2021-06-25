@@ -1,20 +1,23 @@
 import React, { FC } from 'react'
-import { tokenValueTxt } from '../utils'
+import { tokenValue } from '../utils'
 import { TokenBalance } from '../types/token'
+import useStyles from '../styles/useStyles'
 
 interface BalanceProps {
   tokenBalance: TokenBalance[]
 }
 
 const Balance: FC<BalanceProps> = ( { tokenBalance } ) => {
+  const classes = useStyles()
   return (
-    <ul>
+    <div className={classes.balanceSection}>
       {tokenBalance.map((item) => (
-        <li key={item.name}>
-          <span>{tokenValueTxt(item)}</span>
-        </li>
+        <div className={classes.balanceItem} key={item.name}>
+          <h4>{item.name}</h4>
+          <span>{tokenValue(item.balance)}</span>
+        </div>
       ))}
-    </ul>
+    </div>
   )
 }
 
