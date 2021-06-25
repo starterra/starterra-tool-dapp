@@ -115,7 +115,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
       const response = await post(txOptions)
       setResponse(response)
-      console.log(response)
       setPending(false)
     } catch (error) {
       setError(error)
