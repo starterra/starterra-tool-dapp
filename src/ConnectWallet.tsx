@@ -8,15 +8,33 @@ import React, { useCallback, useState } from 'react'
 import useNetwork from './hooks/useNetwork'
 import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
+import { Tokens } from './types/token'
+import { LCDClient } from '@terra-money/terra.js'
+import { useEffect } from 'react'
+import useBankBalance from './hooks/useBankBalance'
+import useTokenBalance from './hooks/useTokenBalance'
+interface ConnectWalletProps {
+  tokens: Tokens
+}
 
-const ConnectWallet = () => {
+const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
   const address = useAddress()
+  const network = useNetwork()
+  const { terraFinderGenerateLink} = useNetwork()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
-  const { status, connect, disconnect, network, availableConnectTypes } =
+  const { status, connect, disconnect, network:walletNetwork, availableConnectTypes } =
     useWallet()
 
-  const { terraFinderGenerateLink } = useNetwork()
+  const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
+  const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
+  const terraClient = new LCDClient({
+    URL: network.lcd,
+    chainID: network.chainID
+  })
+  const bankBalance = useBankBalance(address, nativeTokens, terraClient)
+  const tokenBalance = useTokenBalance(address, balanceTokens, terraClient)
+  const assets = [...(bankBalance.balance || []),...(tokenBalance.balance || [])]
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
@@ -29,13 +47,13 @@ const ConnectWallet = () => {
   const disconnectWallet = useCallback(() => {
     disconnect()
     setShowContent(false)
-  },[disconnect]
-  )
+  }, [disconnect])
   const onClickAway = useCallback(() => {
     setShowOptions(false)
     setShowContent(false)
-  },[])
+  }, [])
 
+  useEffect
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
@@ -48,7 +66,7 @@ const ConnectWallet = () => {
         <ClickAwayListener onClickAway={onClickAway}>
           <div>
             <ConnectButton onClick={connectWallet}>
-            {trans.CONNECT_WALLET_TXT}
+              {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
             {showOptions && <ConnectWalletOptionList />}
@@ -62,14 +80,16 @@ const ConnectWallet = () => {
           <div>
             <ConnectedButton
               address={address}
+              defaultToken={assets.filter((a) => a && a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
             />
             {showContent && (
               <WalletContent
                 address={address}
-                network={network}
+                network={walletNetwork}
                 finderLink={terraFinderGenerateLink(address)}
                 disconnect={disconnectWallet}
+                assets={assets}
               />
             )}
           </div>
