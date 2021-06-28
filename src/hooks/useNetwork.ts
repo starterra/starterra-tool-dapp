@@ -1,15 +1,14 @@
 import { useWallet } from "@terra-money/wallet-provider";
-import { TERRA_FINDER, avaliableNetworks } from "../avaliableNetworks";
+
+export const TERRA_FINDER = 'https://finder.terra.money'
 
 const useNetwork = () => {
   const { network } = useWallet();
 
-  const currentNetwork = avaliableNetworks[network.name];
-
   const terraFinderGenerateLink = (address: string, path: string = "account") =>
-    `${TERRA_FINDER}/${currentNetwork.chainID}/${path}/${address}`;
+    `${TERRA_FINDER}/${network.chainID}/${path}/${address}`;
 
-  return { ...currentNetwork, ...network, terraFinderGenerateLink }
+  return { ...network, terraFinderGenerateLink }
 }
 
 export default useNetwork

@@ -13,11 +13,12 @@ import { LCDClient } from '@terra-money/terra.js'
 import { useEffect } from 'react'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
-interface ConnectWalletProps {
+export interface IConnectWalletProps {
   tokens: Tokens
+  readOnlyMode: boolean
 }
 
-const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
+const ConnectWallet = ({ tokens,readOnlyMode }: IConnectWalletProps) => {
   const address = useAddress()
   const network = useNetwork()
   const { terraFinderGenerateLink} = useNetwork()
@@ -69,7 +70,7 @@ const ConnectWallet = ({ tokens }: ConnectWalletProps) => {
               {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
-            {showOptions && <ConnectWalletOptionList />}
+            {showOptions && <ConnectWalletOptionList readOnlyMode={readOnlyMode}/>}
           </div>
         </ClickAwayListener>
       )

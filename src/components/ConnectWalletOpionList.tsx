@@ -6,9 +6,13 @@ import { v4 as uuidv4 } from 'uuid'
 import * as trans from '../translation'
 import useStyles from '../styles/useStyles'
 
+interface IConnectWalletOptionListProps {
+  readOnlyMode: boolean
+}
+
 type ConnectOption = { label: string; icon?: ReactNode; onClick: () => void }
 
-const ConnectWalletOptionList = () => {
+const ConnectWalletOptionList = ({readOnlyMode}:IConnectWalletOptionListProps) => {
   const { availableConnectTypes, availableInstallTypes, connect, install } =
     useWallet()
 
@@ -40,7 +44,7 @@ const ConnectWalletOptionList = () => {
       onClick: () => connect(ConnectType.WALLETCONNECT)
     }
   }
-  if (availableConnectTypes.includes(ConnectType.READONLY)) {
+  if (readOnlyMode && availableConnectTypes.includes(ConnectType.READONLY)) {
     connectOptions[uuidv4()] = {
       label: trans.READ_ONLY_TXT,
       onClick: () => connect(ConnectType.READONLY)
