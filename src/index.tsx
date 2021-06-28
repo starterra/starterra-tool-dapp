@@ -19,14 +19,53 @@ import {
   useInstallChromeExtension
 } from '@terra-money/wallet-provider'
 import { NetworkInfo, TxResult } from '@terra-dev/wallet-types'
+import { ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#2043b5',
+    },
+    secondary: {
+      main: '#0044ff',
+    },
+  },
+  typography: {
+    fontFamily: ['"Gotham"','sans-serif'
+    ].join(',')
+  },
+  overrides: {
+    MuiPaper: {
+      root: {
+        color: '#2043b5',
+      },
+    },
+    MuiButton:{
+      containedPrimary:{
+        height: '30px',
+        borderRadius: '20px',
+        fontSize: '12px'
+      }
+    },
+    MuiInputBase:{
+      input:{
+        color:'#2043b5',
+        border: '1px solid rgba(12,54,148,.2)'
+      }
+    }
+  }
+});
 
 interface Props {
   tokens: Tokens
 }
 
-export const Wallet = ({tokens}: Props) => {
+export const Wallet = ({ tokens }: Props) => {
   return (
-      <ConnectWallet tokens={tokens}/>
+    <ThemeProvider theme={theme}>
+      <ConnectWallet tokens={tokens} />
+    </ThemeProvider>
   )
 }
 

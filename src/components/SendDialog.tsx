@@ -1,4 +1,5 @@
 import React, { FC, useState, ChangeEvent, useMemo } from 'react'
+import Send from '@material-ui/icons/Send'
 import { MsgSend, CreateTxOptions } from '@terra-money/terra.js'
 import { useWallet } from '@terra-money/wallet-provider'
 import { Button } from '@material-ui/core'
@@ -22,6 +23,8 @@ import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TokenBalance, Tokens } from '../types/token'
 import { tokenValueNumber } from '../utils'
+import useStyles from '../styles/useStyles'
+
 export type TxError =
   | UserDenied
   | CreateTxFailed
@@ -37,7 +40,7 @@ interface SendProps {
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
-  const [amount, setAmount] = useState<number>()
+  const [amount, setAmount] = useState<number>(1)
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
 
@@ -53,7 +56,9 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   }, [address])
 
   const invalidAmount = useMemo(() => {
-    if (amount && amount <= 0) return false
+    if (!amount  || amount <= 0){ 
+      return false
+    }
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
       (t) => t.address === token
     )
@@ -121,11 +126,17 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       setPending(false)
     }
   }
-
+  const classes = useStyles()
   const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
   return (
     <div>
-      <Button variant='outlined' color='primary' onClick={handleClickOpen}>
+      <Button
+        variant='contained'
+        startIcon={<Send />}
+        className={classes.button}
+        color='primary'
+        onClick={handleClickOpen}
+      >
         {trans.SEND_TXT}
       </Button>
       <Dialog
@@ -135,7 +146,9 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       >
         {error || response || pending ? (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>Status</DialogTitle>
+            <DialogTitle id='form-dialog-title'>
+              Status
+            </DialogTitle>
 
             <DialogContent>
               <div>
@@ -149,26 +162,13 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>Send</DialogTitle>
+            <DialogTitle id='form-dialog-title'>
+              Send
+            </DialogTitle>
 
             <DialogContent>
               <form>
-                <TextField
-                  autoFocus
-                  variant='outlined'
-                  id='address'
-                  label='Send to'
-                  margin='dense'
-                  type='text'
-                  value={address}
-                  helperText={invalidAddress && trans.INVALID_ADDRESS}
-                  error={invalidAddress}
-                  fullWidth
-                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
-                    setAddress(target.value)
-                  }
-                />
-                <FormControl variant='outlined'>
+              <FormControl variant='outlined'>
                   <Select
                     native
                     id='select-token'
@@ -186,22 +186,42 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                       </option>
                     ))}
                   </Select>
-                </FormControl>
+                  </FormControl>
                 <TextField
+                  autoFocus
                   variant='outlined'
-                  id='amount'
-                  type='number'
+                  id='address'
+                  label='Send to'
+                  placeholder='Terra address'
                   margin='dense'
-                  inputProps={{ pattern: '[0-9.]*' }}
-                  error={invalidAmount}
-                  helperText={invalidAmount && trans.INVALID_AMOUNT}
-                  value={amount}
-                  onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-                    if (DECIMAL_REGEXP.test(target.value)) {
-                      setAmount(+target.value)
-                    }
-                  }}
+                  type='text'
+                  value={address}
+                  helperText={invalidAddress && trans.INVALID_ADDRESS}
+                  error={invalidAddress}
+                  fullWidth
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                    setAddress(target.value)
+                  }
                 />
+
+                  <TextField
+                    variant='outlined'
+                    id='amount'
+                    type='number'
+                    margin='dense'
+                    label='Amount'
+                    fullWidth
+                    inputProps={{ pattern: '[0-9.]*' }}
+                    error={invalidAmount}
+                    helperText={invalidAmount && trans.INVALID_AMOUNT}
+                    value={amount}
+                    onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                      if (DECIMAL_REGEXP.test(target.value)) {
+                        setAmount(+target.value)
+                      }
+                    }}
+                  />
+
                 <TextField
                   variant='outlined'
                   margin='dense'
@@ -217,12 +237,18 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
               </form>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleCancel} color='secondary'>
+              <Button
+                onClick={handleCancel}
+                variant='contained'
+                color='primary'
+              >
                 {trans.CALNCEL_TXT}
               </Button>
               <Button
                 onClick={handleSubmit}
                 color='primary'
+                variant='contained'
+                startIcon={<Send />}
                 disabled={sendDisable()}
               >
                 {trans.SEND_TXT}
