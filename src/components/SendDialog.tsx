@@ -10,7 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { AccAddress } from '@terra-money/terra.js'
+import { AccAddress, StdFee } from '@terra-money/terra.js'
 import {
   TxResult,
   UserDenied,
@@ -31,7 +31,9 @@ export type TxError =
   | TxFailed
   | TxUnspecifiedError
 
-const GAS_ADJUSTMENT = 1.5
+const GAS_ADJUSTMENT = 1.6
+const GAS = 1000000
+const GAS_AMOUNT = '250000uusd'
 
 interface SendProps {
   wallletAddress: string
@@ -56,7 +58,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   }, [address])
 
   const invalidAmount = useMemo(() => {
-    if (!amount  || amount <= 0){ 
+    if (!amount || amount <= 0) {
       return false
     }
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
@@ -115,9 +117,9 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       const txOptions: CreateTxOptions = {
         msgs: [msgs],
         memo: memo,
-        gasAdjustment: GAS_ADJUSTMENT
+        gasAdjustment: GAS_ADJUSTMENT,
+        fee: new StdFee(GAS, GAS_AMOUNT)
       }
-
       const response = await post(txOptions)
       setResponse(response)
       setPending(false)
@@ -146,9 +148,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       >
         {error || response || pending ? (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>
-              Status
-            </DialogTitle>
+            <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 
             <DialogContent>
               <div>
@@ -162,13 +162,11 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>
-              Send
-            </DialogTitle>
+            <DialogTitle id='form-dialog-title'>Send</DialogTitle>
 
             <DialogContent>
               <form>
-              <FormControl variant='outlined'>
+                <FormControl variant='outlined'>
                   <Select
                     native
                     id='select-token'
@@ -186,7 +184,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                       </option>
                     ))}
                   </Select>
-                  </FormControl>
+                </FormControl>
                 <TextField
                   autoFocus
                   variant='outlined'
@@ -204,23 +202,23 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                   }
                 />
 
-                  <TextField
-                    variant='outlined'
-                    id='amount'
-                    type='number'
-                    margin='dense'
-                    label='Amount'
-                    fullWidth
-                    inputProps={{ pattern: '[0-9.]*' }}
-                    error={invalidAmount}
-                    helperText={invalidAmount && trans.INVALID_AMOUNT}
-                    value={amount}
-                    onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-                      if (DECIMAL_REGEXP.test(target.value)) {
-                        setAmount(+target.value)
-                      }
-                    }}
-                  />
+                <TextField
+                  variant='outlined'
+                  id='amount'
+                  type='number'
+                  margin='dense'
+                  label='Amount'
+                  fullWidth
+                  inputProps={{ pattern: '[0-9.]*' }}
+                  error={invalidAmount}
+                  helperText={invalidAmount && trans.INVALID_AMOUNT}
+                  value={amount}
+                  onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                    if (DECIMAL_REGEXP.test(target.value)) {
+                      setAmount(+target.value)
+                    }
+                  }}
+                />
 
                 <TextField
                   variant='outlined'
