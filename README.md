@@ -7,6 +7,7 @@
 ## Install
 
 ```bash
+npm install --save @material-ui/core react-router-dom styled-components
 npm install --save starterra-tool-dapp
 ```
 
@@ -16,17 +17,68 @@ npm install --save starterra-tool-dapp
 import React, { Component } from 'react'
 
 import { WalletProvider, Wallet } from 'starterra-tool-dapp'
-import 'starterra-tool-dapp/dist/index.css'
+
 
 class Example extends Component {
-  render() {
+  const avaliableNetworks: Record<string, NetworkInfo> = {
+  mainnet: {
+    name: "mainnet",
+    chainID: "columbus-4",
+    lcd: "https://lcd.terra.dev",
+  },
+  testnet: {
+    name: "testnet",
+    chainID: "tequila-0004",
+    lcd: "https://tequila-lcd.terra.dev",
+  },
+}
+
+const testnetTokens:Tokens= 
+   [{
+    address: 'uluna',
+    name: 'LUNA',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'uusd',
+    name: 'UST',
+    isDefault: true,
+    decimal: 6
+  },
+  {
+    address:'ukrw',
+    name: 'KRW',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'usdr',
+    name: 'SDR',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address:'terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u',
+    name: 'MIR',
+    isDefault: false,
+    decimal: 6
+  },
+   {
+    address:'terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc',
+    name: 'ANC',
+    isDefault: false,
+    decimal: 6
+  }
+]
+
     return (
-      <WalletProvider
-        defaultNetwork={avaliableNetworks['testnet']}
-        walletConnectChainIds={avaliableNetworks}
-      >
-        <Wallet />
-      </WalletProvider>
+    <WalletProvider
+      defaultNetwork={avaliableNetworks['testnet']}
+      walletConnectChainIds={avaliableNetworks}
+    >
+      <Wallet tokens={testnetTokens}/>
+    </WalletProvider>
     )
   }
 }
