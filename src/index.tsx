@@ -15,7 +15,6 @@ import {
 import {
   useConnectedWallet,
   useWallet,
-  useRouterWalletStatusRecheck,
   useInstallChromeExtension
 } from '@terra-money/wallet-provider'
 import { NetworkInfo, TxResult } from '@terra-dev/wallet-types'
@@ -83,7 +82,6 @@ export {
 export {
   useConnectedWallet,
   useWallet,
-  useRouterWalletStatusRecheck,
   useInstallChromeExtension
 }
 export { NetworkInfo, TxResult }

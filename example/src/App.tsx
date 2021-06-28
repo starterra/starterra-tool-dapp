@@ -1,8 +1,19 @@
 import React from 'react'
 
-import { WalletProvider, Wallet, Tokens } from 'starterra-tool-dapp'
-import { avaliableNetworks } from './avaliableNetworks'
+import { WalletProvider, Wallet, Tokens ,NetworkInfo } from 'starterra-tool-dapp'
 
+const avaliableNetworks: Record<string, NetworkInfo> = {
+  mainnet: {
+    name: "mainnet",
+    chainID: "columbus-4",
+    lcd: "https://lcd.terra.dev",
+  },
+  testnet: {
+    name: "testnet",
+    chainID: "tequila-0004",
+    lcd: "https://tequila-lcd.terra.dev",
+  },
+}
 
 const testnetTokens:Tokens= 
    [{
@@ -82,10 +93,12 @@ const mainnetTokens:Tokens=
   }
 ]
 const App = () => {
+  
   return (
     <WalletProvider
       defaultNetwork={avaliableNetworks['testnet']}
       walletConnectChainIds={avaliableNetworks}
+
     >
       <Wallet tokens={testnetTokens}/>
     </WalletProvider>
