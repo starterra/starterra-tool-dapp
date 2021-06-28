@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ConnectWallet from './ConnectWallet'
+import ConnectWallet,{IConnectWalletProps} from './ConnectWallet'
 import { TokenBalance, Tokens } from './types/token'
 import {
   WalletStatus,
@@ -56,14 +56,11 @@ const theme = createMuiTheme({
   }
 });
 
-interface Props {
-  tokens: Tokens
-}
 
-export const Wallet = ({ tokens }: Props) => {
+export const Wallet = ({ tokens,readOnlyMode }: IConnectWalletProps) => {
   return (
     <ThemeProvider theme={theme}>
-      <ConnectWallet tokens={tokens} />
+      <ConnectWallet tokens={tokens} readOnlyMode={readOnlyMode} />
     </ThemeProvider>
   )
 }

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { getEllipsisTxt } from '../utils'
 import { useWallet } from '@terra-money/wallet-provider'
-import { TERRA_FINDER } from '../avaliableNetworks'
+import { TERRA_FINDER } from '../hooks/useNetwork'
 import Link from '@material-ui/core/Link'
 
 interface TxHashProps {
