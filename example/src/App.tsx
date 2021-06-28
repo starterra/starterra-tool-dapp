@@ -2,7 +2,6 @@ import React from 'react'
 
 import { WalletProvider, Wallet, Tokens } from 'starterra-tool-dapp'
 import { avaliableNetworks } from './avaliableNetworks'
-import 'starterra-tool-dapp/dist/index.css'
 
 
 const testnetTokens:Tokens= 
