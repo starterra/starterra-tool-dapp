@@ -6,6 +6,7 @@
 ## Vision
 Our vision was to extend [wallet provider](https://github.com/terra-money/wallet-provider) library with ready to use react component. 
 
+![Wallet component](/assets/images/walletComponent.png)
 
 ## Features
 
