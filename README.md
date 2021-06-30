@@ -1,10 +1,9 @@
 # starterra-tool-dapp
 
-
-> Library for easy use of Terra wallet in custom dApp
+> Easy to use library to connect with Terra wallet in custom dApp.
 
 ## Vision
-Our vision was to extend [wallet provider](https://github.com/terra-money/wallet-provider) library with ready to use react component. 
+Our vision is to extend [wallet provider](https://github.com/terra-money/wallet-provider) library with ready to use react component. 
 
 ![Wallet component](/assets/images/walletComponent.png)
 
@@ -12,7 +11,7 @@ Our vision was to extend [wallet provider](https://github.com/terra-money/wallet
 
 -  Connect/Disconnect using different providers (web extension or mobile)
 -  Display balance of provided tokens, both native and cw20
--  Token transfer funcionality
+-  Token transfer functionality
 -  Link to Terra Finder
 -  Possibilty to turn on read only mode 
 
@@ -77,7 +76,9 @@ const testnetTokens:Tokens=
 ```
 
 ### Using wallet provider
-You can use all hooks and function provided by wallet-provider
+
+You can use all hooks and functions provided by wallet-provider
+
 ```tsx
 import React from 'react'
 import { useWallet, useConnectedWallet } from 'starterra-tool-dapp'
@@ -99,6 +100,7 @@ export default Sample
 ```
 
 Just remeber to make this child compoment of WalletProvider
+
 ```tsx
 const App = () => {
   return (
