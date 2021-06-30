@@ -13,15 +13,10 @@ import { mocked } from 'ts-jest/utils'
 declare type HumanAddr = string & {
   __type: 'HumanAddr';
 };
-jest.mock('@terra-money/wallet-provider', () => jest.fn())
+ jest.mock('@terra-money/wallet-provider', () => jest.fn())
 // jest.mock('@terra-money/wallet-provider',()=>({
-//   useWallet:()=>(
-//     {
-//     status:'WALLET_NOT_CONNECTED'
-//   }),
-//   useConnectedWallet: ()=>({
-//     connectWallet:'wallet'
-//   })
+//   useWallet:()=>jest.fn(),
+//   useConnectedWallet: ()=>jest.fn()
 // }))
 
 jest.mock('./hooks', () => ({
@@ -39,9 +34,7 @@ describe('ConnectWallet', () => {
     expect(ConnectWallet).toBeTruthy()
   })
   it('loading state', () => {
-    const { container } = render(
-      <ConnectWallet tokens={[]} readOnlyMode={false} />
-    )
+   
     mocked(useWallet).mockImplementation(() => ({
       status: WalletStatus.WALLET_NOT_CONNECTED,
       network: { name: 'name', chainID: 'test', lcd: 'lcd' },
@@ -66,6 +59,10 @@ describe('ConnectWallet', () => {
     }))
 
     
+  
+    const { container } = render(
+      <ConnectWallet tokens={[]} readOnlyMode={false} />
+    )
     expect(useWallet).toHaveBeenCalled()
     expect(useAddress).toHaveBeenCalled()
     expect(useNetwork).toHaveBeenCalled()
