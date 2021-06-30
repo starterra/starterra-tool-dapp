@@ -1,6 +1,19 @@
 # starterra-tool-dapp
 
-> Library for easy use of Terra wallet in custom dApp
+> Easy to use library to connect with Terra wallet in custom dApp.
+
+## Vision
+Our vision is to extend [wallet provider](https://github.com/terra-money/wallet-provider) library with ready to use react component. 
+
+![Wallet component](/assets/images/walletComponent.png)
+
+## Features
+
+-  Connect/Disconnect using different providers (web extension or mobile)
+-  Display balance of provided tokens, both native and cw20
+-  Token transfer functionality
+-  Link to Terra Finder
+-  Possibilty to turn on read only mode 
 
 [![NPM](https://img.shields.io/npm/v/starterra-tool-dapp.svg)](https://www.npmjs.com/package/starterra-tool-dapp) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -15,22 +28,19 @@ npm install --save starterra-tool-dapp
 
 ```tsx
 import React, { Component } from 'react'
-
 import { WalletProvider, Wallet } from 'starterra-tool-dapp'
 
-
 class Example extends Component {
-  const avaliableNetworks: Record<string, NetworkInfo> = {
-  mainnet: {
-    name: "mainnet",
-    chainID: "columbus-4",
-    lcd: "https://lcd.terra.dev",
+  0: {
+    name: 'testnet',
+    chainID: 'tequila-0004',
+    lcd: 'https://tequila-lcd.terra.dev'
   },
-  testnet: {
-    name: "testnet",
-    chainID: "tequila-0004",
-    lcd: "https://tequila-lcd.terra.dev",
-  },
+  1: {
+    name: 'mainnet',
+    chainID: 'columbus-4',
+    lcd: 'https://lcd.terra.dev'
+  }
 }
 
 const testnetTokens:Tokens= 
@@ -46,24 +56,6 @@ const testnetTokens:Tokens=
     isDefault: true,
     decimal: 6
   },
-  {
-    address:'ukrw',
-    name: 'KRW',
-    isDefault: false,
-    decimal: 6
-  },
-  {
-    address:'usdr',
-    name: 'SDR',
-    isDefault: false,
-    decimal: 6
-  },
-  {
-    address:'terra10llyp6v3j3her8u3ce66ragytu45kcmd9asj3u',
-    name: 'MIR',
-    isDefault: false,
-    decimal: 6
-  },
    {
     address:'terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc',
     name: 'ANC',
@@ -71,19 +63,99 @@ const testnetTokens:Tokens=
     decimal: 6
   }
 ]
-
     return (
     <WalletProvider
-      defaultNetwork={avaliableNetworks['testnet']}
+      defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={testnetTokens}/>
+      <Wallet tokens={testnetTokens} readOnlyMode={false}/>
     </WalletProvider>
     )
   }
 }
 ```
 
+### Using wallet provider
+
+You can use all hooks and functions provided by wallet-provider
+
+```tsx
+import React from 'react'
+import { useWallet, useConnectedWallet } from 'starterra-tool-dapp'
+
+const Sample = () => {
+  const { network } = useWallet()
+  const connectedWallet = useConnectedWallet()
+
+  return (
+    <div>
+      <p>{network.name}</p>
+      <p>{connectedWallet?.terraAddress}</p>
+    </div>
+  )
+}
+
+export default Sample
+
+```
+
+Just remeber to make this child compoment of WalletProvider
+
+```tsx
+const App = () => {
+  return (
+    <WalletProvider
+      defaultNetwork={avaliableNetworks[0]}
+      walletConnectChainIds={avaliableNetworks}
+    >
+      <Wallet tokens={testnetTokens} readOnlyMode={false}/>
+      <Sample/>
+    </WalletProvider>
+  )
+}
+```
+
+### Sample mainnet list
+```tsx
+const mainnetTokens: Tokens = [
+  {
+    address: 'uluna',
+    name: 'LUNA',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address: 'uusd',
+    name: 'UST',
+    isDefault: true,
+    decimal: 6
+  },
+  {
+    address: 'ukrw',
+    name: 'KRW',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address: 'usdr',
+    name: 'SDR',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address: 'terra15gwkyepfc6xgca5t5zefzwy42uts8l2m4g40k6',
+    name: 'MIR',
+    isDefault: false,
+    decimal: 6
+  },
+  {
+    address: 'terra14z56l0fp2lsf86zy3hty2z47ezkhnthtr9yq76',
+    name: 'ANC',
+    isDefault: false,
+    decimal: 6
+  }
+]
+```
 ## License
 
 MIT © [StarTerra devs](https://github.com/StarTerra devs)

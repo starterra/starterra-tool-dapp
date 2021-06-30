@@ -6,6 +6,7 @@ import {
   Tokens,
   NetworkInfo
 } from 'starterra-tool-dapp'
+import Sample from './Sample';
 
 const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
@@ -104,6 +105,7 @@ const App = () => {
       walletConnectChainIds={avaliableNetworks}
     >
       <Wallet tokens={testnetTokens} readOnlyMode={false}/>
+      <Sample/>
     </WalletProvider>
   )
 }
