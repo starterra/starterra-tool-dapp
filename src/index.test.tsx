@@ -63,7 +63,7 @@ describe('ConnectWallet', () => {
 
     
   
-    const { container } = render(
+    const { container ,getByText} = render(
       <ConnectWallet tokens={[]} readOnlyMode={false} />
     )
     expect(useWallet).toHaveBeenCalled()
