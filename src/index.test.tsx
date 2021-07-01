@@ -6,9 +6,8 @@ import {
   useConnectedWallet,
   ConnectType
 } from '@terra-money/wallet-provider'
-import { render, getByTestId, act } from '@testing-library/react'
+import { render} from '@testing-library/react'
 import { mocked } from 'ts-jest/utils'
-import useBankBalance from './hooks/useBankBalance'
 declare type HumanAddr = string & {
   __type: 'HumanAddr'
 }
@@ -53,12 +52,12 @@ describe('ConnectWallet', () => {
       availablePost: true,
       connectType: ConnectType.CHROME_EXTENSION
     }))
+    
     const { findByTestId } = render(
       <ConnectWallet tokens={[]} readOnlyMode={false} />
     )
 
     expect(await findByTestId('connect-button')).toBeDefined()
-    expect(useWallet).toHaveBeenCalled()
-    //expect(getByTestId(container, 'connect-button')).toBeDefined()
+    expect(useWallet).toHaveBeenCalled() 
   })
 })
