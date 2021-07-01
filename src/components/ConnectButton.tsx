@@ -15,6 +15,7 @@ const ConnectButton: FC<ConnectButtonProps> = (props) => {
       color='primary'
       onClick={onClick}
       className={classes.connectButton}
+      data-testid="connect-button"
       startIcon={<AccountBalanceWalletIcon />}
     >
       {children}

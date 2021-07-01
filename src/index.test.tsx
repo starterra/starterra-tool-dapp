@@ -1,23 +1,19 @@
 import React from 'react'
 import ConnectWallet from './ConnectWallet'
-import { useAddress, useNetwork } from './hooks'
-// import useNetwork from './hooks/useNetwork'
 import {
   useWallet,
   WalletStatus,
   useConnectedWallet,
   ConnectType
 } from '@terra-money/wallet-provider'
-import { render } from '@testing-library/react'
+import { render, getByTestId, act } from '@testing-library/react'
 import { mocked } from 'ts-jest/utils'
+import useBankBalance from './hooks/useBankBalance'
 declare type HumanAddr = string & {
-  __type: 'HumanAddr';
-};
- jest.mock('@terra-money/wallet-provider')
-// jest.mock('@terra-money/wallet-provider',()=>({
-//   useWallet:()=>jest.fn().mockImplementation(useWallet),
-//   useConnectedWallet: ()=>jest.fn()
-// }))
+  __type: 'HumanAddr'
+}
+
+jest.mock('@terra-money/wallet-provider')
 
 jest.mock('./hooks', () => ({
   useAddress: () => ({
@@ -26,18 +22,15 @@ jest.mock('./hooks', () => ({
   useNetwork: () => ({
     network: 'testnet',
     terraFinderGenerateLink: 'link'
-  })
+  }),
+  useBankBalance: () => jest.fn()
 }))
 
 describe('ConnectWallet', () => {
   it('is truthy', () => {
     expect(ConnectWallet).toBeTruthy()
   })
-  it('loading state', () => {
-    // jest.mock('@terra-money/wallet-provider',()=>({
-    //   useWallet:()=>jest.fn().mockImplementation(useWallet),
-    //   useConnectedWallet: ()=>jest.fn()
-    // }))
+  it('loading state', async () => {
     mocked(useWallet).mockImplementation(() => ({
       status: WalletStatus.WALLET_NOT_CONNECTED,
       network: { name: 'name', chainID: 'test', lcd: 'lcd' },
@@ -51,24 +44,21 @@ describe('ConnectWallet', () => {
       recheckStatus: jest.fn(),
       wallets: []
     }))
- 
-    mocked(useConnectedWallet).mockImplementation(()=>({
+
+    mocked(useConnectedWallet).mockImplementation(() => ({
       network: { name: 'name', chainID: 'test', lcd: 'lcd' },
-      terraAddress:'terraaddress' as HumanAddr,
-      walletAddress:'terraaddress' as HumanAddr,
+      terraAddress: 'terraaddress' as HumanAddr,
+      walletAddress: 'terraaddress' as HumanAddr,
       post: jest.fn(),
       availablePost: true,
       connectType: ConnectType.CHROME_EXTENSION
     }))
-
-    
-  
-    const { container ,getByText} = render(
+    const { findByTestId } = render(
       <ConnectWallet tokens={[]} readOnlyMode={false} />
     )
+
+    expect(await findByTestId('connect-button')).toBeDefined()
     expect(useWallet).toHaveBeenCalled()
-    // expect(useAddress).toHaveBeenCalled()
-    // expect(useNetwork).toHaveBeenCalled()
-    expect(container).toContain('Connect Wallet')
+    //expect(getByTestId(container, 'connect-button')).toBeDefined()
   })
 })
