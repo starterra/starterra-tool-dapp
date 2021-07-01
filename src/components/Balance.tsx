@@ -12,7 +12,7 @@ const Balance: FC<BalanceProps> = ( { tokenBalance } ) => {
   return (
     <div className={classes.balanceSection}>
       {tokenBalance.map((item) => (
-        <div className={classes.balanceItem} key={item.name}>
+        <div className={classes.balanceItem} key={item.name} data-testid="balance">
           <h4>{item.name}</h4>
           <span>{tokenValue(item.balance)}</span>
         </div>
