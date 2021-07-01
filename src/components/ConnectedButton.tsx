@@ -20,6 +20,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultTok
       color='primary'
       onClick={onClick}
       className={classes.connectButton}
+      data-testid="connected-button"
       startIcon={<AccountBalanceWalletIcon />}
     >
       <span>{getEllipsisTxt(address)}</span>
