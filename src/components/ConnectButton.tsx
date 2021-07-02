@@ -7,7 +7,7 @@ interface ConnectButtonProps {
 }
 
 const ConnectButton: FC<ConnectButtonProps> = (props) => {
-  const { onClick, children } = props
+  const { onClick, children  } = props
   const classes = useStyles()
   return (
     <Button

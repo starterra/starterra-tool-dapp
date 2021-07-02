@@ -1,0 +1,7 @@
+.wallet-content{
+    position: absolute;
+    display: block;
+    top: 40px;
+    right: 10px;
+    border-radius: 15px;
+}

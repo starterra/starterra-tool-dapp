@@ -11,6 +11,7 @@ import Balance from './Balance'
 import { TokenBalance } from '../types/token'
 import useStyles from '../styles/useStyles'
 
+
 interface WalletContentProps {
   address: string
   network: NetworkInfo
@@ -30,7 +31,7 @@ const WalletContent: FC<WalletContentProps> = ({
   })
   const classes = useStyles()
   return (
-    <Paper elevation={3} className={classes.root}>
+    <Paper elevation={3} className={"wallet-content"}>
       <div className={classes.section}>
         <div className={classes.header}>
         <p>{getEllipsisTxt(address,9)}</p>

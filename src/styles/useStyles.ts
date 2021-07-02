@@ -11,7 +11,6 @@ const useStyles = makeStyles(() =>
       fontWeight: 700,
       position: 'relative',
       display: 'inline-block',
-
       marginLeft: '1em',
       paddingLeft: '1em',
       '&::before': {
@@ -22,13 +21,6 @@ const useStyles = makeStyles(() =>
         left: '0',
         borderLeft: '1px solid rgba(255, 255, 255, 0.2)'
       }
-    },
-    root: {
-      position: 'absolute',
-      display: 'block',
-      top: '40px',
-      right: '10px',
-      borderRadius: '15px'
     },
     section: {
       padding: '5px 20px'
