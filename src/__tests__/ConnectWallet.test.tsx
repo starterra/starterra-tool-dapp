@@ -29,6 +29,38 @@ describe('ConnectWallet', () => {
   it('is truthy', () => {
     expect(ConnectWallet).toBeTruthy()
   })
+  it('show connected button when wallet is connected', async () => {
+    mocked(useWallet).mockImplementation(() => ({
+      status: WalletStatus.WALLET_CONNECTED,
+      network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
+      availableConnectTypes: [],
+      connect: jest.fn(),
+      connectReadonly: jest.fn(),
+      availableInstallTypes: [],
+      install: jest.fn(),
+      disconnect: jest.fn(),
+      post: jest.fn(),
+      recheckStatus: jest.fn(),
+      wallets: []
+    }))
+
+    mocked(useConnectedWallet).mockImplementation(() => ({
+      network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
+      terraAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
+      walletAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
+      post: jest.fn(),
+      availablePost: true,
+      connectType: ConnectType.CHROME_EXTENSION
+    }))
+    
+    const { findByTestId } = render(
+      <ConnectWallet tokens={[]} readOnlyMode={false} />
+    )
+
+    expect(await findByTestId('connected-button')).toBeDefined()
+    expect(useWallet).toHaveBeenCalled() 
+  })
+
   it('show connect button when wallet is not connected', async () => {
     mocked(useWallet).mockImplementation(() => ({
       status: WalletStatus.WALLET_NOT_CONNECTED,
@@ -61,35 +93,5 @@ describe('ConnectWallet', () => {
     expect(useWallet).toHaveBeenCalled() 
   })
 
-  // it('show connected button when wallet is connected', async () => {
-  //   mocked(useWallet).mockImplementation(() => ({
-  //     status: WalletStatus.WALLET_CONNECTED,
-  //     network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
-  //     availableConnectTypes: [],
-  //     connect: jest.fn(),
-  //     connectReadonly: jest.fn(),
-  //     availableInstallTypes: [],
-  //     install: jest.fn(),
-  //     disconnect: jest.fn(),
-  //     post: jest.fn(),
-  //     recheckStatus: jest.fn(),
-  //     wallets: []
-  //   }))
-
-  //   mocked(useConnectedWallet).mockImplementation(() => ({
-  //     network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
-  //     terraAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
-  //     walletAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
-  //     post: jest.fn(),
-  //     availablePost: true,
-  //     connectType: ConnectType.CHROME_EXTENSION
-  //   }))
-    
-  //   const { findByTestId } = render(
-  //     <ConnectWallet tokens={[]} readOnlyMode={false} />
-  //   )
-
-  //   expect(await findByTestId('connected-button')).toBeDefined()
-  //   expect(useWallet).toHaveBeenCalled() 
-  // })
+  
 })
