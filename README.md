@@ -156,6 +156,12 @@ const mainnetTokens: Tokens = [
   }
 ]
 ```
+
+## Custom styling
+If you want to use default styling to build upon it, you can import styles by using:
+
+import 'starterra-tool-dapp/dist/index.css'
+
 ## License
 
 MIT © [StarTerra devs](https://github.com/StarTerra devs)
