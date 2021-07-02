@@ -23,7 +23,6 @@ import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TokenBalance, Tokens } from '../types/token'
 import { tokenValueNumber } from '../utils'
-import useStyles from '../styles/useStyles'
 
 export type TxError =
   | UserDenied
@@ -128,14 +127,14 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       setPending(false)
     }
   }
-  const classes = useStyles()
+
   const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
   return (
     <div>
       <Button
         variant='contained'
         startIcon={<Send />}
-        className={classes.button}
+        className={'wallet-button'}
         color='primary'
         onClick={handleClickOpen}
       >
