@@ -13,7 +13,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
-        node-version: 10.0.0
+        node-version: 12.0.0
     - name: Publish
       run: npm publish --access public
       env: # More info about the environment variables in the README
