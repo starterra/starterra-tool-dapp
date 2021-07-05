@@ -20,6 +20,7 @@ import {
 import { NetworkInfo, TxResult } from '@terra-dev/wallet-types'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
+import './styles.css'
 
 const theme = createMuiTheme({
   palette: {

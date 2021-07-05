@@ -13,19 +13,28 @@ import { LCDClient } from '@terra-money/terra.js'
 import { useEffect } from 'react'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
+
 export interface IConnectWalletProps {
   tokens: Tokens
   readOnlyMode: boolean
 }
 
-const ConnectWallet = ({ tokens,readOnlyMode }: IConnectWalletProps) => {
+const ConnectWallet = ({
+  tokens,
+  readOnlyMode
+}: IConnectWalletProps) => {
   const address = useAddress()
   const network = useNetwork()
-  const { terraFinderGenerateLink} = useNetwork()
+  const { terraFinderGenerateLink } = useNetwork()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
-  const { status, connect, disconnect, network:walletNetwork, availableConnectTypes } =
-    useWallet()
+  const {
+    status,
+    connect,
+    disconnect,
+    network: walletNetwork,
+    availableConnectTypes
+  } = useWallet()
 
   const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
   const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
@@ -35,8 +44,10 @@ const ConnectWallet = ({ tokens,readOnlyMode }: IConnectWalletProps) => {
   })
   const bankBalance = useBankBalance(address, nativeTokens, terraClient)
   const tokenBalance = useTokenBalance(address, balanceTokens, terraClient)
-  const assets = [...(bankBalance.balance || []),...(tokenBalance.balance || [])]
-
+  const assets = [
+    ...(bankBalance.balance || []),
+    ...(tokenBalance.balance || [])
+  ]
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
       setShowOptions(true)
@@ -70,7 +81,9 @@ const ConnectWallet = ({ tokens,readOnlyMode }: IConnectWalletProps) => {
               {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
-            {showOptions && <ConnectWalletOptionList readOnlyMode={readOnlyMode}/>}
+            {showOptions && (
+              <ConnectWalletOptionList readOnlyMode={readOnlyMode} />
+            )}
           </div>
         </ClickAwayListener>
       )

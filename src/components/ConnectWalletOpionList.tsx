@@ -4,7 +4,6 @@ import { Paper, Button, ButtonGroup } from '@material-ui/core'
 import { TerraIcon, WalletIcon } from './Icons'
 import { v4 as uuidv4 } from 'uuid'
 import * as trans from '../translation'
-import useStyles from '../styles/useStyles'
 
 interface IConnectWalletOptionListProps {
   readOnlyMode: boolean
@@ -50,9 +49,8 @@ const ConnectWalletOptionList = ({readOnlyMode}:IConnectWalletOptionListProps) =
       onClick: () => connect(ConnectType.READONLY)
     }
   }
-  const classes = useStyles()
   return (
-    <Paper elevation={3} className={classes.root}>
+    <Paper elevation={3} className={'wallet-content'}>
       <ButtonGroup
         orientation='vertical'
         color='primary'

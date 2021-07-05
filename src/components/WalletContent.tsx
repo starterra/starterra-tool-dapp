@@ -9,7 +9,6 @@ import SendDialog from './SendDialog'
 import * as trans from '../translation'
 import Balance from './Balance'
 import { TokenBalance } from '../types/token'
-import useStyles from '../styles/useStyles'
 
 interface WalletContentProps {
   address: string
@@ -28,27 +27,26 @@ const WalletContent: FC<WalletContentProps> = ({
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
-  const classes = useStyles()
   return (
-    <Paper elevation={3} className={classes.root}>
-      <div className={classes.section}>
-        <div className={classes.header}>
-        <p>{getEllipsisTxt(address,9)}</p>
-        <IconButton
-          aria-label='copy'
-          color={isCopied ? 'secondary':'primary'}
-          onClick={setCopied}
-          size="small"
-        >
-          <FilterNone fontSize="small"/>
-        </IconButton>
+    <Paper elevation={3} className={'wallet-content'}>
+      <div className={'wallet-section'}>
+        <div className={'wallet-header'}>
+          <p>{getEllipsisTxt(address, 9)}</p>
+          <IconButton
+            aria-label='copy'
+            color={isCopied ? 'secondary' : 'primary'}
+            onClick={setCopied}
+            size='small'
+          >
+            <FilterNone fontSize='small' />
+          </IconButton>
         </div>
         <Balance tokenBalance={assets}></Balance>
         <SendDialog wallletAddress={address} tokensBalance={assets} />
         <Button
           color='primary'
           startIcon={<LaunchIcon />}
-          className={classes.button}
+          className={'wallet-button'}
           href={finderLink}
           target='_balank'
         >
@@ -57,7 +55,7 @@ const WalletContent: FC<WalletContentProps> = ({
       </div>
       <Button
         variant='outlined'
-        className={classes.disconnect}
+        className={'wallet-disconnect'}
         onClick={disconnect}
         color='primary'
       >
