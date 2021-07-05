@@ -12,3 +12,4 @@ export const SEND_TXT = 'Send'
 export const CALNCEL_TXT = 'Cancel'
 export const INVALID_ADDRESS = 'Invalid address'
 export const INVALID_AMOUNT = 'Invalid enough amount'
+export const EMPTY_WALLET = "This wallet doesn't hold any coins yet"

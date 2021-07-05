@@ -4,7 +4,6 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import { getEllipsisTxt } from '../utils'
 import { TokenBalance } from '../types/token'
 import { tokenValueTxt } from '../utils'
-import useStyles from '../styles/useStyles'
 
 interface ConnectButtonProps {
   address: string
@@ -13,19 +12,19 @@ interface ConnectButtonProps {
 }
 
 const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultToken } ) => {
-  const classes = useStyles()
+
   return (
     <Button
       variant='contained'
       color='primary'
       onClick={onClick}
-      className={classes.connectButton}
       data-testid="connected-button"
+      className={'wallet-connect-button'}
       startIcon={<AccountBalanceWalletIcon />}
     >
       <span>{getEllipsisTxt(address)}</span>
       {defaultToken && (
-        <span className={classes.buttonBalance}> 
+        <span className={'wallet-balance-button'}> 
           { tokenValueTxt(defaultToken)}
         </span>
       )}

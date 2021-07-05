@@ -13,11 +13,9 @@ import {
   StringifiedTxResult as StringifiedTxResultIm,
   findTxResult,
   WalletProvider,
-  ExtensionNetworkOnlyWalletProvider
-} from '@terra-money/wallet-provider'
-import {
-  useConnectedWallet,
+  ExtensionNetworkOnlyWalletProvider,
   useWallet,
+  useConnectedWallet,
   useInstallChromeExtension
 } from '@terra-money/wallet-provider'
 import {
@@ -37,7 +35,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: ['"Gotham"', 'sans-serif'].join(',')
+    fontFamily: ['"Gotham"', 'sans-serif', '-apple-system'].join(',')
   },
   overrides: {
     MuiPaper: {

@@ -1,6 +1,6 @@
 {
   "name": "@starterra/starterra-tool-dapp",
-  "version": "0.1.1-alpha",
+  "version": "0.1.2",
   "description": "Library for easy use of Terra wallet in custom dApp",
   "author": "StarTerra devs",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
+    "build": "microbundle-crl --css-modules false --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "run-s build",
     "test": "run-s test:unit test:build",
