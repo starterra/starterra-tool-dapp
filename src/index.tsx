@@ -1,26 +1,29 @@
 import * as React from 'react'
 import ConnectWallet, { IConnectWalletProps } from './ConnectWallet'
-import { TokenBalance, Tokens } from './types/token'
+import {
+  TokenBalance as TokenBalanceIm,
+  Tokens as TokensIm
+} from './types/token'
 import {
   WalletStatus,
   ConnectType,
-  WalletInfo,
-  WalletControllerOptions,
+  WalletInfo as WalletInfoIm,
+  WalletControllerOptions as WalletControllerOptionsIm,
   WalletController,
-  StringifiedTxResult,
+  StringifiedTxResult as StringifiedTxResultIm,
   findTxResult,
   WalletProvider,
-  ExtensionNetworkOnlyWalletProvider
-} from '@terra-money/wallet-provider'
-import {
-  useConnectedWallet,
+  ExtensionNetworkOnlyWalletProvider,
   useWallet,
+  useConnectedWallet,
   useInstallChromeExtension
 } from '@terra-money/wallet-provider'
-import { NetworkInfo, TxResult } from '@terra-dev/wallet-types'
+import {
+  NetworkInfo as NetworkInfoIm,
+  TxResult as TxResultIm
+} from '@terra-dev/wallet-types'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
-import './styles.css'
 
 const theme = createMuiTheme({
   palette: {
@@ -64,17 +67,20 @@ export const Wallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   )
 }
 
+export type WalletInfo = WalletInfoIm
+export type WalletControllerOptions = WalletControllerOptionsIm
+export type StringifiedTxResult = StringifiedTxResultIm
+export type NetworkInfo = NetworkInfoIm
+
+export type TxResult = TxResultIm
+export type TokenBalance = TokenBalanceIm
+export type Tokens = TokensIm
 export {
   WalletStatus,
   ConnectType,
-  WalletInfo,
-  WalletControllerOptions,
   WalletController,
-  StringifiedTxResult,
   findTxResult,
   WalletProvider,
   ExtensionNetworkOnlyWalletProvider
 }
 export { useConnectedWallet, useWallet, useInstallChromeExtension }
-export { NetworkInfo, TxResult }
-export { TokenBalance, Tokens }

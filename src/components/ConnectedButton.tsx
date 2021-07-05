@@ -18,6 +18,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultTok
       variant='contained'
       color='primary'
       onClick={onClick}
+      data-testid="connected-button"
       className={'wallet-connect-button'}
       startIcon={<AccountBalanceWalletIcon />}
     >

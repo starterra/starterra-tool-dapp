@@ -13,6 +13,7 @@ const ConnectButton: FC<ConnectButtonProps> = (props) => {
       variant='contained'
       color='primary'
       onClick={onClick}
+      data-testid="connect-button"
       className={'wallet-connect-button'}
       startIcon={<AccountBalanceWalletIcon />}
     >

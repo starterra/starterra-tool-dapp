@@ -31,7 +31,7 @@ const WalletContent: FC<WalletContentProps> = ({
     <Paper elevation={3} className={'wallet-content'}>
       <div className={'wallet-section'}>
         <div className={'wallet-header'}>
-          <p>{getEllipsisTxt(address, 9)}</p>
+          <p data-testid="address">{getEllipsisTxt(address, 9)}</p>
           <IconButton
             aria-label='copy'
             color={isCopied ? 'secondary' : 'primary'}
