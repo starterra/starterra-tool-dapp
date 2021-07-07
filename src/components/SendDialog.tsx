@@ -43,6 +43,9 @@ interface SendProps {
   wallletAddress: string
   tokensBalance: Tokens
 }
+
+const isCw20Token = (address: string) => address.startsWith('terrra')
+
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
@@ -120,7 +123,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
       const txOptions: CreateTxOptions = {
         msgs: [
-          token.startsWith('terra')
+          isCw20Token(token)
             ? new MsgExecuteContract(wallletAddress, token, {
                 transfer: {
                   recipient: address,
@@ -135,11 +138,8 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         gasAdjustment: GAS_ADJUSTMENT,
         fee: new StdFee(GAS, GAS_AMOUNT)
       }
-      console.log(txOptions)
-
       const response = await post(txOptions)
       setResponse(response)
-      console.log(response)
       setPending(false)
     } catch (error) {
       setError(error)
