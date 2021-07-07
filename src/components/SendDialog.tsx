@@ -1,6 +1,11 @@
 import React, { FC, useState, ChangeEvent, useMemo } from 'react'
 import Send from '@material-ui/icons/Send'
-import { MsgSend, CreateTxOptions } from '@terra-money/terra.js'
+import {
+  MsgSend,
+  CreateTxOptions,
+  Coin,
+  MsgExecuteContract
+} from '@terra-money/terra.js'
 import { useWallet } from '@terra-money/wallet-provider'
 import { Button } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
@@ -112,15 +117,29 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
       const txAmount = amount && amount * Math.pow(10, decimal || 6)
-      const msgs = new MsgSend(wallletAddress, address, txAmount + token)
+
       const txOptions: CreateTxOptions = {
-        msgs: [msgs],
+        msgs: [
+          token.startsWith('terra')
+            ? new MsgExecuteContract(wallletAddress, token, {
+                transfer: {
+                  recipient: address,
+                  amount: txAmount.toString()
+                }
+              })
+            : new MsgSend(wallletAddress, address, [
+                new Coin(token, txAmount.toString())
+              ])
+        ],
         memo: memo,
         gasAdjustment: GAS_ADJUSTMENT,
         fee: new StdFee(GAS, GAS_AMOUNT)
       }
+      console.log(txOptions)
+
       const response = await post(txOptions)
       setResponse(response)
+      console.log(response)
       setPending(false)
     } catch (error) {
       setError(error)
