@@ -20,49 +20,51 @@ Our vision is to extend [wallet provider](https://github.com/terra-money/wallet-
 ## Install
 
 ```bash
-npm install --save @material-ui/core react-router-dom styled-components
-npm install --save starterra-tool-dapp
+npm install --save @material-ui/core
+npm install --save @starterra/starterra-tool-dapp
 ```
 
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
-import { WalletProvider, Wallet } from 'starterra-tool-dapp'
+import React from 'react'
+import { WalletProvider, Wallet, Tokens } from '@starterra/starterra-tool-dapp'
+import '@starterra/starterra-tool-dapp/dist/index.css'
 
-class Example extends Component {
+const avaliableNetworks = {
   0: {
-    name: 'testnet',
-    chainID: 'tequila-0004',
-    lcd: 'https://tequila-lcd.terra.dev'
+    name: "testnet",
+    chainID: "tequila-0004",
+    lcd: "https://tequila-lcd.terra.dev",
   },
   1: {
-    name: 'mainnet',
-    chainID: 'columbus-4',
-    lcd: 'https://lcd.terra.dev'
-  }
-}
+    name: "mainnet",
+    chainID: "columbus-4",
+    lcd: "https://lcd.terra.dev",
+  },
+};
 
-const testnetTokens:Tokens= 
-   [{
-    address: 'uluna',
-    name: 'LUNA',
+
+const testnetTokens: Tokens = [
+  {
+    address: "uluna",
+    name: "LUNA",
     isDefault: false,
-    decimal: 6
+    decimal: 6,
   },
   {
-    address:'uusd',
-    name: 'UST',
+    address: "uusd",
+    name: "UST",
     isDefault: true,
-    decimal: 6
+    decimal: 6,
   },
-   {
-    address:'terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc',
-    name: 'ANC',
+  {
+    address: "terra1747mad58h0w4y589y3sk84r5efqdev9q4r02pc",
+    name: "ANC",
     isDefault: false,
-    decimal: 6
-  }
-]
+    decimal: 6,
+  },
+];
     return (
     <WalletProvider
       defaultNetwork={avaliableNetworks[0]}
@@ -81,7 +83,7 @@ You can use all hooks and functions provided by wallet-provider
 
 ```tsx
 import React from 'react'
-import { useWallet, useConnectedWallet } from 'starterra-tool-dapp'
+import { useWallet, useConnectedWallet } from '@starterra/starterra-tool-dapp'
 
 const Sample = () => {
   const { network } = useWallet()
@@ -160,7 +162,7 @@ const mainnetTokens: Tokens = [
 ## Custom styling
 If you want to use default styling to build upon it, you can import styles by using:
 
-import 'starterra-tool-dapp/dist/index.css'
+import '@starterra/starterra-tool-dapp/dist/index.css'
 
 ## License
 
