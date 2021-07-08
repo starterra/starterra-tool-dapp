@@ -164,6 +164,12 @@ If you want to use default styling to build upon it, you can import styles by us
 
 import '@starterra/starterra-tool-dapp/dist/index.css'
 
+## How to run example
+npm install
+cd example
+npm install
+npm start
+
 ## License
 
 MIT © [StarTerra devs](https://github.com/StarTerra devs)
