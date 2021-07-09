@@ -15,7 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { AccAddress, StdFee } from '@terra-money/terra.js'
+import { AccAddress, StdFee, LCDClient } from '@terra-money/terra.js'
 import {
   TxResult,
   UserDenied,
@@ -47,6 +47,7 @@ interface SendProps {
 const isSmartContract = (address: string) => address.startsWith('terra')
 
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
+  const { network } = useWallet()
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
@@ -55,8 +56,9 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
-  const [error, setError] = useState<TxError>()
-
+  const [txError, setTxError] = useState<TxError>()
+  const [result, setResult] = useState('') //Enum
+  const [resultError, setResultError] = useState<string>('')
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
       return false
@@ -81,6 +83,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
     return amount ? balance < amount : false
   }, [amount])
+  const terra = new LCDClient({
+    URL: network.lcd,
+    chainID: network.chainID
+  })
 
   const sendDisable = (): boolean => {
     return (
@@ -112,7 +118,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     setMemo('')
     setPending(false)
     setResponse(undefined)
-    setError(undefined)
+    setTxError(undefined)
   }
 
   const { post } = useWallet()
@@ -139,10 +145,41 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         fee: new StdFee(GAS, GAS_AMOUNT)
       }
       const response = await post(txOptions)
+      console.log(response)
       setResponse(response)
-      setPending(false)
+
+      if (response?.result.txhash) {
+        let waiting = true
+        do {
+          terra.tx
+            .txInfo(response?.result.txhash)
+            .then((resTx) => {
+              console.log(resTx)
+              waiting = false
+              if (resTx.code) {
+                setResult('Error')
+                setResultError(resTx.raw_log)
+                setPending(false)
+                console.log('error')
+              } else {
+                setResult('Success')
+                setPending(false)
+                console.log('success')
+              }
+            })
+            .catch((error) => {
+              // wait jus if it was 404
+              console.log(error)
+            })
+          await new Promise((ok) => setTimeout(() => ok(null), 5000))
+        } while (waiting)
+      } else {
+        console.log(response)
+        console.log('Missing tx hash')
+        setPending(false)
+      }
     } catch (error) {
-      setError(error)
+      setTxError(error)
       setPending(false)
     }
   }
@@ -164,17 +201,19 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         onClose={handleCancel}
         aria-labelledby='form-dialog-title'
       >
-        {error || response || pending ? (
+        {txError || response || pending ? (
           <React.Fragment>
             <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 
             <DialogContent>
               <div>
                 {pending && <Spinner />}
-                {error?.message}
+                {txError?.message}
                 {response?.result.txhash && (
                   <TxHashLink txHash={response?.result.txhash} />
                 )}
+                {result}
+                {resultError}
               </div>
             </DialogContent>
           </React.Fragment>
