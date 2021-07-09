@@ -28,12 +28,21 @@ import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TokenBalance, Tokens } from '../types/token'
 import { tokenValueNumber } from '../utils'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
+import { green } from '@material-ui/core/colors'
 
 export type TxError =
   | UserDenied
   | CreateTxFailed
   | TxFailed
   | TxUnspecifiedError
+
+enum TxFinalResult {
+  None,
+  Success,
+  Error
+}
 
 const GAS_ADJUSTMENT = 1.6
 const GAS = 1000000
@@ -57,7 +66,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
   const [txError, setTxError] = useState<TxError>()
-  const [result, setResult] = useState('') //Enum
+  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) //Enum
   const [resultError, setResultError] = useState<string>('')
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
@@ -154,15 +163,14 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
           terra.tx
             .txInfo(response?.result.txhash)
             .then((resTx) => {
-              console.log(resTx)
               waiting = false
               if (resTx.code) {
-                setResult('Error')
+                setResult(TxFinalResult.Error)
                 setResultError(resTx.raw_log)
                 setPending(false)
                 console.log('error')
               } else {
-                setResult('Success')
+                setResult(TxFinalResult.Success)
                 setPending(false)
                 console.log('success')
               }
@@ -208,11 +216,20 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
             <DialogContent>
               <div>
                 {pending && <Spinner />}
+                {result === TxFinalResult.Success && (
+                  <CheckCircleOutlineIcon
+                    fontSize='large'
+                    style={{ color: green[500] }}
+                  />
+                )}
+                {(result === TxFinalResult.Error || txError) && (
+                  <ErrorOutlineIcon fontSize='large' color='error' />
+                )}
+
                 {txError?.message}
                 {response?.result.txhash && (
                   <TxHashLink txHash={response?.result.txhash} />
                 )}
-                {result}
                 {resultError}
               </div>
             </DialogContent>
