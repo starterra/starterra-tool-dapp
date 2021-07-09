@@ -44,7 +44,7 @@ interface SendProps {
   tokensBalance: Tokens
 }
 
-const isCw20Token = (address: string) => address.startsWith('terrra')
+const isSmartContract = (address: string) => address.startsWith('terra')
 
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [open, setOpen] = useState(false)
@@ -123,7 +123,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
       const txOptions: CreateTxOptions = {
         msgs: [
-          isCw20Token(token)
+          isSmartContract(token)
             ? new MsgExecuteContract(wallletAddress, token, {
                 transfer: {
                   recipient: address,
