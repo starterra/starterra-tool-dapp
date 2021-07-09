@@ -15,34 +15,14 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { AccAddress, StdFee, LCDClient } from '@terra-money/terra.js'
-import {
-  TxResult,
-  UserDenied,
-  CreateTxFailed,
-  TxFailed,
-  TxUnspecifiedError
-} from '@terra-money/wallet-provider'
-import TxHashLink from './TxHaskLink'
+import { AccAddress, StdFee } from '@terra-money/terra.js'
+import { TxResult } from '@terra-money/wallet-provider'
+import TransactionResult from './TransactionResult'
 import * as trans from '../translation'
 import Spinner from './Spinner'
+import { TxError } from '../types/transaction'
 import { TokenBalance, Tokens } from '../types/token'
 import { tokenValueNumber } from '../utils'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
-import { green } from '@material-ui/core/colors'
-
-export type TxError =
-  | UserDenied
-  | CreateTxFailed
-  | TxFailed
-  | TxUnspecifiedError
-
-enum TxFinalResult {
-  None,
-  Success,
-  Error
-}
 
 const GAS_ADJUSTMENT = 1.6
 const GAS = 1000000
@@ -56,7 +36,6 @@ interface SendProps {
 const isSmartContract = (address: string) => address.startsWith('terra')
 
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
-  const { network } = useWallet()
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
@@ -66,8 +45,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
   const [txError, setTxError] = useState<TxError>()
-  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) //Enum
-  const [resultError, setResultError] = useState<string>('')
+
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
       return false
@@ -92,10 +70,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
     return amount ? balance < amount : false
   }, [amount])
-  const terra = new LCDClient({
-    URL: network.lcd,
-    chainID: network.chainID
-  })
 
   const sendDisable = (): boolean => {
     return (
@@ -156,36 +130,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       const response = await post(txOptions)
       console.log(response)
       setResponse(response)
-
-      if (response?.result.txhash) {
-        let waiting = true
-        do {
-          terra.tx
-            .txInfo(response?.result.txhash)
-            .then((resTx) => {
-              waiting = false
-              if (resTx.code) {
-                setResult(TxFinalResult.Error)
-                setResultError(resTx.raw_log)
-                setPending(false)
-                console.log('error')
-              } else {
-                setResult(TxFinalResult.Success)
-                setPending(false)
-                console.log('success')
-              }
-            })
-            .catch((error) => {
-              // wait jus if it was 404
-              console.log(error)
-            })
-          await new Promise((ok) => setTimeout(() => ok(null), 5000))
-        } while (waiting)
-      } else {
-        console.log(response)
-        console.log('Missing tx hash')
-        setPending(false)
-      }
     } catch (error) {
       setTxError(error)
       setPending(false)
@@ -214,24 +158,12 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
             <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 
             <DialogContent>
-              <div>
-                {pending && <Spinner />}
-                {result === TxFinalResult.Success && (
-                  <CheckCircleOutlineIcon
-                    fontSize='large'
-                    style={{ color: green[500] }}
-                  />
-                )}
-                {(result === TxFinalResult.Error || txError) && (
-                  <ErrorOutlineIcon fontSize='large' color='error' />
-                )}
-
-                {txError?.message}
-                {response?.result.txhash && (
-                  <TxHashLink txHash={response?.result.txhash} />
-                )}
-                {resultError}
-              </div>
+              <div>{pending && <Spinner />}</div>
+              <TransactionResult
+                response={response}
+                error={txError}
+                setPending={setPending}
+              />
             </DialogContent>
           </React.Fragment>
         ) : (
