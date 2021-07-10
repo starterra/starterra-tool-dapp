@@ -57,8 +57,7 @@ const TransactionResult: FC<TxResultProps> = ({
           }
         })
         .catch((error) => {
-          // wait jus if it was 404
-          console.log(error)
+          waiting = JSON.stringify(error).includes('status code 404')
         })
       await new Promise((ok) => setTimeout(() => ok(null), 5000))
     } while (waiting)
