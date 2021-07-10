@@ -32,7 +32,7 @@ const testnetTokens: Tokens = [
   {
     address: 'uusd',
     name: 'UST',
-    isDefault: true,
+    isDefault: false,
     decimal: 6
   },
   {
@@ -58,6 +58,13 @@ const testnetTokens: Tokens = [
     name: 'ANC',
     isDefault: false,
     decimal: 6
+  },
+  {
+    address: 'terra1ajzprdl7wsu4k5erd7cg0fus3tnv8l7480lwlm',
+    name: 'NTTT',
+    isDefault: true,
+    decimal: 6
+  
   }
 ]
 
