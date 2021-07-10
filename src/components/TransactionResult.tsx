@@ -17,12 +17,14 @@ enum TxFinalResult {
 interface TxResultProps {
   response?: TxResult
   error?: TxError
-  setPending: (value:boolean)=> void
-  //onFailure: () => void
+  setPending: (value: boolean) => void
 }
 
-const TransactionResult: FC<TxResultProps> = ({ response, error ,setPending}) => {
-
+const TransactionResult: FC<TxResultProps> = ({
+  response,
+  error,
+  setPending
+}) => {
   const { network } = useWallet()
   const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) //Enum
   const [resultError, setResultError] = useState<string>('')
@@ -49,11 +51,9 @@ const TransactionResult: FC<TxResultProps> = ({ response, error ,setPending}) =>
             setResult(TxFinalResult.Error)
             setResultError(resTx.raw_log)
             setPending(false)
-            console.log('error')
           } else {
             setResult(TxFinalResult.Success)
             setPending(false)
-            console.log('success')
           }
         })
         .catch((error) => {
@@ -76,10 +76,8 @@ const TransactionResult: FC<TxResultProps> = ({ response, error ,setPending}) =>
       )}
 
       {error?.message}
-      {txhash&& (
-        <TxHashLink txHash={txhash} />
-      )}
       {resultError}
+      {txhash && <TxHashLink txHash={txhash} />}
     </div>
   )
 }

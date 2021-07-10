@@ -22,7 +22,7 @@ import * as trans from '../translation'
 import Spinner from './Spinner'
 import { TxError } from '../types/transaction'
 import { TokenBalance, Tokens } from '../types/token'
-import { tokenValueNumber } from '../utils'
+import { tokenValueNumber, isSmartContract} from '../utils'
 
 const GAS_ADJUSTMENT = 1.6
 const GAS = 1000000
@@ -33,15 +33,14 @@ interface SendProps {
   tokensBalance: Tokens
 }
 
-const isSmartContract = (address: string) => address.startsWith('terra')
-
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
+  const { post } = useWallet()
+
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
-
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
   const [txError, setTxError] = useState<TxError>()
@@ -60,16 +59,14 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
       (t) => t.address === token
     )
-
     if (!tokenBalance) return false
-
     const balance: Number = tokenValueNumber(
       tokenBalance.balance,
       tokenBalance.decimal
     )
-
     return amount ? balance < amount : false
   }, [amount])
+
 
   const sendDisable = (): boolean => {
     return (
@@ -104,7 +101,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     setTxError(undefined)
   }
 
-  const { post } = useWallet()
+
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
@@ -128,7 +125,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         fee: new StdFee(GAS, GAS_AMOUNT)
       }
       const response = await post(txOptions)
-      console.log(response)
       setResponse(response)
     } catch (error) {
       setTxError(error)
@@ -137,6 +133,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   }
 
   const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
+  const showStatus = txError || response || pending
   return (
     <div>
       <Button
@@ -153,7 +150,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         onClose={handleCancel}
         aria-labelledby='form-dialog-title'
       >
-        {txError || response || pending ? (
+        {showStatus ? (
           <React.Fragment>
             <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 

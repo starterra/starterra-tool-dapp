@@ -14,3 +14,5 @@ new BigNumber(value || 0).div(new BigNumber(10).pow(decimal)).toNumber()
 
 export const tokenValueTxt = (token:TokenBalance) => 
     `${tokenValue(token.balance,token.decimal,2)} ${token.name}`
+
+ export const isSmartContract = (address: string) => address.startsWith('terra')
