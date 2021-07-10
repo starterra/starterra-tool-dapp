@@ -3,8 +3,8 @@ import { LCDClient } from '@terra-money/terra.js'
 import { Tokens } from '../types/token'
 import BigNumber from 'bignumber.js'
 
-interface IResponse{
-  balance:string
+interface IResponse {
+  balance: string
 }
 const useTokenBalance = (
   address: string,
@@ -17,7 +17,7 @@ const useTokenBalance = (
     if (address) {
       const results = await Promise.all(
         contracts.map(async (contract) => {
-          const response:IResponse = await terraClient.wasm.contractQuery(
+          const response: IResponse = await terraClient.wasm.contractQuery(
             contract.address,
             { balance: { address: address } }
           )
@@ -27,7 +27,7 @@ const useTokenBalance = (
           }
         })
       )
-      setBalance(results.filter(r=>new BigNumber(r.balance).toNumber()>0))
+      setBalance(results.filter((r) => new BigNumber(r.balance).toNumber() > 0))
     }
   }, [address])
 

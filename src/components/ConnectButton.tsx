@@ -7,13 +7,13 @@ interface ConnectButtonProps {
 }
 
 const ConnectButton: FC<ConnectButtonProps> = (props) => {
-  const { onClick, children  } = props
+  const { onClick, children } = props
   return (
     <Button
       variant='contained'
       color='primary'
       onClick={onClick}
-      data-testid="connect-button"
+      data-testid='connect-button'
       className={'wallet-connect-button'}
       startIcon={<AccountBalanceWalletIcon />}
     >

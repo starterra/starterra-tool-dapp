@@ -31,7 +31,10 @@
     "test:watch": "react-scripts test --env=jsdom",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "predeploy": "cd example && npm install && npm run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "prettier:lint": "prettier --list-different \"{src,scripts}/**/*.{tsx,ts,js,json,md,scss}\"",
+    "prettier:fix": "prettier --write \"{src,scripts}/**/*.{tsx,ts,js,json,md,scss}\"",
+    "prepublish": "tsc -p . && npm run test"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",

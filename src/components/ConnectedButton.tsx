@@ -11,21 +11,24 @@ interface ConnectButtonProps {
   onClick?: () => void
 }
 
-const ConnectedButton: FC<ConnectButtonProps> = ( { address, onClick, defaultToken } ) => {
-
+const ConnectedButton: FC<ConnectButtonProps> = ({
+  address,
+  onClick,
+  defaultToken
+}) => {
   return (
     <Button
       variant='contained'
       color='primary'
       onClick={onClick}
-      data-testid="connected-button"
+      data-testid='connected-button'
       className={'wallet-connect-button'}
       startIcon={<AccountBalanceWalletIcon />}
     >
       <span>{getEllipsisTxt(address)}</span>
       {defaultToken && (
-        <span className={'wallet-balance-button'}> 
-          { tokenValueTxt(defaultToken)}
+        <span className={'wallet-balance-button'}>
+          {tokenValueTxt(defaultToken)}
         </span>
       )}
     </Button>

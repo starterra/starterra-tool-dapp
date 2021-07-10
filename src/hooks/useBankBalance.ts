@@ -11,7 +11,6 @@ const useBankBalance = (
 
   const fetchBalance = useCallback(async () => {
     if (address) {
-     
       const response = await terraClient.bank.balance(address)
 
       const result: Tokens = response.map((item: Coin) => {

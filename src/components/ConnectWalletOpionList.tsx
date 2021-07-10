@@ -11,7 +11,9 @@ interface IConnectWalletOptionListProps {
 
 type ConnectOption = { label: string; icon?: ReactNode; onClick: () => void }
 
-const ConnectWalletOptionList = ({readOnlyMode}:IConnectWalletOptionListProps) => {
+const ConnectWalletOptionList = ({
+  readOnlyMode
+}: IConnectWalletOptionListProps) => {
   const { availableConnectTypes, availableInstallTypes, connect, install } =
     useWallet()
 
