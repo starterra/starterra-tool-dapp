@@ -25,7 +25,7 @@ describe('WalletContent', () => {
       recheckStatus: jest.fn(),
       wallets: []
     }))
-    
+
     const sampleToken: TokenBalance = {
       address: 'ter',
       isDefault: false,

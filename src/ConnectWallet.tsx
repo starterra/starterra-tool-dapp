@@ -10,7 +10,6 @@ import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import * as trans from './translation'
 import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
-import { useEffect } from 'react'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
 
@@ -19,10 +18,7 @@ export interface IConnectWalletProps {
   readOnlyMode: boolean
 }
 
-const ConnectWallet = ({
-  tokens,
-  readOnlyMode
-}: IConnectWalletProps) => {
+const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   const address = useAddress()
   const network = useNetwork()
   const { terraFinderGenerateLink } = useNetwork()
@@ -65,7 +61,6 @@ const ConnectWallet = ({
     setShowContent(false)
   }, [])
 
-  useEffect
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
