@@ -16,24 +16,13 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { AccAddress, StdFee } from '@terra-money/terra.js'
-import {
-  TxResult,
-  UserDenied,
-  CreateTxFailed,
-  TxFailed,
-  TxUnspecifiedError
-} from '@terra-money/wallet-provider'
-import TxHashLink from './TxHaskLink'
+import { TxResult } from '@terra-money/wallet-provider'
+import TransactionResult from './TransactionResult'
 import * as trans from '../translation'
 import Spinner from './Spinner'
+import { TxError } from '../types/transaction'
 import { TokenBalance, Tokens } from '../types/token'
-import { tokenValueNumber } from '../utils'
-
-export type TxError =
-  | UserDenied
-  | CreateTxFailed
-  | TxFailed
-  | TxUnspecifiedError
+import { tokenValueNumber, isSmartContract} from '../utils'
 
 const GAS_ADJUSTMENT = 1.6
 const GAS = 1000000
@@ -44,18 +33,17 @@ interface SendProps {
   tokensBalance: Tokens
 }
 
-const isSmartContract = (address: string) => address.startsWith('terra')
-
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
+  const { post } = useWallet()
+
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
   const [token, setToken] = useState<string>('uusd')
   const [memo, setMemo] = useState<string>('')
-
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
-  const [error, setError] = useState<TxError>()
+  const [txError, setTxError] = useState<TxError>()
 
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
@@ -71,16 +59,14 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     const tokenBalance: TokenBalance | undefined = tokensBalance.find(
       (t) => t.address === token
     )
-
     if (!tokenBalance) return false
-
     const balance: Number = tokenValueNumber(
       tokenBalance.balance,
       tokenBalance.decimal
     )
-
     return amount ? balance < amount : false
   }, [amount])
+
 
   const sendDisable = (): boolean => {
     return (
@@ -112,10 +98,10 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     setMemo('')
     setPending(false)
     setResponse(undefined)
-    setError(undefined)
+    setTxError(undefined)
   }
 
-  const { post } = useWallet()
+
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
@@ -140,14 +126,15 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       }
       const response = await post(txOptions)
       setResponse(response)
-      setPending(false)
     } catch (error) {
-      setError(error)
+      setTxError(error)
       setPending(false)
     }
   }
 
   const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,6})?$/)
+  const showStatus = txError || response || pending
+
   return (
     <div>
       <Button
@@ -164,18 +151,17 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         onClose={handleCancel}
         aria-labelledby='form-dialog-title'
       >
-        {error || response || pending ? (
+        {showStatus ? (
           <React.Fragment>
             <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 
             <DialogContent>
-              <div>
-                {pending && <Spinner />}
-                {error?.message}
-                {response?.result.txhash && (
-                  <TxHashLink txHash={response?.result.txhash} />
-                )}
-              </div>
+              {pending && <Spinner />}
+              <TransactionResult
+                response={response}
+                error={txError}
+                setPending={setPending}
+              />
             </DialogContent>
           </React.Fragment>
         ) : (
