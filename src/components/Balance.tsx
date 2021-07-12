@@ -18,7 +18,7 @@ const Balance: FC<BalanceProps> = ({ tokenBalance }) => {
           data-testid='balance'
         >
           <h4>{item.name}</h4>
-          <span>{tokenValue(item.balance)}</span>
+          <span>{tokenValue(item.balance, item.decimal, 6)}</span>
         </div>
       ))}
     </div>

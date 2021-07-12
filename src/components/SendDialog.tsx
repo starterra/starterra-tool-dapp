@@ -132,8 +132,9 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     }
   }
 
-  const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,4})?$/)
+  const DECIMAL_REGEXP = new RegExp(/^\d+(\.\d{0,6})?$/)
   const showStatus = txError || response || pending
+
   return (
     <div>
       <Button
