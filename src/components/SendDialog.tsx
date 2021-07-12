@@ -155,7 +155,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
             <DialogTitle id='form-dialog-title'>Status</DialogTitle>
 
             <DialogContent>
-              <div><Spinner shouldRender={pending} /></div>
+              <div>{pending && <Spinner shouldRender={pending} />}</div>
               <TransactionResult
                 response={response}
                 error={txError}
