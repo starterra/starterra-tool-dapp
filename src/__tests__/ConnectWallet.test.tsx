@@ -6,7 +6,7 @@ import {
   useConnectedWallet,
   ConnectType
 } from '@terra-money/wallet-provider'
-import { render} from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { mocked } from 'ts-jest/utils'
 declare type HumanAddr = string & {
   __type: 'HumanAddr'
@@ -32,7 +32,11 @@ describe('ConnectWallet', () => {
   it('show connected button when wallet is connected', async () => {
     mocked(useWallet).mockImplementation(() => ({
       status: WalletStatus.WALLET_CONNECTED,
-      network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
+      network: {
+        name: 'testnet',
+        chainID: 'tequila-0004',
+        lcd: 'https://tequila-lcd.terra.dev'
+      },
       availableConnectTypes: [],
       connect: jest.fn(),
       connectReadonly: jest.fn(),
@@ -45,20 +49,25 @@ describe('ConnectWallet', () => {
     }))
 
     mocked(useConnectedWallet).mockImplementation(() => ({
-      network: { name: 'testnet', chainID: 'tequila-0004', lcd: 'https://tequila-lcd.terra.dev' },
+      network: {
+        name: 'testnet',
+        chainID: 'tequila-0004',
+        lcd: 'https://tequila-lcd.terra.dev'
+      },
       terraAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
-      walletAddress: 'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
+      walletAddress:
+        'terra1vvhz3w5f0p9yzaacglq078n0ya3grwnwzsyqr9' as HumanAddr,
       post: jest.fn(),
       availablePost: true,
       connectType: ConnectType.CHROME_EXTENSION
     }))
-    
+
     const { findByTestId } = render(
       <ConnectWallet tokens={[]} readOnlyMode={false} />
     )
 
     expect(await findByTestId('connected-button')).toBeDefined()
-    expect(useWallet).toHaveBeenCalled() 
+    expect(useWallet).toHaveBeenCalled()
   })
 
   it('show connect button when wallet is not connected', async () => {
@@ -84,14 +93,12 @@ describe('ConnectWallet', () => {
       availablePost: true,
       connectType: ConnectType.CHROME_EXTENSION
     }))
-    
+
     const { findByTestId } = render(
       <ConnectWallet tokens={[]} readOnlyMode={false} />
     )
 
     expect(await findByTestId('connect-button')).toBeDefined()
-    expect(useWallet).toHaveBeenCalled() 
+    expect(useWallet).toHaveBeenCalled()
   })
-
-  
 })
