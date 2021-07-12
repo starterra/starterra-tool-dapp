@@ -40,28 +40,38 @@ const TransactionResult: FC<TxResultProps> = ({
     !error && txhash && poolStatus()
   }, [!error, txhash])
 
-  const poolStatus = async () => {
-    let waiting = true
-    do {
-      terra.tx
-        .txInfo(txhash)
-        .then((resTx) => {
-          waiting = false
-          if (resTx.code) {
-            setResult(TxFinalResult.Error)
-            setResultError(resTx.raw_log)
-            setPending(false)
-          } else {
-            setResult(TxFinalResult.Success)
-            setPending(false)
-          }
-        })
-        .catch((error) => {
-          waiting = JSON.stringify(error).includes('status code 404')
-        })
-      await new Promise((ok) => setTimeout(() => ok(null), 5000))
-    } while (waiting)
+  const getTxStatus = async(txhash: string) => {
+    const result = await terra.tx
+      .txInfo(txhash)
+      .then((resTx) => {
+        if (resTx.code) {
+          setResult(TxFinalResult.Error)
+          setResultError(resTx.raw_log)
+          setPending(false)
+        } else {
+          setResult(TxFinalResult.Success)
+          setPending(false)
+        }
+        return true
+      })
+      .catch((error) => {
+        const isNotFound = JSON.stringify(error).includes('status code 404')
+        if (!isNotFound) {
+          setResultError(JSON.stringify(error).substring(0, 40))
+          setResult(TxFinalResult.Error)
+          setPending(false)
+        }
+        return !isNotFound
+      })
+    return result
   }
+
+  const poolStatus = async () => {
+    do {
+      await new Promise((ok) => setTimeout(() => ok(null), 4000))
+    } while (!getTxStatus(txhash))
+  }
+
   return (
     <div>
       {result === TxFinalResult.Success && (
