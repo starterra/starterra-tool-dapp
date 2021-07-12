@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -13,14 +13,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const Spinner = () => {
-  const classes = useStyles()
+interface ISpinnerProps {
+  shouldRender: boolean
+}
 
-  return (
-    <div className={classes.root}>
-      <CircularProgress />
-    </div>
-  )
+const Spinner: FC<ISpinnerProps> = ({ shouldRender }) => {
+  const classes = useStyles()
+  if (shouldRender)
+    return (
+      <div className={classes.root}>
+        <CircularProgress />
+      </div>
+    )
+  return null
 }
 
 export default Spinner
