@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useState } from 'react'
-import { TxError } from '../types/transaction'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 
-import { TxResult, useWallet } from '@terra-money/wallet-provider'
-import { LCDClient } from '@terra-money/terra.js'
-import TxHashLink from './TxHaskLink'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
+import { TxError } from '../types/transaction'
+import TxHashLink from './TxHaskLink'
+import { TxResult } from '@terra-money/wallet-provider'
 import { green } from '@material-ui/core/colors'
+import { useTerra } from '../hooks/useTerra'
 
 enum TxFinalResult {
   None,
@@ -25,53 +25,47 @@ const TransactionResult: FC<TxResultProps> = ({
   error,
   setPending
 }) => {
-  const { network } = useWallet()
-  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) //Enum
+  const terra = useTerra()
+  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) // Enum
   const [resultError, setResultError] = useState<string>('')
 
   const txhash = response?.result.txhash ?? ''
 
-  const terra = new LCDClient({
-    URL: network.lcd,
-    chainID: network.chainID
-  })
+  const getTxStatus = useCallback(
+    async (hash: string) => {
+      const txResult = await terra.tx
+        .txInfo(hash)
+        .then((resTx) => {
+          if (resTx.code) {
+            setResult(TxFinalResult.Error)
+            setResultError(resTx.raw_log)
+          } else {
+            setResult(TxFinalResult.Success)
+          }
+          return true
+        })
+        .catch((txError) => {
+          const isNotFound = JSON.stringify(txError).includes('status code 404')
+          if (!isNotFound) {
+            setResultError(JSON.stringify(txError).substring(0, 40))
+            setResult(TxFinalResult.Error)
+          }
+          return !isNotFound
+        })
+      setPending(!txResult)
+    },
+    [setPending, terra.tx]
+  )
 
   useEffect(() => {
-    !error && txhash && poolStatus()
-  }, [!error, txhash])
-
-  const getTxStatus = async(txhash: string) => {
-    const result = await terra.tx
-      .txInfo(txhash)
-      .then((resTx) => {
-        if (resTx.code) {
-          setResult(TxFinalResult.Error)
-          setResultError(resTx.raw_log)
-          setPending(false)
-        } else {
-          setResult(TxFinalResult.Success)
-          setPending(false)
-        }
-        return true
-      })
-      .catch((error) => {
-        const isNotFound = JSON.stringify(error).includes('status code 404')
-        if (!isNotFound) {
-          setResultError(JSON.stringify(error).substring(0, 40))
-          setResult(TxFinalResult.Error)
-          setPending(false)
-        }
-        return !isNotFound
-      })
-    return result
-  }
-
-  const poolStatus = async () => {
-    do {
-      await new Promise((ok) => setTimeout(() => ok(null), 4000))
-    } while (!getTxStatus(txhash))
-  }
-
+    function pool() {
+      if (result === TxFinalResult.None && txhash) {
+        getTxStatus(txhash)
+      }
+    }
+    const id = setInterval(pool, 4000)
+    return () => clearInterval(id)
+  }, [error, txhash, result, getTxStatus])
   return (
     <div>
       {result === TxFinalResult.Success && (
