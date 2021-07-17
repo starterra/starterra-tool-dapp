@@ -1,38 +1,47 @@
+import './styles.css'
+
 import * as React from 'react'
-import ConnectWallet, { IConnectWalletProps } from './ConnectWallet'
+
 import {
-  TokenBalance as TokenBalanceIm,
-  Tokens as TokensIm
-} from './types/token'
-import {
-  WalletStatus,
   ConnectType,
-  WalletInfo as WalletInfoIm,
-  WalletControllerOptions as WalletControllerOptionsIm,
-  WalletController,
-  StringifiedTxResult as StringifiedTxResultIm,
-  findTxResult,
-  WalletProvider,
   ExtensionNetworkOnlyWalletProvider,
-  useWallet,
+  StringifiedTxResult as StringifiedTxResultIm,
+  WalletController,
+  WalletControllerOptions as WalletControllerOptionsIm,
+  WalletInfo as WalletInfoIm,
+  WalletProvider,
+  WalletStatus,
+  findTxResult,
   useConnectedWallet,
-  useInstallChromeExtension
+  useInstallChromeExtension,
+  useWallet
 } from '@terra-money/wallet-provider'
+import ConnectWallet, { IConnectWalletProps } from './ConnectWallet'
 import {
   NetworkInfo as NetworkInfoIm,
   TxResult as TxResultIm
 } from '@terra-dev/wallet-types'
+import {
+  TokenBalance as TokenBalanceIm,
+  Tokens as TokensIm
+} from './types/token'
+
 import { ThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
-import './styles.css'
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#2043b5'
+      // main: '#2043b5'
+      main: '#ffee00'
     },
     secondary: {
-      main: '#0044ff'
+      // main: '#0044ff'
+      main: '#ffffff'
+    },
+    info: {
+      main: '#10161e',
+      dark: '#19202b'
     }
   },
   typography: {
@@ -41,14 +50,20 @@ const theme = createMuiTheme({
   overrides: {
     MuiPaper: {
       root: {
-        color: '#2043b5'
+        color: '#ffffff',
+        backgroundColor: '#19202b',
+        border: '3px solid rgb(255,230,0)'
+      },
+      rounded: {
+        borderRadius: '20px'
       }
     },
     MuiButton: {
       containedPrimary: {
-        height: '30px',
-        borderRadius: '20px',
-        fontSize: '12px'
+        height: '34px',
+        borderRadius: '21px',
+        fontSize: '13px',
+        textTransform: 'initial'
       }
     },
     MuiInputBase: {

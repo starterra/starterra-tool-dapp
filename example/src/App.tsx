@@ -1,13 +1,14 @@
-import React from 'react'
+import 'starterra-tool-dapp/dist/index.css'
 
 import {
-  WalletProvider,
-  Wallet,
+  NetworkInfo,
   Tokens,
-  NetworkInfo
+  Wallet,
+  WalletProvider
 } from 'starterra-tool-dapp'
+
+import React from 'react'
 import Sample from './Sample'
-import 'starterra-tool-dapp/dist/index.css'
 
 const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
@@ -32,7 +33,7 @@ const testnetTokens: Tokens = [
   {
     address: 'uusd',
     name: 'UST',
-    isDefault: false,
+    isDefault: true,
     decimal: 6
   },
   {
@@ -62,7 +63,7 @@ const testnetTokens: Tokens = [
   {
     address: 'terra1ajzprdl7wsu4k5erd7cg0fus3tnv8l7480lwlm',
     name: 'NTTT',
-    isDefault: true,
+    isDefault: false,
     decimal: 6
   
   }
