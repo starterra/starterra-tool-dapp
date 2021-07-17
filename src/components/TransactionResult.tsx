@@ -26,7 +26,7 @@ const TransactionResult: FC<TxResultProps> = ({
   setPending
 }) => {
   const terra = useTerra()
-  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None) // Enum
+  const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None)
   const [resultError, setResultError] = useState<string>('')
 
   const txhash = response?.result.txhash ?? ''
