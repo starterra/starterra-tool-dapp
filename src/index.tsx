@@ -16,11 +16,13 @@ import {
   useInstallChromeExtension,
   useWallet
 } from '@terra-money/wallet-provider'
-import ConnectWallet, { IConnectWalletProps } from './ConnectWallet'
+import ConnectWallet from './ConnectWallet'
 import {
   NetworkInfo as NetworkInfoIm,
   TxResult as TxResultIm
 } from '@terra-dev/wallet-types'
+import { Theme } from '@material-ui/core'
+
 import {
   TokenBalance as TokenBalanceIm,
   Tokens as TokensIm
@@ -32,8 +34,8 @@ import { createMuiTheme } from '@material-ui/core/styles'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      // main: '#2043b5'
-      main: '#ffee00'
+      main: '#2043b5'
+      // main: '#ffee00'
     },
     secondary: {
       // main: '#0044ff'
@@ -111,13 +113,16 @@ const theme = createMuiTheme({
   }
 })
 
-export const Wallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <ConnectWallet tokens={tokens} readOnlyMode={readOnlyMode} />
-    </ThemeProvider>
-  )
+export interface IWalletProps {
+  tokens: Tokens
+  readOnlyMode: boolean
+  customTheme?: Theme
 }
+export const Wallet = ({ tokens, readOnlyMode, customTheme }: IWalletProps) => (
+  <ThemeProvider theme={customTheme || theme}>
+    <ConnectWallet tokens={tokens} readOnlyMode={readOnlyMode} />
+  </ThemeProvider>
+)
 
 export type WalletInfo = WalletInfoIm
 export type WalletControllerOptions = WalletControllerOptionsIm
