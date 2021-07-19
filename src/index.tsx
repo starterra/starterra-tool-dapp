@@ -59,6 +59,12 @@ const theme = createMuiTheme({
       }
     },
     MuiButton: {
+      contained: {
+        '&.Mui-disabled': {
+          color: '#ffee00',
+          opacity: 0.5
+        }
+      },
       containedPrimary: {
         height: '34px',
         borderRadius: '21px',
@@ -81,14 +87,25 @@ const theme = createMuiTheme({
         marginBottom: '15px',
         backgroundColor: '#10161e',
         textTransform: 'initial',
-        border: 'none'
+        border: 'none',
+        '&:hover': {
+          border: 'none',
+          backgroundColor: '#ffee00',
+          color: '#10161e'
+        }
       }
     },
 
     MuiInputBase: {
       input: {
+        backgroundColor: '#19202b',
         color: '#ffffff',
-        border: '1px solid #ffee00'
+        border: '3px solid #ffee00'
+      }
+    },
+    MuiFormLabel: {
+      root: {
+        color: '#ffffff'
       }
     }
   }

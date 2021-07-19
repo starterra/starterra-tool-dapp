@@ -18,11 +18,7 @@
   display: inline-block;
   margin-left: 1em;
   padding-left: 1em;
-  /* color: #ffee00; */
 }
-/* .wallet-balance-button:hover {
-  color: #10161e;
-} */
 .wallet-balance-button::before {
   content: '';
   position: absolute;
@@ -58,7 +54,6 @@
 
 .wallet-button {
   width: 100%;
-  text-transform: initial !important;
 }
 
 .wallet-contect-options-title {

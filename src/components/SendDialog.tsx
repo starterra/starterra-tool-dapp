@@ -199,7 +199,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 </FormControl>
                 <TextField
                   autoFocus
-                  variant='outlined'
+                  variant='filled'
                   id='address'
                   label='Send to'
                   placeholder='Terra address'
@@ -215,7 +215,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   id='amount'
                   type='number'
                   margin='dense'
@@ -233,7 +233,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   margin='dense'
                   id='memo'
                   label='Memo (Optional)'
