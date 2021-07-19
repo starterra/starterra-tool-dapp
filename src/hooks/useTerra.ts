@@ -1,5 +1,5 @@
 import { LCDClient } from '@terra-money/terra.js'
-import { useWallet } from '@starterra/starterra-tool-dapp'
+import { useWallet } from '@terra-money/wallet-provider'
 
 export const useTerra = (): LCDClient => {
   const { network } = useWallet()
