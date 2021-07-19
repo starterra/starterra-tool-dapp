@@ -64,6 +64,12 @@ const theme = createMuiTheme({
         borderRadius: '21px',
         fontSize: '13px',
         textTransform: 'initial'
+      },
+      outlinedPrimary: {
+        border: '4px solid #ffee00',
+        '&:hover': { 
+          border: '4px solid #ffee00'
+        }
       }
     },
     MuiInputBase: {

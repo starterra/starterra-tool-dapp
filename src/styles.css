@@ -17,14 +17,18 @@
   display: inline-block;
   margin-left: 1em;
   padding-left: 1em;
+  /* color: #ffee00; */
 }
+/* .wallet-balance-button:hover {
+  color: #10161e;
+} */
 .wallet-balance-button::before {
   content: '';
   position: absolute;
   top: 5px;
   bottom: 5px;
   left: 0;
-  border-left: 1px solid #10161e;
+  border-left: 1px solid #ffffff; 
 }
 .wallet-section {
   margin-top: 30px;
@@ -34,16 +38,16 @@
   border: none;
 }
 .wallet-header {
-  margin-top:8px 0;
+  margin-top: 8px 0;
   display: flex;
   font-size: 10px;
 }
 .wallet-balance-section {
   padding: 0 0 15px 0;
-  border-top: 1px solid #40444A;
+  border-top: 1px solid #40444a;
 }
 .wallet-balance-item {
-  border-bottom: 1px solid #40444A;
+  border-bottom: 1px solid #40444a;
   display: flex;
   justify-content: space-between;
   align-items: center;
