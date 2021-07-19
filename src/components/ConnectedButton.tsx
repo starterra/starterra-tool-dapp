@@ -5,11 +5,10 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
 import { getEllipsisTxt } from '../utils'
 import { TokenBalance } from '../types/token'
 import { tokenValueTxt } from '../utils'
+import { useMediaQuery } from 'react-responsive'
 
 const Connected = withStyles((theme: Theme) => ({
   root: {
-    // borderWidth: '1px',
-    // borderColor: theme.palette.primary.main,
     borderRadius: '20px',
     textTransform: 'uppercase',
     color: theme.palette.secondary.main,
@@ -32,6 +31,8 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
   onClick,
   defaultToken
 }) => {
+  const isMobile = useMediaQuery({ maxWidth: 850 })
+
   return (
     <Connected
       variant='outlined'
@@ -41,7 +42,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
     >
-      <span>{getEllipsisTxt(address)}</span>
+      {!isMobile && <span>{getEllipsisTxt(address)}</span>}
       {defaultToken && (
         <span className='wallet-balance-button'>
           {tokenValueTxt(defaultToken)}
