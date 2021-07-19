@@ -40,8 +40,8 @@ const theme = createMuiTheme({
       main: '#ffffff'
     },
     info: {
-      main: '#10161e',
-      dark: '#19202b'
+      main: '#10161e', // ciemniejszy
+      dark: '#19202b' // jasniejszy
     }
   },
   typography: {
@@ -63,19 +63,32 @@ const theme = createMuiTheme({
         height: '34px',
         borderRadius: '21px',
         fontSize: '13px',
-        textTransform: 'initial'
+        textTransform: 'initial',
+        fontWeight: 'bold',
+        '&:hover': {
+          backgroundColor: '#ffee00'
+        }
       },
       outlinedPrimary: {
         border: '4px solid #ffee00',
-        '&:hover': { 
+        borderRadius: '21px',
+        '&:hover': {
           border: '4px solid #ffee00'
         }
+      },
+      outlinedSecondary: {
+        borderRadius: '21px',
+        marginBottom: '15px',
+        backgroundColor: '#10161e',
+        textTransform: 'initial',
+        border: 'none'
       }
     },
+
     MuiInputBase: {
       input: {
-        color: '#2043b5',
-        border: '1px solid rgba(12,54,148,.2)'
+        color: '#ffffff',
+        border: '1px solid #ffee00'
       }
     }
   }

@@ -76,9 +76,11 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
               {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
-            {showOptions && (
-              <ConnectWalletOptionList readOnlyMode={readOnlyMode} />
-            )}
+            <ConnectWalletOptionList
+              readOnlyMode={readOnlyMode}
+              open={showOptions}
+              handleClose={() => setShowOptions(false)}
+            />
           </div>
         </ClickAwayListener>
       )

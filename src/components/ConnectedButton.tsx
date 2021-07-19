@@ -9,7 +9,6 @@ import { useMediaQuery } from 'react-responsive'
 
 const Connected = withStyles((theme: Theme) => ({
   root: {
-    borderRadius: '20px',
     textTransform: 'uppercase',
     color: theme.palette.secondary.main,
     backgroundColor: theme.palette.info.main,

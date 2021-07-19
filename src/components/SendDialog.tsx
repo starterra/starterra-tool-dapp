@@ -28,8 +28,7 @@ import { useTerra } from '../hooks/useTerra'
 
 const SendButton = withStyles(() => ({
   root: {
-    height: '42px',
-    fontWeight: 700
+    height: '42px'
   }
 }))(Button)
 
