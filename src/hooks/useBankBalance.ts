@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
-import { LCDClient, Coin } from '@terra-money/terra.js'
+import { Coin, LCDClient } from '@terra-money/terra.js'
+import { useCallback, useEffect, useState } from 'react'
+
 import { Tokens } from '../types/token'
 
 const useBankBalance = (
@@ -15,11 +16,11 @@ const useBankBalance = (
 
       const result: Tokens = response.map((item: Coin) => {
         return {
-          ...contracts.find((c) => c.address == item.denom)!,
+          ...contracts.find((c) => c.address === item.denom)!,
           balance: item.amount.toString()
         }
       })
-      setBalance(result)
+      setBalance(result.filter((item) => item.address !== undefined))
     }
   }, [address])
 
