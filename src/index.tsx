@@ -31,87 +31,88 @@ import {
 import { ThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 
-const theme = createMuiTheme({
+const globalTheme = createMuiTheme({
   palette: {
     primary: {
       main: '#2043b5'
-      // main: '#ffee00'
     },
     secondary: {
-      // main: '#0044ff'
-      main: '#ffffff'
+      main: '#0044ff'
     },
     info: {
-      main: '#10161e', // ciemniejszy
-      dark: '#19202b' // jasniejszy
-    }
-  },
-  typography: {
-    fontFamily: ['"Gotham"', 'sans-serif', '-apple-system'].join(',')
-  },
-  overrides: {
-    MuiPaper: {
-      root: {
-        color: '#ffffff',
-        backgroundColor: '#19202b',
-        border: '3px solid rgb(255,230,0)'
-      },
-      rounded: {
-        borderRadius: '20px'
-      }
-    },
-    MuiButton: {
-      contained: {
-        '&.Mui-disabled': {
-          color: '#ffee00',
-          opacity: 0.5
-        }
-      },
-      containedPrimary: {
-        height: '34px',
-        borderRadius: '21px',
-        fontSize: '13px',
-        textTransform: 'initial',
-        fontWeight: 'bold',
-        '&:hover': {
-          backgroundColor: '#ffee00'
-        }
-      },
-      outlinedPrimary: {
-        border: '4px solid #ffee00',
-        borderRadius: '21px',
-        '&:hover': {
-          border: '4px solid #ffee00'
-        }
-      },
-      outlinedSecondary: {
-        borderRadius: '21px',
-        marginBottom: '15px',
-        backgroundColor: '#10161e',
-        textTransform: 'initial',
-        border: 'none',
-        '&:hover': {
-          border: 'none',
-          backgroundColor: '#ffee00',
-          color: '#10161e'
-        }
-      }
-    },
-
-    MuiInputBase: {
-      input: {
-        backgroundColor: '#19202b',
-        color: '#ffffff',
-        border: '3px solid #ffee00'
-      }
-    },
-    MuiFormLabel: {
-      root: {
-        color: '#ffffff'
-      }
+      main: '#ffffff',
+      dark: '#ffffff'
     }
   }
 })
+
+const theme = createMuiTheme(
+  {
+    overrides: {
+      MuiPaper: {
+        root: {
+          color: globalTheme.palette.secondary.main,
+          backgroundColor: globalTheme.palette.info.dark,
+          border: `3px solid ${globalTheme.palette.primary.main}`
+        },
+        rounded: {
+          borderRadius: '20px'
+        }
+      },
+      MuiButton: {
+        contained: {
+          '&.Mui-disabled': {
+            color: globalTheme.palette.primary.main,
+            opacity: 0.5
+          }
+        },
+        containedPrimary: {
+          height: '34px',
+          borderRadius: '21px',
+          fontSize: '13px',
+          textTransform: 'initial',
+          fontWeight: 'bold',
+          '&:hover': {
+            backgroundColor: globalTheme.palette.primary.main
+          }
+        },
+        outlinedPrimary: {
+          border: `4px solid ${globalTheme.palette.primary.main}`,
+          borderRadius: '21px',
+          '&:hover': {
+            border: `4px solid ${globalTheme.palette.primary.main}`
+          }
+        },
+        outlinedSecondary: {
+          borderRadius: '21px',
+          marginBottom: '15px',
+          backgroundColor: globalTheme.palette.info.main,
+          textTransform: 'initial',
+          border: 'none',
+          '&:hover': {
+            border: 'none',
+            backgroundColor: globalTheme.palette.primary.main,
+            color: globalTheme.palette.info.main
+          }
+        }
+      },
+
+      MuiInputBase: {
+        input: {
+          backgroundColor: globalTheme.palette.info.dark,
+          color: globalTheme.palette.secondary.main,
+          border: `3px solid ${globalTheme.palette.primary.main}`
+        }
+      },
+      MuiFormLabel: {
+        root: {
+          color: globalTheme.palette.secondary.main
+        }
+      }
+    }
+  },
+  globalTheme
+)
 
 export interface IWalletProps {
   tokens: Tokens

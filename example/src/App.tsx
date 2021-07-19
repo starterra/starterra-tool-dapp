@@ -9,7 +9,7 @@ import {
 
 import React from 'react'
 import Sample from './Sample'
-import { createMuiTheme } from '@material-ui/core/styles'
+// import { createMuiTheme } from '@material-ui/core/styles'
 
 const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
@@ -107,94 +107,16 @@ const testnetTokens: Tokens = [
 //     decimal: 6
 //   }
 // ]
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // main: '#2043b5'
-      main: '#ffee00'
-    },
-    secondary: {
-      // main: '#0044ff'
-      main: '#ffffff'
-    },
-    info: {
-      main: '#10161e', // ciemniejszy
-      dark: '#19202b' // jasniejszy
-    }
-  },
-  typography: {
-    fontFamily: ['"Gotham"', 'sans-serif', '-apple-system'].join(',')
-  },
-  overrides: {
-    MuiPaper: {
-      root: {
-        color: '#ffffff',
-        backgroundColor: '#19202b',
-        border: '3px solid rgb(255,230,0)'
-      },
-      rounded: {
-        borderRadius: '20px'
-      }
-    },
-    MuiButton: {
-      contained: {
-        '&.Mui-disabled': {
-          color: '#ffee00',
-          opacity: 0.5
-        }
-      },
-      containedPrimary: {
-        height: '34px',
-        borderRadius: '21px',
-        fontSize: '13px',
-        textTransform: 'initial',
-        fontWeight: 'bold',
-        '&:hover': {
-          backgroundColor: '#ffee00'
-        }
-      },
-      outlinedPrimary: {
-        border: '4px solid #ffee00',
-        borderRadius: '21px',
-        '&:hover': {
-          border: '4px solid #ffee00'
-        }
-      },
-      outlinedSecondary: {
-        borderRadius: '21px',
-        marginBottom: '15px',
-        backgroundColor: '#10161e',
-        textTransform: 'initial',
-        border: 'none',
-        '&:hover': {
-          border: 'none',
-          backgroundColor: '#ffee00',
-          color: '#10161e'
-        }
-      }
-    },
 
-    MuiInputBase: {
-      input: {
-        backgroundColor: '#19202b',
-        color: '#ffffff',
-        border: '3px solid #ffee00'
-      }
-    },
-    MuiFormLabel: {
-      root: {
-        color: '#ffffff'
-      }
-    }
-  }
-})
 const App = () => {
   return (
     <WalletProvider
       defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={testnetTokens} readOnlyMode={false} customTheme={theme} />
+      <Wallet tokens={testnetTokens} readOnlyMode={false} 
+      // customTheme={theme} 
+      />
       <Sample />
     </WalletProvider>
   )
