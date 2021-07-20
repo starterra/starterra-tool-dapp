@@ -93,6 +93,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
               address={address}
               defaultToken={assets.filter((a) => a && a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
+              open={showContent}
             />
             {showContent && (
               <WalletContent
