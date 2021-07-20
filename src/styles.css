@@ -61,6 +61,11 @@
   text-align: center;
   font-size: 18px;
 }
+
+.wallet-contect-options-title-second{
+  color:#ffee00
+}
+
 .wallet-contect-options-title-close {
   position: absolute !important;
   top: 5px;

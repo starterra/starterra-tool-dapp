@@ -84,7 +84,10 @@ const ConnectWalletOptionList = ({
         >
           <CloseIcon />
         </IconButton>
-        <div className='wallet-contect-options-title'>Connect Wallet</div>
+        <div className='wallet-contect-options-title'>
+          Connect
+          <span className='wallet-contect-options-title-second'> Wallet</span>
+        </div>
       </DialogTitle>
 
       <DialogContent>
