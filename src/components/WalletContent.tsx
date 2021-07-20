@@ -17,7 +17,7 @@ const DisconnectButton = withStyles((theme: Theme) => ({
     border: 'none',
     width: '100%',
     height: '36px',
-    borderRadius: '21px',
+    borderRadius: '0px 0px 21px 21px',
     textTransform: 'initial',
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.info.main,

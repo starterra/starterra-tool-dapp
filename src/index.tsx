@@ -40,7 +40,7 @@ const globalTheme = createMuiTheme({
       main: '#0044ff'
     },
     info: {
-      main: '#ffffff',
+      main: '#e8eaed',
       dark: '#ffffff'
     }
   }
