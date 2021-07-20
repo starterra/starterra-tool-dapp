@@ -14,10 +14,9 @@ const ConnectOptions = withStyles(() => ({
     justifyContent: 'left',
     marginLeft: '15px'
   },
-  endIcon: {
-    marginLeft: '90px',
+  startIcon: {
     color: '#2043b5',
-    justifyContent: 'right'
+    marginRight: '20px'
   }
 }))(Button)
 
@@ -97,7 +96,7 @@ const ConnectWalletOptionList = ({
                 color='secondary'
                 onClick={onClick}
                 key={key}
-                endIcon={icon}
+                startIcon={icon}
               >
                 {label}
               </ConnectOptions>
