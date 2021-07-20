@@ -28,7 +28,18 @@ import { useTerra } from '../hooks/useTerra'
 
 const SendButton = withStyles(() => ({
   root: {
-    height: '42px'
+    height: '42px',
+    transition: 'all 0.5s',
+    '&:hover > span > span': {
+      opacity: 1,
+      left: '40px'
+    }
+  },
+  startIcon: {
+    opacity: 0,
+    left: '5px',
+    transition: '0.5s',
+    position: 'absolute'
   }
 }))(Button)
 

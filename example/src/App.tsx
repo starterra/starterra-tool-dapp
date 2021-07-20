@@ -146,12 +146,15 @@ const theme = createMuiTheme(
         },
         containedPrimary: {
           height: '34px',
-          borderRadius: '21px',
+          borderRadius: '27px',
           fontSize: '13px',
           textTransform: 'initial',
           fontWeight: 'bold',
+          boxShadow:'none',
+          border: `10px solid ${globalTheme.palette.primary.main}`,
           '&:hover': {
-            backgroundColor: globalTheme.palette.primary.main
+            backgroundColor: globalTheme.palette.primary.main,
+            boxShadow: `0px 0px 0px 5px rgba(255,238,0,0.2)`,
           }
         },
         outlinedPrimary: {
