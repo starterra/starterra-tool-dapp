@@ -12,6 +12,9 @@
   z-index: 100;
   font-weight: bold;
 }
+.wallet-connect-addess {
+  color: #fff;
+}
 .wallet-balance-button {
   font-weight: 700;
   position: relative;
@@ -20,12 +23,9 @@
   padding-left: 1em;
 }
 .wallet-balance-button::before {
-  content: '';
+  content: '|';
   position: absolute;
-  top: 5px;
-  bottom: 5px;
   left: 0;
-  border-left: 1px solid #ffffff;
 }
 .wallet-section {
   margin-top: 30px;
@@ -35,7 +35,7 @@
   border: none;
 }
 .wallet-header {
-  margin-top: 8px 0;
+  margin: 10px 0;
   display: flex;
   font-size: 10px;
 }
@@ -54,6 +54,7 @@
 
 .wallet-button {
   width: 100%;
+  text-transform: initial !important;
 }
 
 .wallet-contect-options-title {
