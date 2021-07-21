@@ -76,9 +76,11 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
               {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
 
-            {showOptions && (
-              <ConnectWalletOptionList readOnlyMode={readOnlyMode} />
-            )}
+            <ConnectWalletOptionList
+              readOnlyMode={readOnlyMode}
+              open={showOptions}
+              handleClose={() => setShowOptions(false)}
+            />
           </div>
         </ClickAwayListener>
       )
@@ -91,6 +93,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
               address={address}
               defaultToken={assets.filter((a) => a && a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
+              open={showContent}
             />
             {showContent && (
               <WalletContent

@@ -7,12 +7,14 @@ import {
   MsgExecuteContract,
   MsgSend
 } from '@terra-money/terra.js'
+
+import { Button, withStyles } from '@material-ui/core'
+
 import React, { ChangeEvent, FC, useMemo, useState } from 'react'
 import { TokenBalance, Tokens } from '../types/token'
 import { TxResult, useWallet } from '@terra-money/wallet-provider'
 import { isSmartContract, tokenValueNumber } from '../utils'
 
-import { Button } from '@material-ui/core'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -25,6 +27,24 @@ import TextField from '@material-ui/core/TextField'
 import TransactionResult from './TransactionResult'
 import { TxError } from '../types/transaction'
 import { useTerra } from '../hooks/useTerra'
+
+const SendButton = withStyles(() => ({
+  root: {
+    height: '42px',
+    transition: 'all 0.5s',
+    '&:hover > span > span': {
+      opacity: 1,
+      left: '40px'
+    }
+  },
+  startIcon: {
+    opacity: 0,
+    left: '5px',
+    transition: '0.5s',
+    position: 'absolute'
+  }
+}))(Button)
+
 
 interface SendProps {
   wallletAddress: string
@@ -139,7 +159,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
   return (
     <div>
-      <Button
+      <SendButton
         variant='contained'
         startIcon={<Send />}
         className='wallet-button'
@@ -147,7 +167,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
         onClick={handleClickOpen}
       >
         {trans.SEND_TXT}
-      </Button>
+      </SendButton>
       <Dialog
         open={open}
         onClose={handleCancel}
@@ -193,7 +213,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 </FormControl>
                 <TextField
                   autoFocus
-                  variant='outlined'
+                  variant='filled'
                   id='address'
                   label='Send to'
                   placeholder='Terra address'
@@ -209,7 +229,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   id='amount'
                   type='number'
                   margin='dense'
@@ -227,7 +247,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   margin='dense'
                   id='memo'
                   label='Memo (Optional)'
