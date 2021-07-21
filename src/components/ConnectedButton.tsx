@@ -77,7 +77,11 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       {!isMobile && hover ? (
         <span>{getEllipsisTxt(address)}</span>
       ) : (
-        <span className='wallet-connect-addess'>{getEllipsisTxt(address)}</span>
+        !isMobile && (
+          <span className='wallet-connect-addess'>
+            {getEllipsisTxt(address)}
+          </span>
+        )
       )}
       {defaultToken && (
         <span className='wallet-balance-button'>
