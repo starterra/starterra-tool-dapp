@@ -7,7 +7,9 @@ import {
   MsgExecuteContract,
   MsgSend
 } from '@terra-money/terra.js'
+
 import { Button, withStyles } from '@material-ui/core'
+
 import React, { ChangeEvent, FC, useMemo, useState } from 'react'
 import { TokenBalance, Tokens } from '../types/token'
 import { TxResult, useWallet } from '@terra-money/wallet-provider'
@@ -42,6 +44,7 @@ const SendButton = withStyles(() => ({
     position: 'absolute'
   }
 }))(Button)
+
 
 interface SendProps {
   wallletAddress: string
