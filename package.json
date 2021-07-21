@@ -1,6 +1,6 @@
 {
   "name": "@starterra/starterra-tool-dapp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Library for easy use of Terra wallet in custom dApp",
   "homepage": "https://github.com/starterra/starterra-tool-dapp#readme",
   "bugs": {
