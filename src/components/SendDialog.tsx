@@ -1,32 +1,50 @@
-import React, { FC, useState, ChangeEvent, useMemo } from 'react'
-import Send from '@material-ui/icons/Send'
+import * as trans from '../translation'
+
 import {
-  MsgSend,
-  CreateTxOptions,
+  AccAddress,
   Coin,
-  MsgExecuteContract
+  CreateTxOptions,
+  MsgExecuteContract,
+  MsgSend
 } from '@terra-money/terra.js'
-import { useWallet } from '@terra-money/wallet-provider'
-import { Button } from '@material-ui/core'
-import TextField from '@material-ui/core/TextField'
+
+import { Button, withStyles } from '@material-ui/core'
+
+import React, { ChangeEvent, FC, useMemo, useState } from 'react'
+import { TokenBalance, Tokens } from '../types/token'
+import { TxResult, useWallet } from '@terra-money/wallet-provider'
+import { isSmartContract, tokenValueNumber } from '../utils'
+
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import { AccAddress, StdFee } from '@terra-money/terra.js'
-import { TxResult } from '@terra-money/wallet-provider'
-import TransactionResult from './TransactionResult'
-import * as trans from '../translation'
+import Send from '@material-ui/icons/Send'
 import Spinner from './Spinner'
+import TextField from '@material-ui/core/TextField'
+import TransactionResult from './TransactionResult'
 import { TxError } from '../types/transaction'
-import { TokenBalance, Tokens } from '../types/token'
-import { tokenValueNumber, isSmartContract} from '../utils'
+import { useTerra } from '../hooks/useTerra'
 
-const GAS_ADJUSTMENT = 1.6
-const GAS = 1000000
-const GAS_AMOUNT = '250000uusd'
+const SendButton = withStyles(() => ({
+  root: {
+    height: '42px',
+    transition: 'all 0.5s',
+    '&:hover > span > span': {
+      opacity: 1,
+      left: '40px'
+    }
+  },
+  startIcon: {
+    opacity: 0,
+    left: '5px',
+    transition: '0.5s',
+    position: 'absolute'
+  }
+}))(Button)
+
 
 interface SendProps {
   wallletAddress: string
@@ -35,7 +53,7 @@ interface SendProps {
 
 const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const { post } = useWallet()
-
+  const terra = useTerra()
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
@@ -66,7 +84,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     )
     return amount ? balance < amount : false
   }, [amount])
-
 
   const sendDisable = (): boolean => {
     return (
@@ -101,28 +118,33 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
     setTxError(undefined)
   }
 
-
   const send = async () => {
     try {
       const decimal = tokensBalance.find((t) => t.address === token)?.decimal
       const txAmount = amount && amount * Math.pow(10, decimal || 6)
+      const msg = [
+        isSmartContract(token)
+          ? new MsgExecuteContract(wallletAddress, token, {
+              transfer: {
+                recipient: address,
+                amount: txAmount.toString()
+              }
+            })
+          : new MsgSend(wallletAddress, address, [
+              new Coin(token, txAmount.toString())
+            ])
+      ]
+
+      const signMsg = await terra.tx.create(wallletAddress, {
+        msgs: msg,
+        memo: memo,
+        feeDenoms: ['uusd']
+      })
 
       const txOptions: CreateTxOptions = {
-        msgs: [
-          isSmartContract(token)
-            ? new MsgExecuteContract(wallletAddress, token, {
-                transfer: {
-                  recipient: address,
-                  amount: txAmount.toString()
-                }
-              })
-            : new MsgSend(wallletAddress, address, [
-                new Coin(token, txAmount.toString())
-              ])
-        ],
+        msgs: msg,
         memo: memo,
-        gasAdjustment: GAS_ADJUSTMENT,
-        fee: new StdFee(GAS, GAS_AMOUNT)
+        fee: signMsg.fee
       }
       const response = await post(txOptions)
       setResponse(response)
@@ -137,15 +159,15 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
 
   return (
     <div>
-      <Button
+      <SendButton
         variant='contained'
         startIcon={<Send />}
-        className={'wallet-button'}
+        className='wallet-button'
         color='primary'
         onClick={handleClickOpen}
       >
         {trans.SEND_TXT}
-      </Button>
+      </SendButton>
       <Dialog
         open={open}
         onClose={handleCancel}
@@ -191,7 +213,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 </FormControl>
                 <TextField
                   autoFocus
-                  variant='outlined'
+                  variant='filled'
                   id='address'
                   label='Send to'
                   placeholder='Terra address'
@@ -207,7 +229,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   id='amount'
                   type='number'
                   margin='dense'
@@ -225,7 +247,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 />
 
                 <TextField
-                  variant='outlined'
+                  variant='filled'
                   margin='dense'
                   id='memo'
                   label='Memo (Optional)'
