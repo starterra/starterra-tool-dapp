@@ -107,13 +107,116 @@ const testnetTokens: Tokens = [
 //     decimal: 6
 //   }
 // ]
+
+const globalTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#ffee00",
+      dark: "#ffff29",
+    },
+    secondary: {
+      main: "#ffffff",
+    },
+    info: {
+      main: "#10161e",
+      dark: "#19202b",
+    },
+  },
+});
+const theme = createMuiTheme(
+  {
+    overrides: {
+      MuiTypography: {
+        h6: {
+          fontFamily: '"Orbitron", sans-serif',
+        },
+      },
+      MuiPaper: {
+        root: {
+          color: globalTheme.palette.secondary.main,
+          backgroundColor: globalTheme.palette.info.dark,
+          border: `6px solid rgba(255,238,0,0.3)`,
+          boxShadow: `0px 0px 6px ${globalTheme.palette.primary.dark}, 0 0 0 3px ${globalTheme.palette.primary.main} !important`,
+        },
+        rounded: {
+          borderRadius: "27px",
+        },
+      },
+      MuiDialog:{
+        paperWidthSm:{
+          minWidth:'300px',
+          '@media (min-width: 640px)':{
+            minWidth:'500px',
+          }
+        }
+      },
+      MuiButton: {
+        root: {
+          fontFamily: '"Raleway", sans-serif',
+        },
+        contained: {
+          "&.Mui-disabled": {
+            color: globalTheme.palette.primary.main,
+            opacity: 0.5,
+          },
+        },
+        containedPrimary: {
+          height: "34px",
+          borderRadius: "27px",
+          fontSize: "13px",
+          textTransform: "initial",
+          fontWeight: "bold",
+          boxShadow: "none",
+          border: `10px solid ${globalTheme.palette.primary.main}`,
+          "&:hover": {
+            backgroundColor: globalTheme.palette.primary.main,
+            boxShadow: `0px 0px 10px ${globalTheme.palette.primary.main}`,
+          },
+        },
+        outlinedPrimary: {
+          border: `3px solid ${globalTheme.palette.primary.main}`,
+          borderRadius: "21px",
+          "&:hover": {
+            border: `3px solid ${globalTheme.palette.primary.main}`,
+          },
+        },
+        outlinedSecondary: {
+          borderRadius: "21px",
+          marginBottom: "15px",
+          backgroundColor: globalTheme.palette.info.main,
+          textTransform: "initial",
+          border: "none",
+          "&:hover": {
+            border: "none",
+            backgroundColor: globalTheme.palette.primary.main,
+            color: globalTheme.palette.info.main,
+          },
+        },
+      },
+      MuiInputBase: {
+        input: {
+          backgroundColor: globalTheme.palette.info.dark,
+          color: globalTheme.palette.secondary.main,
+          border: `3px solid ${globalTheme.palette.primary.main}`,
+        },
+      },
+      MuiFormLabel: {
+        root: {
+          color: globalTheme.palette.secondary.main,
+        },
+      },
+    },
+  },
+  globalTheme,
+);
+
 const App = () => {
   return (
     <WalletProvider
       defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={testnetTokens} readOnlyMode={false}  />
+      <Wallet tokens={testnetTokens} readOnlyMode={false} customTheme={theme}  />
       <Sample />
     </WalletProvider>
   )

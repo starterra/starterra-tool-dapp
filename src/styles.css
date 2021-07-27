@@ -12,9 +12,9 @@
   z-index: 100;
   font-weight: bold;
 }
-/* .wallet-connect-addess {
+.wallet-connect-addess {
   color: #fff;
-} */
+}
 .wallet-balance-button {
   font-weight: 700;
   position: relative;
@@ -65,9 +65,9 @@
   font-size: 18px;
 }
 
-/* .wallet-contect-options-title-second {
+.wallet-contect-options-title-second {
   color: #ffee00;
-} */
+}
 
 .wallet-contect-options-title-close {
   position: absolute !important;
