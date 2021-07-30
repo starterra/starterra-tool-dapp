@@ -9,7 +9,6 @@ import {
 
 import React from 'react'
 import Sample from './Sample'
-import { createMuiTheme } from '@material-ui/core/styles'
 
 const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
