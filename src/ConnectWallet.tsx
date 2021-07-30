@@ -93,25 +93,27 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
 
     case WalletStatus.WALLET_CONNECTED:
       return (
-        <ClickAwayListener onClickAway={onClickAway}>
-          <React.Fragment>
-            <ConnectedButton
-              address={address}
-              defaultToken={assets.filter((a) => a && a.isDefault)[0]}
-              onClick={() => setShowContent((prev) => !prev)}
-              open={showContent}
-            />
-            {showContent && (
-              <WalletContent
-                address={address}
-                network={walletNetwork}
-                finderLink={terraFinderGenerateLink(address)}
-                disconnect={disconnectWallet}
-                assets={assets}
-              />
-            )}
-          </React.Fragment>
-        </ClickAwayListener>
+        <React.Fragment>
+          <ConnectedButton
+            address={address}
+            defaultToken={assets.filter((a) => a && a.isDefault)[0]}
+            onClick={() => setShowContent((prev) => !prev)}
+            open={showContent}
+          />
+          {showContent && (
+            <ClickAwayListener onClickAway={onClickAway}>
+              <div>
+                <WalletContent
+                  address={address}
+                  network={walletNetwork}
+                  finderLink={terraFinderGenerateLink(address)}
+                  disconnect={disconnectWallet}
+                  assets={assets}
+                />
+              </div>
+            </ClickAwayListener>
+          )}
+        </React.Fragment>
       )
   }
 }

@@ -11,11 +11,9 @@ const Connected = withStyles((theme: Theme) => ({
   root: {
     textTransform: 'uppercase',
     backgroundColor: theme.palette.info.main,
-    border: 'none',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.info.main,
-      border: 'none',
       boxShadow: 'none'
     }
   }
