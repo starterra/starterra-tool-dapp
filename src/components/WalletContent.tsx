@@ -33,28 +33,19 @@ interface WalletContentProps {
   finderLink: string
   assets: TokenBalance[]
   disconnect?: () => void
-  onMouseOver?: () => void
-  onMouseOut?: () => void
 }
 
 const WalletContent: FC<WalletContentProps> = ({
   address,
   disconnect,
   finderLink,
-  assets,
-  onMouseOut,
-  onMouseOver
+  assets
 }) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
   return (
-    <Paper
-      elevation={3}
-      className='wallet-content'
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
-    >
+    <Paper elevation={3} className='wallet-content'>
       <div className='wallet-section'>
         <div className='wallet-header'>
           <p data-testid='address'>{getEllipsisTxt(address, 9)}</p>

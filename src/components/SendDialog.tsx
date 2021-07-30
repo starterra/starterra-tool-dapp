@@ -36,7 +36,7 @@ const SendButton = withStyles(() => ({
     transition: 'all 0.5s',
     '&:hover > span > span': {
       opacity: 1,
-      left: '40px'
+      left: '25px'
     }
   },
   startIcon: {
@@ -46,7 +46,6 @@ const SendButton = withStyles(() => ({
     position: 'absolute'
   }
 }))(Button)
-
 
 interface SendProps {
   wallletAddress: string

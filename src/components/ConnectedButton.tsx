@@ -11,9 +11,12 @@ const Connected = withStyles((theme: Theme) => ({
   root: {
     textTransform: 'uppercase',
     backgroundColor: theme.palette.info.main,
+    border: 'none',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.info.main
+      color: theme.palette.info.main,
+      border: 'none',
+      boxShadow: 'none'
     }
   }
 }))(Button)
@@ -23,6 +26,7 @@ const ConnectedActive = withStyles((theme: Theme) => ({
     textTransform: 'uppercase',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.info.main,
+    minWidth: '195px',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.info.main
@@ -36,7 +40,6 @@ interface ConnectButtonProps {
   open: boolean
   onClick?: () => void
   onMouseOver?: () => void
-  onMouseOut?: () => void
 }
 
 const ConnectedButton: FC<ConnectButtonProps> = ({
@@ -44,7 +47,6 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
   onClick,
   defaultToken,
   open,
-  onMouseOut,
   onMouseOver
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
@@ -54,17 +56,12 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
     setHover(true)
     onMouseOver && onMouseOver()
   }
-  const onOut = () => {
-    setHover(false)
-    onMouseOut && onMouseOut()
-  }
   return open ? (
     <ConnectedActive
       variant='outlined'
       color='primary'
       onClick={onClick}
       onMouseOver={onOver}
-      onMouseOut={onOut}
       data-testid='connected-button'
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
@@ -82,7 +79,6 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       color='primary'
       onClick={onClick}
       onMouseOver={onOver}
-      onMouseOut={onOut}
       data-testid='connected-button'
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
