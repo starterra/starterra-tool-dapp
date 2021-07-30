@@ -30,6 +30,8 @@ import { useTerra } from '../hooks/useTerra'
 
 const SendButton = withStyles(() => ({
   root: {
+    width: '100%',
+    textTransform: 'initial',
     height: '42px',
     transition: 'all 0.5s',
     '&:hover > span > span': {
@@ -162,7 +164,6 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       <SendButton
         variant='contained'
         startIcon={<Send />}
-        className='wallet-button'
         color='primary'
         onClick={handleClickOpen}
       >

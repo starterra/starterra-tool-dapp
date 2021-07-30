@@ -12,6 +12,7 @@ import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
+import { useMediaQuery } from 'react-responsive'
 
 export interface IConnectWalletProps {
   tokens: Tokens
@@ -24,6 +25,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   const { terraFinderGenerateLink } = useNetwork()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
+ // const [hoverOnContent, setHoverOnContent]  = useState<boolean>(false)
   const {
     status,
     connect,
@@ -44,6 +46,8 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     ...(bankBalance.balance || []),
     ...(tokenBalance.balance || [])
   ]
+  const isMobile = useMediaQuery({ maxWidth: 850 })
+
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
       setShowOptions(true)
@@ -59,6 +63,22 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   const onClickAway = useCallback(() => {
     setShowOptions(false)
     setShowContent(false)
+  }, [])
+
+  const onMouseOver = useCallback(() => {
+    console.log("onMouseOver")
+    setShowContent(true)
+  }, [])
+
+  const onMouseOut = useCallback(() => {
+    console.log("onMouseOut")
+    // !hoverOnContent && setShowContent(false)
+  }, [])
+
+  const onMouseContentOut = useCallback(() => {
+    console.log("onMouseContentOut")
+   // setHoverOnContent(false)
+   setShowContent(false)
   }, [])
 
   switch (status) {
@@ -88,23 +108,36 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     case WalletStatus.WALLET_CONNECTED:
       return (
         <ClickAwayListener onClickAway={onClickAway}>
-          <div>
-            <ConnectedButton
-              address={address}
-              defaultToken={assets.filter((a) => a && a.isDefault)[0]}
-              onClick={() => setShowContent((prev) => !prev)}
-              open={showContent}
-            />
+          <React.Fragment>
+            {isMobile && (
+              <ConnectedButton
+                address={address}
+                defaultToken={assets.filter((a) => a && a.isDefault)[0]}
+                onClick={() => setShowContent((prev) => !prev)}
+                open={showContent}
+              />
+            )}
+            {!isMobile && (
+              <ConnectedButton
+                address={address}
+                defaultToken={assets.filter((a) => a && a.isDefault)[0]}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+                open={showContent}
+              />
+            )}
             {showContent && (
               <WalletContent
                 address={address}
                 network={walletNetwork}
                 finderLink={terraFinderGenerateLink(address)}
+                // onMouseOver={() => setHoverOnContent(true)}
+                onMouseOut={onMouseContentOut}
                 disconnect={disconnectWallet}
                 assets={assets}
               />
             )}
-          </div>
+          </React.Fragment>
         </ClickAwayListener>
       )
   }

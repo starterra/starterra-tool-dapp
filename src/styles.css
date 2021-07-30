@@ -32,7 +32,7 @@
 
 .wallet-section {
   margin-top: 30px;
-  padding: 5px 20px;
+  padding: 5px 15px;
 }
 .wallet-disconnect:hover {
   border: none;
@@ -58,6 +58,7 @@
 .wallet-button {
   width: 100%;
   text-transform: initial !important;
+  font-size:11px !important;
 }
 
 .wallet-contect-options-title {
