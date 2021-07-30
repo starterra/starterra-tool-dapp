@@ -37,29 +37,24 @@ interface ConnectButtonProps {
   defaultToken: TokenBalance
   open: boolean
   onClick?: () => void
-  onMouseOver?: () => void
 }
 
 const ConnectedButton: FC<ConnectButtonProps> = ({
   address,
   onClick,
   defaultToken,
-  open,
-  onMouseOver
+  open
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
   const [hover, setHover] = useState(false)
 
-  const onOver = () => {
-    setHover(true)
-    onMouseOver && onMouseOver()
-  }
   return open ? (
     <ConnectedActive
       variant='outlined'
       color='primary'
       onClick={onClick}
-      onMouseOver={onOver}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
       data-testid='connected-button'
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
@@ -76,7 +71,8 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       variant='outlined'
       color='primary'
       onClick={onClick}
-      onMouseOver={onOver}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
       data-testid='connected-button'
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}

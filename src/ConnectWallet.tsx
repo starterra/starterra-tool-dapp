@@ -109,6 +109,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
                   finderLink={terraFinderGenerateLink(address)}
                   disconnect={disconnectWallet}
                   assets={assets}
+                  close={()=>setShowContent(false)}
                 />
               </div>
             </ClickAwayListener>

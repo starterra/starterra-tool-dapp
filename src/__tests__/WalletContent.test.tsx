@@ -44,6 +44,7 @@ describe('WalletContent', () => {
         finderLink={'link'}
         assets={[sampleToken]}
         disconnect={jest.fn()}
+        close={jest.fn()}
         network={network}
       />
     )
