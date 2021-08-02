@@ -6,6 +6,7 @@ import { getEllipsisTxt } from '../utils'
 import { TokenBalance } from '../types/token'
 import { tokenValueTxt } from '../utils'
 import { useMediaQuery } from 'react-responsive'
+import IconButton from '@material-ui/core/IconButton'
 
 const Connected = withStyles((theme: Theme) => ({
   root: {
@@ -66,6 +67,15 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
         </span>
       )}
     </ConnectedActive>
+  ) : isMobile ? (
+    <IconButton
+      aria-label='connet'
+      className='wallet-connect-button'
+      color='primary'
+      onClick={onClick}
+    >
+      <AccountBalanceWalletIcon />
+    </IconButton>
   ) : (
     <Connected
       variant='outlined'
@@ -77,14 +87,10 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
     >
-      {!isMobile && hover ? (
+      {hover ? (
         <span>{getEllipsisTxt(address)}</span>
       ) : (
-        !isMobile && (
-          <span className='wallet-connect-addess'>
-            {getEllipsisTxt(address)}
-          </span>
-        )
+        <span className='wallet-connect-addess'>{getEllipsisTxt(address)}</span>
       )}
       {defaultToken && (
         <span className='wallet-balance-button'>

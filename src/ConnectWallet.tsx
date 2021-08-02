@@ -12,7 +12,7 @@ import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
-// import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive'
 
 export interface IConnectWalletProps {
   tokens: Tokens
@@ -46,7 +46,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     ...(bankBalance.balance || []),
     ...(tokenBalance.balance || [])
   ]
-  // const isMobile = useMediaQuery({ maxWidth: 850 })
+  const isMobile = useMediaQuery({ maxWidth: 850 })
 
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
@@ -62,11 +62,12 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   }, [disconnect])
 
   const onClickAway = useCallback(() => {
-    console.log('click away')
+    console.log('click awawy')
     setShowOptions(false)
     setShowContent(false)
   }, [])
 
+  console.log(showContent)
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
@@ -91,7 +92,44 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
         </ClickAwayListener>
       )
 
-    case WalletStatus.WALLET_CONNECTED:
+    case WalletStatus.WALLET_CONNECTED: {
+      if (isMobile) {
+        return (
+          <React.Fragment>
+            <ConnectedButton
+              address={address}
+              defaultToken={assets.filter((a) => a && a.isDefault)[0]}
+              onClick={() => {
+                console.log('click')
+                setShowContent((prev) => !prev)
+              }}
+              open={showContent}
+            />
+            <div
+              className={`${
+                showContent
+                  ? 'wallet-content-animated wallet-content-animated-move'
+                  : 'wallet-content-animated'
+              }`}
+            >
+              {showContent && (
+                <ClickAwayListener onClickAway={onClickAway}>
+                  <div>
+                    <WalletContent
+                      address={address}
+                      network={walletNetwork}
+                      finderLink={terraFinderGenerateLink(address)}
+                      disconnect={disconnectWallet}
+                      assets={assets}
+                      close={() => setShowContent(false)}
+                    />
+                  </div>
+                </ClickAwayListener>
+              )}
+            </div>
+          </React.Fragment>
+        )
+      }
       return (
         <React.Fragment>
           <ConnectedButton
@@ -109,13 +147,14 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
                   finderLink={terraFinderGenerateLink(address)}
                   disconnect={disconnectWallet}
                   assets={assets}
-                  close={()=>setShowContent(false)}
+                  close={() => setShowContent(false)}
                 />
               </div>
             </ClickAwayListener>
           )}
         </React.Fragment>
       )
+    }
   }
 }
 
