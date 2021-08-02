@@ -11,6 +11,8 @@ import SendDialog from './SendDialog'
 import { TokenBalance } from '../types/token'
 import { getEllipsisTxt } from '../utils'
 import useClipboard from 'react-use-clipboard'
+import CloseIcon from '@material-ui/icons/Close'
+import { useMediaQuery } from 'react-responsive'
 
 const DisconnectButton = withStyles((theme: Theme) => ({
   root: {
@@ -33,22 +35,33 @@ interface WalletContentProps {
   finderLink: string
   assets: TokenBalance[]
   disconnect?: () => void
+  close: () => void
 }
 
 const WalletContent: FC<WalletContentProps> = ({
   address,
   disconnect,
   finderLink,
-  assets
+  assets,
+  close
 }) => {
   const [isCopied, setCopied] = useClipboard(address, {
     successDuration: 10000
   })
+  const isMobile = useMediaQuery({ maxWidth: 850 })
+
   return (
     <Paper elevation={3} className='wallet-content'>
       <div className='wallet-section'>
+        {isMobile && (
+          <div className='wallet-section-close'>
+            <IconButton onClick={close} color='secondary' size='small'>
+              <CloseIcon />
+            </IconButton>
+          </div>
+        )}
         <div className='wallet-header'>
-          <p data-testid='address'>{getEllipsisTxt(address, 9)}</p>
+          <div data-testid='address'>{getEllipsisTxt(address, 9)}</div>
           <IconButton
             aria-label='copy'
             color={isCopied ? 'secondary' : 'primary'}

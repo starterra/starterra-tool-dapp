@@ -106,13 +106,14 @@ const testnetTokens: Tokens = [
 //     decimal: 6
 //   }
 // ]
+
 const App = () => {
   return (
     <WalletProvider
       defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={testnetTokens} readOnlyMode={false}  />
+      <Wallet tokens={testnetTokens} readOnlyMode={false} />
       <Sample />
     </WalletProvider>
   )

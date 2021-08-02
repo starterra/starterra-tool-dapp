@@ -6,6 +6,7 @@ import { getEllipsisTxt } from '../utils'
 import { TokenBalance } from '../types/token'
 import { tokenValueTxt } from '../utils'
 import { useMediaQuery } from 'react-responsive'
+import IconButton from '@material-ui/core/IconButton'
 
 const Connected = withStyles((theme: Theme) => ({
   root: {
@@ -13,7 +14,8 @@ const Connected = withStyles((theme: Theme) => ({
     backgroundColor: theme.palette.info.main,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.info.main
+      color: theme.palette.info.main,
+      boxShadow: 'none'
     }
   }
 }))(Button)
@@ -23,6 +25,7 @@ const ConnectedActive = withStyles((theme: Theme) => ({
     textTransform: 'uppercase',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.info.main,
+    minWidth: '195px',
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.info.main
@@ -45,6 +48,7 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
   const [hover, setHover] = useState(false)
+
   return open ? (
     <ConnectedActive
       variant='outlined'
@@ -63,6 +67,15 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
         </span>
       )}
     </ConnectedActive>
+  ) : isMobile ? (
+    <IconButton
+      aria-label='connet'
+      className='wallet-connect-button'
+      color='primary'
+      onClick={onClick}
+    >
+      <AccountBalanceWalletIcon />
+    </IconButton>
   ) : (
     <Connected
       variant='outlined'
@@ -74,14 +87,10 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
       className='wallet-connect-button'
       startIcon={<AccountBalanceWalletIcon style={{ fontSize: 15 }} />}
     >
-      {!isMobile && hover ? (
+      {hover ? (
         <span>{getEllipsisTxt(address)}</span>
       ) : (
-        !isMobile && (
-          <span className='wallet-connect-addess'>
-            {getEllipsisTxt(address)}
-          </span>
-        )
+        <span className='wallet-connect-addess'>{getEllipsisTxt(address)}</span>
       )}
       {defaultToken && (
         <span className='wallet-balance-button'>
