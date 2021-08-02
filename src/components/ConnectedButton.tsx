@@ -48,7 +48,6 @@ const ConnectedButton: FC<ConnectButtonProps> = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
   const [hover, setHover] = useState(false)
-
   return open ? (
     <ConnectedActive
       variant='outlined'
