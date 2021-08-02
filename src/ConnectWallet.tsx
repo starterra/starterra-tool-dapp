@@ -12,6 +12,7 @@ import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
+import { useMediaQuery } from 'react-responsive'
 
 export interface IConnectWalletProps {
   tokens: Tokens
@@ -44,6 +45,8 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     ...(bankBalance.balance || []),
     ...(tokenBalance.balance || [])
   ]
+  const isMobile = useMediaQuery({ maxWidth: 850 })
+
   const connectWallet = useCallback(() => {
     if (availableConnectTypes.length > 1) {
       setShowOptions(true)
@@ -56,6 +59,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     disconnect()
     setShowContent(false)
   }, [disconnect])
+
   const onClickAway = useCallback(() => {
     setShowOptions(false)
     setShowContent(false)
@@ -85,28 +89,66 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
         </ClickAwayListener>
       )
 
-    case WalletStatus.WALLET_CONNECTED:
-      return (
-        <ClickAwayListener onClickAway={onClickAway}>
-          <div>
+    case WalletStatus.WALLET_CONNECTED: {
+      if (isMobile) {
+        return (
+          <React.Fragment>
             <ConnectedButton
               address={address}
               defaultToken={assets.filter((a) => a && a.isDefault)[0]}
               onClick={() => setShowContent((prev) => !prev)}
               open={showContent}
             />
-            {showContent && (
-              <WalletContent
-                address={address}
-                network={walletNetwork}
-                finderLink={terraFinderGenerateLink(address)}
-                disconnect={disconnectWallet}
-                assets={assets}
-              />
-            )}
-          </div>
-        </ClickAwayListener>
+            <div
+              className={`${
+                showContent
+                  ? 'wallet-content-animated-move'
+                  : 'wallet-content-animated'
+              }`}
+            >
+              {showContent && (
+                <ClickAwayListener onClickAway={onClickAway}>
+                  <div>
+                    <WalletContent
+                      address={address}
+                      network={walletNetwork}
+                      finderLink={terraFinderGenerateLink(address)}
+                      disconnect={disconnectWallet}
+                      assets={assets}
+                      close={() => setShowContent(false)}
+                    />
+                  </div>
+                </ClickAwayListener>
+              )}
+            </div>
+          </React.Fragment>
+        )
+      }
+      return (
+        <React.Fragment>
+          <ConnectedButton
+            address={address}
+            defaultToken={assets.filter((a) => a && a.isDefault)[0]}
+            onClick={() => setShowContent((prev) => !prev)}
+            open={showContent}
+          />
+          {showContent && (
+            <ClickAwayListener onClickAway={onClickAway}>
+              <div>
+                <WalletContent
+                  address={address}
+                  network={walletNetwork}
+                  finderLink={terraFinderGenerateLink(address)}
+                  disconnect={disconnectWallet}
+                  assets={assets}
+                  close={() => setShowContent(false)}
+                />
+              </div>
+            </ClickAwayListener>
+          )}
+        </React.Fragment>
       )
+    }
   }
 }
 

@@ -12,7 +12,8 @@ import * as trans from '../translation'
 const ConnectOptions = withStyles(() => ({
   label: {
     justifyContent: 'left',
-    marginLeft: '15px'
+    marginLeft: '15px',
+    fontWeight: 600
   },
   startIcon: {
     color: '#2043b5',
