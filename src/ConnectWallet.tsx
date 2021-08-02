@@ -62,12 +62,10 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   }, [disconnect])
 
   const onClickAway = useCallback(() => {
-    console.log('click awawy')
     setShowOptions(false)
     setShowContent(false)
   }, [])
 
-  console.log(showContent)
   switch (status) {
     case WalletStatus.INITIALIZING:
       return (
@@ -99,10 +97,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             <ConnectedButton
               address={address}
               defaultToken={assets.filter((a) => a && a.isDefault)[0]}
-              onClick={() => {
-                console.log('click')
-                setShowContent((prev) => !prev)
-              }}
+              onClick={() => setShowContent((prev) => !prev)}
               open={showContent}
             />
             <div
