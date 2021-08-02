@@ -25,7 +25,6 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   const { terraFinderGenerateLink } = useNetwork()
   const [showOptions, setShowOptions] = useState<boolean>(false)
   const [showContent, setShowContent] = useState<boolean>(false)
-  // const [hoverOnContent, setHoverOnContent]  = useState<boolean>(false)
   const {
     status,
     connect,

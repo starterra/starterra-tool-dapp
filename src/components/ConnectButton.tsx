@@ -16,7 +16,7 @@ const ConnectButton: FC<ConnectButtonProps> = (props) => {
     <IconButton
       aria-label='connet'
       className='wallet-connect-button'
-      color='primary'
+      color='secondary'
       onClick={onClick}
     >
       <AccountBalanceWalletIcon />
