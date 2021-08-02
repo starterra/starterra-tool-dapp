@@ -108,7 +108,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             <div
               className={`${
                 showContent
-                  ? 'wallet-content-animated wallet-content-animated-move'
+                  ? 'wallet-content-animated-move'
                   : 'wallet-content-animated'
               }`}
             >

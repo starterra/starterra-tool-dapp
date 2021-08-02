@@ -98,7 +98,6 @@
   opacity: 0;
   top: 5px;
   right: -200px;
-  transition: all 0.5s;
 }
 
 .wallet-content-animated-move {
@@ -109,4 +108,8 @@
   top: 5px;
   right: 10px;
   border-radius: 15px;
+}
+
+.wallet-empty{
+  max-width: 150px;
 }

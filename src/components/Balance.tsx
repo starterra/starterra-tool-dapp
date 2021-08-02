@@ -12,11 +12,15 @@ const Balance: FC<BalanceProps> = ({ tokenBalance }) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
 
   return (
-    <div className={'wallet-balance-section'}>
-      {tokenBalance.length === 0 && <h4>{trans.EMPTY_WALLET}</h4>}
+    <div className='wallet-balance-section'>
+      {tokenBalance.length === 0 && (
+        <div className='wallet-empty'>
+          <h4>{trans.EMPTY_WALLET}</h4>
+        </div>
+      )}
       {tokenBalance.map((item) => (
         <div
-          className={'wallet-balance-item'}
+          className='wallet-balance-item'
           key={item.name}
           data-testid='balance'
         >
