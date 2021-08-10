@@ -28,6 +28,6 @@ const useBankBalance = (
     fetchBalance()
   }, [fetchBalance])
 
-  return { balance }
+  return { balance, fetchBalance }
 }
 export default useBankBalance

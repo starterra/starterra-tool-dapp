@@ -35,6 +35,6 @@ const useTokenBalance = (
     fetchBalance()
   }, [fetchBalance])
 
-  return { balance }
+  return { balance, fetchBalance }
 }
 export default useTokenBalance
