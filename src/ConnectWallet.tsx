@@ -39,12 +39,11 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
     URL: network.lcd,
     chainID: network.chainID
   })
-  const bankBalance = useBankBalance(address, nativeTokens, terraClient)
-  const tokenBalance = useTokenBalance(address, balanceTokens, terraClient)
-  const assets = [
-    ...(bankBalance.balance || []),
-    ...(tokenBalance.balance || [])
-  ]
+  const { balance: bankBalance, fetchBalance: fetchBankBalance } =
+    useBankBalance(address, nativeTokens, terraClient)
+  const { balance: tokenBalance, fetchBalance: fetchTokenBalance } =
+    useTokenBalance(address, balanceTokens, terraClient)
+  const assets = [...(bankBalance || []), ...(tokenBalance || [])]
   const isMobile = useMediaQuery({ maxWidth: 850 })
 
   const connectWallet = useCallback(() => {
@@ -129,7 +128,11 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
           <ConnectedButton
             address={address}
             defaultToken={assets.filter((a) => a && a.isDefault)[0]}
-            onClick={() => setShowContent((prev) => !prev)}
+            onClick={() => {
+              setShowContent((prev) => !prev)
+              fetchBankBalance()
+              fetchTokenBalance()
+            }}
             open={showContent}
           />
           {showContent && (
