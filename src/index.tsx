@@ -118,10 +118,20 @@ export interface IWalletProps {
   tokens: Tokens
   readOnlyMode: boolean
   customTheme?: Theme
+  avaliableNetwork?: Record<string, NetworkInfo>
 }
-export const Wallet = ({ tokens, readOnlyMode, customTheme }: IWalletProps) => (
+export const Wallet = ({
+  tokens,
+  readOnlyMode,
+  customTheme,
+  avaliableNetwork
+}: IWalletProps) => (
   <ThemeProvider theme={customTheme || theme}>
-    <ConnectWallet tokens={tokens} readOnlyMode={readOnlyMode} />
+    <ConnectWallet
+      tokens={tokens}
+      readOnlyMode={readOnlyMode}
+      avaliableNetworks={avaliableNetwork}
+    />
   </ThemeProvider>
 )
 

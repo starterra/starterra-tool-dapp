@@ -6,7 +6,11 @@ import WalletContent from './components/WalletContent'
 import { ClickAwayListener } from '@material-ui/core'
 import React, { useCallback, useState } from 'react'
 import useNetwork from './hooks/useNetwork'
-import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
+import {
+  NetworkInfo,
+  useWallet,
+  WalletStatus
+} from '@terra-money/wallet-provider'
 import * as trans from './translation'
 import { Tokens } from './types/token'
 import { LCDClient } from '@terra-money/terra.js'
@@ -17,9 +21,14 @@ import { useMediaQuery } from 'react-responsive'
 export interface IConnectWalletProps {
   tokens: Tokens
   readOnlyMode: boolean
+  avaliableNetworks?: Record<string, NetworkInfo>
 }
 
-const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
+const ConnectWallet = ({
+  tokens,
+  readOnlyMode,
+  avaliableNetworks
+}: IConnectWalletProps) => {
   const address = useAddress()
   const network = useNetwork()
   const { terraFinderGenerateLink } = useNetwork()
@@ -35,10 +44,20 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
 
   const nativeTokens = tokens.filter((t) => !t.address.startsWith('terra'))
   const balanceTokens = tokens.filter((t) => t.address.startsWith('terra'))
+  const lcd =
+    walletNetwork.name === 'mainnet' ? avaliableNetworks![1].lcd : network.lcd
+
+  const updatedWalletNetwork = {
+    ...walletNetwork,
+    lcd
+  }
   const terraClient = new LCDClient({
-    URL: network.lcd,
+    URL: lcd,
     chainID: network.chainID
   })
+
+  console.log(terraClient.config.URL);
+  
   const { balance: bankBalance, fetchBalance: fetchBankBalance } =
     useBankBalance(address, nativeTokens, terraClient)
   const { balance: tokenBalance, fetchBalance: fetchTokenBalance } =
@@ -110,7 +129,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
                   <div>
                     <WalletContent
                       address={address}
-                      network={walletNetwork}
+                      network={updatedWalletNetwork}
                       finderLink={terraFinderGenerateLink(address)}
                       disconnect={disconnectWallet}
                       assets={assets}
@@ -140,7 +159,7 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
               <div>
                 <WalletContent
                   address={address}
-                  network={walletNetwork}
+                  network={updatedWalletNetwork}
                   finderLink={terraFinderGenerateLink(address)}
                   disconnect={disconnectWallet}
                   assets={assets}

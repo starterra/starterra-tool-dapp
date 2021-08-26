@@ -40,6 +40,7 @@ interface WalletContentProps {
 
 const WalletContent: FC<WalletContentProps> = ({
   address,
+  network,
   disconnect,
   finderLink,
   assets,
@@ -73,7 +74,11 @@ const WalletContent: FC<WalletContentProps> = ({
         </div>
         <Balance tokenBalance={assets} />
         {assets?.length ? (
-          <SendDialog wallletAddress={address} tokensBalance={assets} />
+          <SendDialog
+            wallletAddress={address}
+            tokensBalance={assets}
+            network={network}
+          />
         ) : null}
         <Button
           color='secondary'

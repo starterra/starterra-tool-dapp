@@ -19,7 +19,8 @@ const avaliableNetworks: Record<string, NetworkInfo> = {
   1: {
     name: 'mainnet',
     chainID: 'columbus-4',
-    lcd: 'https://lcd.terra.dev'
+   // lcd: 'https://lcd.starterra.io'
+   lcd: 'https://lcd.terra.dev'
   }
 }
 
@@ -110,10 +111,11 @@ const testnetTokens: Tokens = [
 const App = () => {
   return (
     <WalletProvider
+       
       defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}
     >
-      <Wallet tokens={testnetTokens} readOnlyMode={false}  />
+      <Wallet tokens={testnetTokens} readOnlyMode={false}  avaliableNetwork={avaliableNetworks}/>
       <Sample />
     </WalletProvider>
   )

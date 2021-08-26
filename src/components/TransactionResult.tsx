@@ -4,7 +4,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
 import { TxError } from '../types/transaction'
 import TxHashLink from './TxHaskLink'
-import { TxResult } from '@terra-money/wallet-provider'
+import { NetworkInfo, TxResult } from '@terra-money/wallet-provider'
 import { green } from '@material-ui/core/colors'
 import { useTerra } from '../hooks/useTerra'
 
@@ -17,15 +17,17 @@ enum TxFinalResult {
 interface TxResultProps {
   response?: TxResult
   error?: TxError
+  network: NetworkInfo
   setPending: (value: boolean) => void
 }
 
 const TransactionResult: FC<TxResultProps> = ({
   response,
   error,
+  network,
   setPending
 }) => {
-  const terra = useTerra()
+  const terra = useTerra(network.lcd)
   const [result, setResult] = useState<TxFinalResult>(TxFinalResult.None)
   const [resultError, setResultError] = useState<string>('')
 

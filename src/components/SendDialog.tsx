@@ -12,7 +12,7 @@ import { Button, withStyles } from '@material-ui/core'
 
 import React, { ChangeEvent, FC, useMemo, useState } from 'react'
 import { TokenBalance, Tokens } from '../types/token'
-import { TxResult, useWallet } from '@terra-money/wallet-provider'
+import { NetworkInfo, TxResult, useWallet } from '@terra-money/wallet-provider'
 import { isSmartContract, tokenValueNumber } from '../utils'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -50,11 +50,16 @@ const SendButton = withStyles(() => ({
 interface SendProps {
   wallletAddress: string
   tokensBalance: Tokens
+  network: NetworkInfo
 }
 
-const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
+const SendDialog: FC<SendProps> = ({
+  wallletAddress,
+  tokensBalance,
+  network
+}) => {
   const { post } = useWallet()
-  const terra = useTerra()
+  const terra = useTerra(network.lcd)
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
@@ -183,6 +188,7 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
                 response={response}
                 error={txError}
                 setPending={setPending}
+                network={network}
               />
             </DialogContent>
           </React.Fragment>
