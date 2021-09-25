@@ -20,6 +20,11 @@ const avaliableNetworks: Record<string, NetworkInfo> = {
     name: 'mainnet',
     chainID: 'columbus-4',
     lcd: 'https://lcd.terra.dev'
+  },
+  2: {
+    name: 'bombay',
+    chainID: 'bombay-11',
+    lcd: 'https://bombay-lcd.terra.dev'
   }
 }
 
@@ -61,8 +66,8 @@ const testnetTokens: Tokens = [
     decimal: 6
   },
   {
-    address: 'terra1ajzprdl7wsu4k5erd7cg0fus3tnv8l7480lwlm',
-    name: 'NTTT',
+    address: 'terra1yj6ddycyduzgw53klnlk06mm735wd02r5239mg',
+    name: 'STT',
     isDefault: false,
     decimal: 6
   }
@@ -110,9 +115,8 @@ const testnetTokens: Tokens = [
 const App = () => {
   return (
     <WalletProvider
-      defaultNetwork={avaliableNetworks[0]}
-      walletConnectChainIds={avaliableNetworks}
-    >
+      defaultNetwork={avaliableNetworks[2]}
+      walletConnectChainIds={avaliableNetworks}  >
       <Wallet tokens={testnetTokens} readOnlyMode={false}  />
       <Sample />
     </WalletProvider>
