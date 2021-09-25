@@ -1,6 +1,6 @@
 {
   "name": "@starterra/starterra-tool-dapp",
-  "version": "0.2.0",
+  "version": "0.3.0-beta",
   "description": "Library for easy use of Terra wallet in custom dApp",
   "homepage": "https://github.com/starterra/starterra-tool-dapp#readme",
   "bugs": {
@@ -39,8 +39,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "@terra-money/terra.js": "^1.8.1",
-    "@terra-money/wallet-provider": "1.2.2",
+    "@terra-money/terra.js": "2.0.5",
+    "@terra-money/wallet-provider": "2.0.0",
     "bignumber.js": "^9.0.1",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
