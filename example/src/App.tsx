@@ -13,19 +13,14 @@ import Sample from './Sample'
 const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
     name: 'testnet',
-    chainID: 'tequila-0004',
-    lcd: 'https://tequila-lcd.terra.dev'
+    chainID: 'bombay-12',
+    lcd: 'https://bombay-lcd.terra.dev'
   },
   1: {
     name: 'mainnet',
-    chainID: 'columbus-4',
-    lcd: 'https://lcd.terra.dev'
+    chainID: 'columbus-5',
+    lcd: 'https://lcd.starterra.io'
   },
-  2: {
-    name: 'bombay',
-    chainID: 'bombay-11',
-    lcd: 'https://bombay-lcd.terra.dev'
-  }
 }
 
 const testnetTokens: Tokens = [
@@ -115,7 +110,7 @@ const testnetTokens: Tokens = [
 const App = () => {
   return (
     <WalletProvider
-      defaultNetwork={avaliableNetworks[2]}
+      defaultNetwork={avaliableNetworks[0]}
       walletConnectChainIds={avaliableNetworks}  >
       <Wallet tokens={testnetTokens} readOnlyMode={false}  />
       <Sample />

@@ -34,13 +34,13 @@ import '@starterra/starterra-tool-dapp/dist/index.css'
 const avaliableNetworks = {
   0: {
     name: "testnet",
-    chainID: "tequila-0004",
-    lcd: "https://tequila-lcd.terra.dev",
+    chainID: "bombay-12",
+    lcd: "https://bombay-lcd.terra.dev",
   },
   1: {
     name: "mainnet",
-    chainID: "columbus-4",
-    lcd: "https://lcd.terra.dev",
+    chainID: "columbus-5",
+    lcd: "https://lcd.starterra.io",
   },
 };
 
