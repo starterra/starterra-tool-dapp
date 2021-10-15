@@ -10,7 +10,7 @@ export const gasSettings: Record<string, IGasSetting> = {
     GAS_ADJUSTMENT: 1.6,
     GAS: 1000000,
     GAS_AMOUNT: '250000uusd',
-    PRICE_ENDPOINT: 'https://tequila-fcd.terra.dev/v1/txs/gas_prices'
+    PRICE_ENDPOINT: 'https://bombay-fcd.terra.dev/v1/txs/gas_prices'
   },
   mainnet: {
     GAS_ADJUSTMENT: 1.6,
