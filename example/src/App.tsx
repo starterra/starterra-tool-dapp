@@ -19,7 +19,7 @@ const avaliableNetworks: Record<string, NetworkInfo> = {
   1: {
     name: 'mainnet',
     chainID: 'columbus-5',
-    lcd: 'https://lcd.starterra.io'
+    lcd: 'https://lcd.terra.dev'
   },
 }
 

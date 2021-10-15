@@ -7,7 +7,7 @@ export const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
     name: "mainnet",
     chainID: "columbus-5",
-    lcd: "https://lcd.starterra.io",
+    lcd: "https://lcd.terra.dev",
   },
   1: {
     name: "testnet",
