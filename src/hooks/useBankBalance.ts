@@ -12,9 +12,9 @@ const useBankBalance = (
 
   const fetchBalance = useCallback(async () => {
     if (address) {
+      // TODO add valid type of response
       const response: any = await terraClient.bank.balance(address)
       const result: Tokens = response[0].map((item: any) => {
-        console.log(item)
         return {
           ...contracts.find((c) => c.address === item.denom)!,
           balance: item.amount.toString()
