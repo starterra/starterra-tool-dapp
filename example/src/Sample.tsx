@@ -25,12 +25,9 @@ const Sample = () => {
   return (
     <>
     <div>
- 
-      <p>{network.name}</p>
+       <p>{network.name}</p>
       <p>{connectedWallet?.terraAddress}</p>
     </div>
-
-
 
 <section>
   <h2>Sign the text below</h2>
