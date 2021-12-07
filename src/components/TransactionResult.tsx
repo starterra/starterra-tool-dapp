@@ -2,7 +2,6 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline'
-import { TxError } from '../types/transaction'
 import TxHashLink from './TxHaskLink'
 import { TxResult } from '@terra-money/wallet-provider'
 import { green } from '@material-ui/core/colors'
@@ -16,7 +15,7 @@ enum TxFinalResult {
 
 interface TxResultProps {
   response?: TxResult
-  error?: TxError
+  error?: any
   setPending: (value: boolean) => void
 }
 
@@ -45,12 +44,13 @@ const TransactionResult: FC<TxResultProps> = ({
           return true
         })
         .catch((txError) => {
-          const isNotFound = JSON.stringify(txError).includes('status code 404')
-          if (!isNotFound) {
+          const error = JSON.stringify(txError)
+          const isNotFound = error.includes('status code 400')
+          if (!isNotFound && error !== '') {
             setResultError(JSON.stringify(txError).substring(0, 40))
             setResult(TxFinalResult.Error)
           }
-          return !isNotFound
+          return !isNotFound && error !== ''
         })
       setPending(!txResult)
     },

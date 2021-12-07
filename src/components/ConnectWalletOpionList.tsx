@@ -37,25 +37,20 @@ const ConnectWalletOptionList = ({
   const { availableConnectTypes, availableInstallTypes, connect, install } =
     useWallet()
 
+  console.log(availableInstallTypes)
   const connectOptions: Record<string, ConnectOption> = {}
-  if (availableInstallTypes.includes(ConnectType.CHROME_EXTENSION)) {
+  if (availableInstallTypes.includes(ConnectType.EXTENSION)) {
     connectOptions[uuidv4()] = {
       label: trans.INSTALL_TERRA_EXT_TXT,
       icon: <TerraIcon />,
-      onClick: () => install(ConnectType.CHROME_EXTENSION)
+      onClick: () => install(ConnectType.EXTENSION)
     }
   }
-  if (availableConnectTypes.includes(ConnectType.WEBEXTENSION)) {
+  if (availableConnectTypes.includes(ConnectType.EXTENSION)) {
     connectOptions[uuidv4()] = {
       label: trans.TERRA_EXT_TXT,
       icon: <TerraIcon />,
-      onClick: () => connect(ConnectType.WEBEXTENSION)
-    }
-  } else if (availableConnectTypes.includes(ConnectType.CHROME_EXTENSION)) {
-    connectOptions[uuidv4()] = {
-      label: trans.TERRA_EXT_TXT,
-      icon: <TerraIcon />,
-      onClick: () => connect(ConnectType.CHROME_EXTENSION)
+      onClick: () => connect(ConnectType.EXTENSION)
     }
   }
   if (availableConnectTypes.includes(ConnectType.WALLETCONNECT)) {

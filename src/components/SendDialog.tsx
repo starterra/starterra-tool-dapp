@@ -3,6 +3,7 @@ import * as trans from '../translation'
 import {
   AccAddress,
   Coin,
+  Coins,
   CreateTxOptions,
   MsgExecuteContract,
   MsgSend
@@ -25,8 +26,7 @@ import Send from '@material-ui/icons/Send'
 import Spinner from './Spinner'
 import TextField from '@material-ui/core/TextField'
 import TransactionResult from './TransactionResult'
-import { TxError } from '../types/transaction'
-import { useTerra } from '../hooks/useTerra'
+import { useGasPrice } from '../hooks/useGasPrice'
 
 const SendButton = withStyles(() => ({
   root: {
@@ -48,13 +48,13 @@ const SendButton = withStyles(() => ({
 }))(Button)
 
 interface SendProps {
-  wallletAddress: string
+  walletAddress: string
   tokensBalance: Tokens
 }
 
-const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
+const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
   const { post } = useWallet()
-  const terra = useTerra()
+
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
   const [amount, setAmount] = useState<number>(1)
@@ -62,7 +62,8 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
   const [memo, setMemo] = useState<string>('')
   const [pending, setPending] = useState(false)
   const [response, setResponse] = useState<TxResult>()
-  const [txError, setTxError] = useState<TxError>()
+  const [txError, setTxError] = useState<any>()
+  const { gasPrice } = useGasPrice()
 
   const invalidAddress = useMemo(() => {
     if (address.length === 0) {
@@ -125,27 +126,20 @@ const SendDialog: FC<SendProps> = ({ wallletAddress, tokensBalance }) => {
       const txAmount = amount && amount * Math.pow(10, decimal || 6)
       const msg = [
         isSmartContract(token)
-          ? new MsgExecuteContract(wallletAddress, token, {
+          ? new MsgExecuteContract(walletAddress, token, {
               transfer: {
                 recipient: address,
                 amount: txAmount.toString()
               }
             })
-          : new MsgSend(wallletAddress, address, [
+          : new MsgSend(walletAddress, address, [
               new Coin(token, txAmount.toString())
             ])
       ]
-
-      const signMsg = await terra.tx.create(wallletAddress, {
-        msgs: msg,
-        memo: memo,
-        feeDenoms: ['uusd']
-      })
-
       const txOptions: CreateTxOptions = {
         msgs: msg,
         memo: memo,
-        fee: signMsg.fee
+        gasPrices: new Coins([new Coin('uusd', gasPrice)])
       }
       const response = await post(txOptions)
       setResponse(response)

@@ -4,7 +4,6 @@ import * as React from 'react'
 
 import {
   ConnectType,
-  ExtensionNetworkOnlyWalletProvider,
   StringifiedTxResult as StringifiedTxResultIm,
   WalletController,
   WalletControllerOptions as WalletControllerOptionsIm,
@@ -138,7 +137,6 @@ export {
   ConnectType,
   WalletController,
   findTxResult,
-  WalletProvider,
-  ExtensionNetworkOnlyWalletProvider
+  WalletProvider
 }
 export { useConnectedWallet, useWallet, useInstallChromeExtension }
