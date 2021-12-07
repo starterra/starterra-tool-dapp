@@ -1,4 +1,4 @@
-import { Coin, LCDClient } from '@terra-money/terra.js'
+import { LCDClient } from '@terra-money/terra.js'
 import { useCallback, useEffect, useState } from 'react'
 
 import { Tokens } from '../types/token'
@@ -12,9 +12,9 @@ const useBankBalance = (
 
   const fetchBalance = useCallback(async () => {
     if (address) {
-      const response = await terraClient.bank.balance(address)
-
-      const result: Tokens = response.map((item: Coin) => {
+      // TODO add valid type of response
+      const response: any = await terraClient.bank.balance(address)
+      const result: Tokens = response[0].map((item: any) => {
         return {
           ...contracts.find((c) => c.address === item.denom)!,
           balance: item.amount.toString()
