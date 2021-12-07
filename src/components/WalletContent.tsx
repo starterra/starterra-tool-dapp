@@ -73,7 +73,7 @@ const WalletContent: FC<WalletContentProps> = ({
         </div>
         <Balance tokenBalance={assets} />
         {assets?.length ? (
-          <SendDialog wallletAddress={address} tokensBalance={assets} />
+          <SendDialog walletAddress={address} tokensBalance={assets} />
         ) : null}
         <Button
           color='secondary'
