@@ -1,3 +1,31 @@
+button {
+  background-color: #2043b5;
+  height: 34px;
+  border-radius: 21px;
+  font-size: 13px;
+  text-transform: initial;
+  font-weight: bold;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+
+  outline: 0;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  margin: 10px 0px;
+  cursor: pointer;
+  transition: ease background-color 250ms;
+}
+
+button:hover {
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
 @media screen and (min-width: 640px) {
   .wallet-content {
     position: absolute;
@@ -114,6 +142,6 @@
   border-radius: 15px;
 }
 
-.wallet-empty{
+.wallet-empty {
   max-width: 150px;
 }

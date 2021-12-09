@@ -13,6 +13,7 @@ import { LCDClient } from '@terra-money/terra.js'
 import useBankBalance from './hooks/useBankBalance'
 import useTokenBalance from './hooks/useTokenBalance'
 import { useMediaQuery } from 'react-responsive'
+import ConnectButton2 from './components/ConnectButton2'
 
 export interface IConnectWalletProps {
   tokens: Tokens
@@ -78,6 +79,10 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             <ConnectButton onClick={connectWallet}>
               {trans.CONNECT_WALLET_TXT}
             </ConnectButton>
+
+            <ConnectButton2 onClick={connectWallet}>
+              {trans.CONNECT_WALLET_TXT}
+            </ConnectButton2>
 
             <ConnectWalletOptionList
               readOnlyMode={readOnlyMode}
