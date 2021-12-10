@@ -240,28 +240,13 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
             </DialogContent>
             <DialogActions>
               <button onClick={handleCancel}>{trans.CALNCEL_TXT}</button>
-              {/* 
-              <Button
-                onClick={handleCancel}
-                variant='contained'
-                color='primary'
-              ></Button> */}
               <button onClick={handleSubmit} disabled={sendDisable()}>
                 <span className='button-start-icon'>
                   <Send style={{ fontSize: 20 }} />
                 </span>
                 {trans.SEND_TXT}
               </button>
-              {/* <Button
-                onClick={handleSubmit}
-                color='primary'
-                variant='contained'
-                startIcon={<Send />}
-                disabled={sendDisable()}
-              >
-                {trans.SEND_TXT}
-              </Button> */}
-            </DialogActions>
+             </DialogActions>
           </React.Fragment>
         )}
       </Dialog>

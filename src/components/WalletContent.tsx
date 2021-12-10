@@ -82,15 +82,6 @@ const WalletContent: FC<WalletContentProps> = ({
             <span className='link-button-text'>{trans.VIEW_ON_TERRA_TXT}</span>
           </span>
         </a>
-        {/* <Button
-          color='secondary'
-          startIcon={<}
-          className='wallet-button'
-          href={finderLink}
-          target='_balank'
-        >
-          {trans.VIEW_ON_TERRA_TXT}
-        </Button> */}
       </div>
       <DisconnectButton variant='outlined' onClick={disconnect}>
         {trans.DISCONNECT_TXT}
