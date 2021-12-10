@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
 
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
 import { useMediaQuery } from 'react-responsive'
+import IconButton from './IconButton'
 
 interface ConnectButtonProps {
   onClick?: () => void
@@ -15,22 +14,19 @@ const ConnectButton: FC<ConnectButtonProps> = (props) => {
   return isMobile ? (
     <IconButton
       aria-label='connet'
-      className='wallet-connect-button'
-      color='secondary'
+      className='icon-button wallet-connect-button'
       onClick={onClick}
     >
       <AccountBalanceWalletIcon />
     </IconButton>
   ) : (
-    <Button
-      variant='contained'
-      color='primary'
+    <button
+      className='wallet-connect-button'
       onClick={onClick}
       data-testid='connect-button'
-      className='wallet-connect-button'
     >
       {children}
-    </Button>
+    </button>
   )
 }
 

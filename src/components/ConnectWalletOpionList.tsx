@@ -1,6 +1,5 @@
 import { ConnectType, useWallet } from '@terra-money/wallet-provider'
 import React, { ReactNode } from 'react'
-import { Button, IconButton, withStyles } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import { TerraIcon, WalletIcon } from './Icons'
 import Dialog from '@material-ui/core/Dialog'
@@ -8,18 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import { v4 as uuidv4 } from 'uuid'
 import * as trans from '../translation'
-
-const ConnectOptions = withStyles(() => ({
-  label: {
-    justifyContent: 'left',
-    marginLeft: '15px',
-    fontWeight: 600
-  },
-  startIcon: {
-    color: '#2043b5',
-    marginRight: '20px'
-  }
-}))(Button)
+import IconButton from './IconButton'
 
 interface IConnectWalletOptionListProps {
   readOnlyMode: boolean
@@ -74,7 +62,6 @@ const ConnectWalletOptionList = ({
       <DialogTitle id='form-dialog-title'>
         <IconButton
           onClick={handleClose}
-          color='secondary'
           className='wallet-contect-options-title-close'
         >
           <CloseIcon />
@@ -89,15 +76,20 @@ const ConnectWalletOptionList = ({
         <div className='wallet-contect-options-content'>
           {Object.entries(connectOptions).map(
             ([key, { label, icon, onClick }]) => (
-              <ConnectOptions
-                variant='outlined'
-                color='secondary'
-                onClick={onClick}
+              <button
                 key={key}
-                startIcon={icon}
+                aria-label='connet'
+                className='outlined'
+                onClick={onClick}
               >
-                {label}
-              </ConnectOptions>
+                <span className='wallet-contect-options-button-label'>
+                  <span className='wallet-contect-options-button-icon'>
+                    {icon}
+                  </span>
+
+                  {label}
+                </span>
+              </button>
             )
           )}
         </div>

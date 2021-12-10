@@ -1,6 +1,6 @@
 import * as trans from '../translation'
 
-import { Button, IconButton, Paper, Theme, withStyles } from '@material-ui/core'
+import { Button, Paper, Theme, withStyles } from '@material-ui/core'
 import React, { FC } from 'react'
 
 import Balance from './Balance'
@@ -13,6 +13,7 @@ import { getEllipsisTxt } from '../utils'
 import useClipboard from 'react-use-clipboard'
 import CloseIcon from '@material-ui/icons/Close'
 import { useMediaQuery } from 'react-responsive'
+import IconButton from './IconButton'
 
 const DisconnectButton = withStyles((theme: Theme) => ({
   root: {
@@ -63,7 +64,7 @@ const WalletContent: FC<WalletContentProps> = ({
         <div className='wallet-header'>
           <div data-testid='address'>{getEllipsisTxt(address, 9)}</div>
           <IconButton
-            aria-label='copy'
+            ariaLabel='copy'
             color={isCopied ? 'secondary' : 'primary'}
             onClick={setCopied}
             size='small'
@@ -75,15 +76,21 @@ const WalletContent: FC<WalletContentProps> = ({
         {assets?.length ? (
           <SendDialog walletAddress={address} tokensBalance={assets} />
         ) : null}
-        <Button
+        <a href={finderLink} className='link-button'>
+          <span className='icon-button-label icon-button-small-size'>
+            <LaunchIcon style={{ fontSize: 20 }} />
+            <span className='link-button-text'>{trans.VIEW_ON_TERRA_TXT}</span>
+          </span>
+        </a>
+        {/* <Button
           color='secondary'
-          startIcon={<LaunchIcon color='primary' />}
+          startIcon={<}
           className='wallet-button'
           href={finderLink}
           target='_balank'
         >
           {trans.VIEW_ON_TERRA_TXT}
-        </Button>
+        </Button> */}
       </div>
       <DisconnectButton variant='outlined' onClick={disconnect}>
         {trans.DISCONNECT_TXT}

@@ -22,6 +22,7 @@ button {
   -moz-appearance: none;
   justify-content: center;
   text-decoration: none;
+  display: inline-flex;
 }
 
 button:hover {
@@ -31,6 +32,14 @@ button:hover {
 button:disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+.outlined {
+  color: #0044ff;
+  border: none;
+  margin-bottom: 15px;
+  text-transform: initial;
+  background-color: #e8eaed;
 }
 
 .icon-button {
@@ -44,12 +53,33 @@ button:disabled {
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 50%;
   height: auto;
+  box-shadow: none;
 }
+
+.icon-button:hover {
+  box-shadow: none;
+}
+
+.icon-button-small-size {
+  padding: 3px;
+}
+
 .icon-button-label {
   width: 100%;
   display: flex;
   align-items: inherit;
   justify-content: inherit;
+}
+
+.link-button {
+  color: #0044ff;
+  font-size: 11px;
+  text-decoration-line: none;
+
+}
+
+.link-button-text{
+  margin: 4px 0 8px 0;
 }
 @media screen and (min-width: 640px) {
   .wallet-content {
@@ -122,10 +152,17 @@ button:disabled {
   font-size: 14px;
 }
 
-.wallet-button {
-  width: 100%;
-  text-transform: initial !important;
-  font-size: 11px !important;
+.wallet-contect-options-button-icon {
+  color: #2043b5;
+  margin-right: 20px;
+  display: inherit;
+}
+.wallet-contect-options-button-label {
+  justify-content: left;
+  margin-left: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inherit;
 }
 
 .wallet-contect-options-title {
@@ -135,7 +172,7 @@ button:disabled {
 }
 
 .wallet-contect-options-title-second {
-  color: #ffee00;
+  color: #2043b5;
 }
 
 .wallet-contect-options-title-close {
