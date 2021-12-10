@@ -1,6 +1,6 @@
 import * as trans from '../translation'
 
-import { Button, Paper, Theme, withStyles } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import React, { FC } from 'react'
 
 import Balance from './Balance'
@@ -14,21 +14,6 @@ import useClipboard from 'react-use-clipboard'
 import CloseIcon from '@material-ui/icons/Close'
 import { useMediaQuery } from 'react-responsive'
 import IconButton from './IconButton'
-
-const DisconnectButton = withStyles((theme: Theme) => ({
-  root: {
-    border: 'none',
-    width: '100%',
-    height: '36px',
-    borderRadius: '0px 0px 21px 21px',
-    textTransform: 'initial',
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.info.main,
-    '&:hover': {
-      backgroundColor: theme.palette.info.main
-    }
-  }
-}))(Button)
 
 interface WalletContentProps {
   address: string
@@ -83,9 +68,9 @@ const WalletContent: FC<WalletContentProps> = ({
           </span>
         </a>
       </div>
-      <DisconnectButton variant='outlined' onClick={disconnect}>
+      <button className='button-disconnect outlined' onClick={disconnect}>
         {trans.DISCONNECT_TXT}
-      </DisconnectButton>
+      </button>
     </Paper>
   )
 }
