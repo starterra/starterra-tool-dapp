@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet'
-import IconButton from '@material-ui/core/IconButton'
 import { useMediaQuery } from 'react-responsive'
 
 interface ConnectButtonProps {
@@ -12,16 +11,24 @@ const ConnectButton2: FC<ConnectButtonProps> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: 850 })
   const { onClick, children } = props
   return isMobile ? (
-    <IconButton
+    <button
       aria-label='connet'
-      className='wallet-connect-button'
+      className='icon-button wallet-connect-button'
       color='secondary'
       onClick={onClick}
     >
-      <AccountBalanceWalletIcon />
-    </IconButton>
+      <span className='icon-button-label'>
+        <AccountBalanceWalletIcon />
+      </span>
+    </button>
   ) : (
-    <button className='wallet-connect-button'> {children}</button>
+    <button
+      className='wallet-connect-button'
+      onClick={onClick}
+      data-testid='connect-button'
+    >
+      {children}
+    </button>
   )
 }
 
