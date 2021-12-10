@@ -9,8 +9,6 @@ import {
   MsgSend
 } from '@terra-money/terra.js'
 
-import { Button, withStyles } from '@material-ui/core'
-
 import React, { ChangeEvent, FC, useMemo, useState } from 'react'
 import { TokenBalance, Tokens } from '../types/token'
 import { TxResult, useWallet } from '@terra-money/wallet-provider'
@@ -27,25 +25,6 @@ import Spinner from './Spinner'
 import TextField from '@material-ui/core/TextField'
 import TransactionResult from './TransactionResult'
 import { useGasPrice } from '../hooks/useGasPrice'
-
-const SendButton = withStyles(() => ({
-  root: {
-    width: '100%',
-    textTransform: 'initial',
-    height: '42px',
-    transition: 'all 0.5s',
-    '&:hover > span > span': {
-      opacity: 1,
-      left: '25px'
-    }
-  },
-  startIcon: {
-    opacity: 0,
-    left: '5px',
-    transition: '0.5s',
-    position: 'absolute'
-  }
-}))(Button)
 
 interface SendProps {
   walletAddress: string
@@ -154,14 +133,19 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
 
   return (
     <div>
-      <SendButton
-        variant='contained'
-        startIcon={<Send />}
-        color='primary'
+      <button
+        aria-label='send'
         onClick={handleClickOpen}
+        className='send-button'
       >
-        {trans.SEND_TXT}
-      </SendButton>
+        <span>
+          <span className='send-button-icon'>
+            <Send style={{ fontSize: 20 }} />
+          </span>
+
+          {trans.SEND_TXT}
+        </span>
+      </button>
       <Dialog
         open={open}
         onClose={handleCancel}
@@ -255,14 +239,20 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
               </form>
             </DialogContent>
             <DialogActions>
+              <button onClick={handleCancel}>{trans.CALNCEL_TXT}</button>
+              {/* 
               <Button
                 onClick={handleCancel}
                 variant='contained'
                 color='primary'
-              >
-                {trans.CALNCEL_TXT}
-              </Button>
-              <Button
+              ></Button> */}
+              <button onClick={handleSubmit} disabled={sendDisable()}>
+                <span className='button-start-icon'>
+                  <Send style={{ fontSize: 20 }} />
+                </span>
+                {trans.SEND_TXT}
+              </button>
+              {/* <Button
                 onClick={handleSubmit}
                 color='primary'
                 variant='contained'
@@ -270,7 +260,7 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
                 disabled={sendDisable()}
               >
                 {trans.SEND_TXT}
-              </Button>
+              </Button> */}
             </DialogActions>
           </React.Fragment>
         )}

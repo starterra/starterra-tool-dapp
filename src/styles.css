@@ -75,11 +75,34 @@ button:disabled {
   color: #0044ff;
   font-size: 11px;
   text-decoration-line: none;
-
 }
 
-.link-button-text{
-  margin: 4px 0 8px 0;
+.link-button-text {
+  margin: 4px 5px 0 0;
+}
+
+.send-button {
+  width: 100%;
+  text-transform: initial;
+  height: 42px;
+  transition: all 0.5s;
+}
+.send-button:hover > span > span {
+  opacity: 1;
+  left: 20px;
+}
+
+.send-button-icon {
+  opacity: 0;
+  left: 5px;
+  bottom:5px;
+  transition: 0.5s;
+  position: absolute;
+  color:white;
+}
+
+.button-start-icon {
+  padding:2px 5px 0 5px;
 }
 @media screen and (min-width: 640px) {
   .wallet-content {
