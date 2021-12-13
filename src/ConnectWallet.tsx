@@ -2,7 +2,7 @@ import useAddress from './hooks/useAddress'
 import ConnectedButton from './components/ConnectedButton'
 import ConnectWalletOptionList from './components/ConnectWalletOpionList'
 import WalletContent from './components/WalletContent'
-import { ClickAwayListener } from '@material-ui/core'
+import ClickAwayListener from 'react-click-away-listener'
 import React, { useCallback, useState } from 'react'
 import useNetwork from './hooks/useNetwork'
 import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
@@ -60,8 +60,9 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
   }, [disconnect])
 
   const onClickAway = useCallback(() => {
+    console.log('click away')
     setShowOptions(false)
-    setShowContent(false)
+   // setShowContent(false)
   }, [])
 
   switch (status) {
@@ -131,15 +132,17 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             open={showContent}
           />
           {showContent && (
-            <WalletContent
-              modalIsOpen={showContent}
-              address={address}
-              network={walletNetwork}
-              finderLink={terraFinderGenerateLink(address)}
-              disconnect={disconnectWallet}
-              assets={assets}
-              close={close}
-            />
+            <ClickAwayListener onClickAway={onClickAway}>
+              <WalletContent
+                modalIsOpen={showContent}
+                address={address}
+                network={walletNetwork}
+                finderLink={terraFinderGenerateLink(address)}
+                disconnect={disconnectWallet}
+                assets={assets}
+                close={close}
+              />
+            </ClickAwayListener>
           )}
         </React.Fragment>
       )

@@ -128,15 +128,15 @@ button:disabled {
   color: white;
 }
 
-.button-disconnect{
-    border: none;
-    width: 100%;
-    height: 36px;
-    border-radius: 0px 0px 21px 21px;
-    text-transform: initial;
-    color: #2043b5;
-    background-color: #b6bac5;
-    margin-bottom: 0;
+.button-disconnect {
+  border: none;
+  width: 100%;
+  height: 36px;
+  border-radius: 0px 0px 21px 21px;
+  text-transform: initial;
+  color: #2043b5;
+  background-color: #b6bac5;
+  margin-bottom: 0;
 }
 @media screen and (min-width: 640px) {
   .wallet-content {
@@ -265,3 +265,21 @@ button:disabled {
   max-width: 150px;
 }
 
+.ReactModal__Content {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  min-height: 300px;
+  border-radius: 20px;
+  border: 3px solid #2043b5; */
+}
+
+.modal-title {
+}
+
+.modal-contnet {
+}
+
+.modal-action {
+}

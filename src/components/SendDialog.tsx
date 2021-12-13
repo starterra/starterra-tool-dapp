@@ -13,11 +13,8 @@ import React, { ChangeEvent, FC, useMemo, useState } from 'react'
 import { TokenBalance, Tokens } from '../types/token'
 import { TxResult, useWallet } from '@terra-money/wallet-provider'
 import { isSmartContract, tokenValueNumber } from '../utils'
-
-import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Send from '@material-ui/icons/Send'
@@ -25,6 +22,7 @@ import Spinner from './Spinner'
 import TextField from '@material-ui/core/TextField'
 import TransactionResult from './TransactionResult'
 import { useGasPrice } from '../hooks/useGasPrice'
+import Modal from 'react-modal'
 
 interface SendProps {
   walletAddress: string
@@ -72,6 +70,7 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
     )
   }
   const handleClickOpen = () => {
+    console.log('handle click open')
     setOpen(true)
   }
 
@@ -146,14 +145,23 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
           {trans.SEND_TXT}
         </span>
       </button>
-      <Dialog
-        open={open}
-        onClose={handleCancel}
+      <Modal
+        isOpen={open}
+        onRequestClose={handleCancel}
+        style={{
+          content: {
+            inset:'200px',
+            maxWidth: '600px',
+            minHeight: '300px',
+            borderRadius: '20px',
+            border: '3px solid #2043b5'
+          }
+        }}
         aria-labelledby='form-dialog-title'
       >
         {showStatus ? (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>Status</DialogTitle>
+            <h3 id='form-dialog-title'>Status</h3>
 
             <DialogContent>
               {pending && <Spinner />}
@@ -166,7 +174,7 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <DialogTitle id='form-dialog-title'>Send</DialogTitle>
+            <h3 id='form-dialog-title'>Send</h3>
 
             <DialogContent>
               <form>
@@ -246,10 +254,10 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
                 </span>
                 {trans.SEND_TXT}
               </button>
-             </DialogActions>
+            </DialogActions>
           </React.Fragment>
         )}
-      </Dialog>
+      </Modal>
     </div>
   )
 }
