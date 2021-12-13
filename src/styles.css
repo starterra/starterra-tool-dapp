@@ -135,7 +135,7 @@ button:disabled {
     border-radius: 0px 0px 21px 21px;
     text-transform: initial;
     color: #2043b5;
-    background-color: #cdd4e9;
+    background-color: #b6bac5;
     margin-bottom: 0;
 }
 @media screen and (min-width: 640px) {
@@ -144,7 +144,10 @@ button:disabled {
     display: block;
     top: 5px;
     right: 10px;
-    border-radius: 15px;
+    border-radius: 20px;
+    border: 3px solid #2043b5;
+    background-color: #eaedf3;
+    color: #2043b5;
   }
 }
 .wallet-connect-button {
@@ -261,3 +264,4 @@ button:disabled {
 .wallet-empty {
   max-width: 150px;
 }
+

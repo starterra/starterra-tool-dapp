@@ -1,6 +1,5 @@
 import * as trans from '../translation'
 
-import { Paper } from '@material-ui/core'
 import React, { FC } from 'react'
 
 import Balance from './Balance'
@@ -16,6 +15,7 @@ import { useMediaQuery } from 'react-responsive'
 import IconButton from './IconButton'
 
 interface WalletContentProps {
+  modalIsOpen: boolean
   address: string
   network: NetworkInfo
   finderLink: string
@@ -37,7 +37,7 @@ const WalletContent: FC<WalletContentProps> = ({
   const isMobile = useMediaQuery({ maxWidth: 850 })
 
   return (
-    <Paper elevation={3} className='wallet-content'>
+    <div className='wallet-content'>
       <div className='wallet-section'>
         {isMobile && (
           <div className='wallet-section-close'>
@@ -71,7 +71,7 @@ const WalletContent: FC<WalletContentProps> = ({
       <button className='button-disconnect outlined' onClick={disconnect}>
         {trans.DISCONNECT_TXT}
       </button>
-    </Paper>
+    </div>
   )
 }
 

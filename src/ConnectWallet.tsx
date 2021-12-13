@@ -14,7 +14,6 @@ import useTokenBalance from './hooks/useTokenBalance'
 import { useMediaQuery } from 'react-responsive'
 import ConnectButton from './components/ConnectButton'
 
-
 export interface IConnectWalletProps {
   tokens: Tokens
   readOnlyMode: boolean
@@ -106,20 +105,15 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
                   : 'wallet-content-animated'
               }`}
             >
-              {showContent && (
-                <ClickAwayListener onClickAway={onClickAway}>
-                  <div>
-                    <WalletContent
-                      address={address}
-                      network={walletNetwork}
-                      finderLink={terraFinderGenerateLink(address)}
-                      disconnect={disconnectWallet}
-                      assets={assets}
-                      close={() => setShowContent(false)}
-                    />
-                  </div>
-                </ClickAwayListener>
-              )}
+              <WalletContent
+                modalIsOpen={showContent}
+                address={address}
+                network={walletNetwork}
+                finderLink={terraFinderGenerateLink(address)}
+                disconnect={disconnectWallet}
+                assets={assets}
+                close={() => close()}
+              />
             </div>
           </React.Fragment>
         )
@@ -137,18 +131,15 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             open={showContent}
           />
           {showContent && (
-            <ClickAwayListener onClickAway={onClickAway}>
-              <div>
-                <WalletContent
-                  address={address}
-                  network={walletNetwork}
-                  finderLink={terraFinderGenerateLink(address)}
-                  disconnect={disconnectWallet}
-                  assets={assets}
-                  close={() => setShowContent(false)}
-                />
-              </div>
-            </ClickAwayListener>
+            <WalletContent
+              modalIsOpen={showContent}
+              address={address}
+              network={walletNetwork}
+              finderLink={terraFinderGenerateLink(address)}
+              disconnect={disconnectWallet}
+              assets={assets}
+              close={close}
+            />
           )}
         </React.Fragment>
       )
