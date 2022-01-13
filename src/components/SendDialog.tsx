@@ -54,7 +54,11 @@ interface SendProps {
 }
 
 const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
+<<<<<<< HEAD
   const { post, network } = useWallet()
+=======
+  const { post } = useWallet()
+>>>>>>> origin/main
 
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
