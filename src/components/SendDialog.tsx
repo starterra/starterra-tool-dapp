@@ -6,7 +6,8 @@ import {
   Coins,
   CreateTxOptions,
   MsgExecuteContract,
-  MsgSend
+  MsgSend,
+  LCDClient
 } from '@terra-money/terra.js'
 
 import { Button, withStyles } from '@material-ui/core'
@@ -53,7 +54,7 @@ interface SendProps {
 }
 
 const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
-  const { post } = useWallet()
+  const { post, network } = useWallet()
 
   const [open, setOpen] = useState(false)
   const [address, setAddress] = useState<string>('')
@@ -136,11 +137,23 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
               new Coin(token, txAmount.toString())
             ])
       ]
+      const terra = new LCDClient({
+        URL: network.lcd,
+        chainID: network.chainID
+      })
+
       const txOptions: CreateTxOptions = {
         msgs: msg,
         memo: memo,
-        gasPrices: new Coins([new Coin('uusd', gasPrice)])
+        gasPrices: new Coins([new Coin('uusd', gasPrice)]),
+        feeDenoms: ['uusd']
       }
+
+      const signMsg = await terra.tx.create(
+        [{ address: walletAddress }],
+        txOptions
+      )
+      txOptions.fee = signMsg.auth_info.fee
       const response = await post(txOptions)
       setResponse(response)
     } catch (error) {
