@@ -1,6 +1,6 @@
 button {
   background-color: #2043b5;
-  height: 34px;
+  height: 42px;
   border-radius: 21px;
   font-size: 13px;
   text-transform: initial;
@@ -8,7 +8,6 @@ button {
   color: white;
   border: none;
   padding: 5px 15px;
-
   outline: 0;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
@@ -86,7 +85,6 @@ button:disabled {
 .send-button {
   width: 100%;
   text-transform: initial;
-  height: 42px;
   transition: all 0.5s;
 }
 .send-button:hover > span > span {
@@ -188,6 +186,8 @@ button:disabled {
 .wallet-header {
   margin: 30px 0px 10px 0px;
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   font-size: 10px;
 }
 @media screen and (min-width: 640px) {
@@ -265,21 +265,16 @@ button:disabled {
   max-width: 150px;
 }
 
-.ReactModal__Content {
-  /* display: flex;
+.wallet-modal-actions {
+  flex: 0 0 auto;
+  display: flex;
+  padding: 8px;
   align-items: center;
-  justify-content: center;
-  max-width: 600px;
-  min-height: 300px;
-  border-radius: 20px;
-  border: 3px solid #2043b5; */
+  justify-content: flex-end;
 }
-
-.modal-title {
+.wallet-modal-actions button {
+  min-width: 160px;
 }
-
-.modal-contnet {
-}
-
-.modal-action {
+.wallet-modal-actions > :not(:first-child) {
+  margin-left: 8px;
 }
