@@ -16,10 +16,9 @@ import { useMediaQuery } from 'react-responsive'
 
 export interface IConnectWalletProps {
   tokens: Tokens
-  readOnlyMode: boolean
 }
 
-const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
+const ConnectWallet = ({ tokens }: IConnectWalletProps) => {
   const address = useAddress()
   const network = useNetwork()
   const { terraFinderGenerateLink } = useNetwork()
@@ -80,7 +79,6 @@ const ConnectWallet = ({ tokens, readOnlyMode }: IConnectWalletProps) => {
             </ConnectButton>
 
             <ConnectWalletOptionList
-              readOnlyMode={readOnlyMode}
               open={showOptions}
               handleClose={() => setShowOptions(false)}
             />
