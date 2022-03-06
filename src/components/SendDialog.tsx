@@ -14,7 +14,7 @@ import { TokenBalance, Tokens } from '../types/token'
 import { TxResult, useWallet } from '@terra-money/wallet-provider'
 import { isSmartContract, tokenValueNumber } from '../utils'
 import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+// import Select from 'react-select'
 import Send from '@material-ui/icons/Send'
 import Spinner from './Spinner'
 import TextField from '@material-ui/core/TextField'
@@ -81,9 +81,9 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
     resetState()
   }
 
-  const handleTokenChange = (newValue: any) => {
-    setToken(newValue)
-  }
+  // const handleTokenChange = (newValue: any) => {
+  //   setToken(newValue)
+  // }
 
   const resetState = () => {
     setAddress('')
@@ -181,7 +181,7 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
             <div>
               <form>
                 <FormControl variant='outlined'>
-                  <Select
+                  {/* <Select
                     native
                     id='select-token'
                     value={token}
@@ -197,8 +197,20 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
                         {token.name}
                       </option>
                     ))}
-                  </Select>
+                  </Select> */}
                 </FormControl>
+                <label>
+                  Send to
+                  <input
+                    type='text'
+                    required
+                    value={address}
+                    placeholder='Terra address'
+                    onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                      setAddress(target.value)
+                    }
+                  />
+                </label>
                 <TextField
                   autoFocus
                   variant='filled'
@@ -234,6 +246,16 @@ const SendDialog: FC<SendProps> = ({ walletAddress, tokensBalance }) => {
                   }}
                 />
 
+                <label>
+                  Memo (Optional)
+                  <input
+                    type='text'
+                    value={memo}
+                    onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+                      setMemo(target.value)
+                    }
+                  />
+                </label>
                 <TextField
                   variant='filled'
                   margin='dense'

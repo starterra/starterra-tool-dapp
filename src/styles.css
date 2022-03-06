@@ -136,6 +136,35 @@ button:disabled {
   background-color: #b6bac5;
   margin-bottom: 0;
 }
+
+input {
+  font: inherit;
+  color: #0044ff;
+  width: 100%;
+  border: 3px solid #2043b5;
+  height: 1.1876em;
+  margin: 0;
+  display: block;
+  padding: 8px 0 8px 8px;
+  min-width: 0;
+  background: none;
+  box-sizing: content-box;
+  letter-spacing: inherit;
+  background-color: #ffffff;
+  animation-duration: 10ms;
+  -webkit-tap-highlight-color: transparent;
+}
+
+label {
+  color: #0044ff;
+  padding-bottom: 5px;
+  font-size: 1rem;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.00938em;
+}
+
 @media screen and (min-width: 640px) {
   .wallet-content {
     position: absolute;
