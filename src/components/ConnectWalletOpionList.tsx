@@ -1,13 +1,10 @@
-import { ConnectType, useWallet } from '@terra-money/wallet-provider'
+import { useWallet } from '@terra-money/wallet-provider'
 import React, { ReactNode } from 'react'
 import { Button, IconButton, withStyles } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import { TerraIcon, WalletIcon } from './Icons'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { v4 as uuidv4 } from 'uuid'
-import * as trans from '../translation'
 
 const ConnectOptions = withStyles(() => ({
   label: {
@@ -22,7 +19,6 @@ const ConnectOptions = withStyles(() => ({
 }))(Button)
 
 interface IConnectWalletOptionListProps {
-  readOnlyMode: boolean
   open: boolean
   handleClose: () => void
 }
@@ -30,42 +26,29 @@ interface IConnectWalletOptionListProps {
 type ConnectOption = { label: string; icon?: ReactNode; onClick: () => void }
 
 const ConnectWalletOptionList = ({
-  readOnlyMode,
   open,
   handleClose
 }: IConnectWalletOptionListProps) => {
-  const { availableConnectTypes, availableInstallTypes, connect, install } =
-    useWallet()
+  const { availableConnections, availableInstallations, connect } = useWallet()
 
-  console.log(availableInstallTypes)
-  const connectOptions: Record<string, ConnectOption> = {}
-  if (availableInstallTypes.includes(ConnectType.EXTENSION)) {
-    connectOptions[uuidv4()] = {
-      label: trans.INSTALL_TERRA_EXT_TXT,
-      icon: <TerraIcon />,
-      onClick: () => install(ConnectType.EXTENSION)
-    }
-  }
-  if (availableConnectTypes.includes(ConnectType.EXTENSION)) {
-    connectOptions[uuidv4()] = {
-      label: trans.TERRA_EXT_TXT,
-      icon: <TerraIcon />,
-      onClick: () => connect(ConnectType.EXTENSION)
-    }
-  }
-  if (availableConnectTypes.includes(ConnectType.WALLETCONNECT)) {
-    connectOptions[uuidv4()] = {
-      label: trans.TERRA_MOB_TXT,
-      icon: <WalletIcon />,
-      onClick: () => connect(ConnectType.WALLETCONNECT)
-    }
-  }
-  if (readOnlyMode && availableConnectTypes.includes(ConnectType.READONLY)) {
-    connectOptions[uuidv4()] = {
-      label: trans.READ_ONLY_TXT,
-      onClick: () => connect(ConnectType.READONLY)
-    }
-  }
+  const connectOptions: ConnectOption[] = []
+
+  availableConnections.forEach((connectType) => {
+    connectOptions.unshift({
+      label: connectType.name,
+      icon: <img src={connectType.icon} height='24' />,
+      onClick: () => connect(connectType.type, connectType.identifier)
+    })
+  })
+
+  availableInstallations.forEach((installType) => {
+    connectOptions.unshift({
+      label: `Install ${installType.name}`,
+      icon: <img src={installType.icon} height='24' />,
+      onClick: () => window.open(installType.url, '_blank')
+    })
+  })
+
   return (
     <Dialog
       open={open}
@@ -88,19 +71,17 @@ const ConnectWalletOptionList = ({
 
       <DialogContent>
         <div className='wallet-contect-options-content'>
-          {Object.entries(connectOptions).map(
-            ([key, { label, icon, onClick }]) => (
-              <ConnectOptions
-                variant='outlined'
-                color='secondary'
-                onClick={onClick}
-                key={key}
-                startIcon={icon}
-              >
-                {label}
-              </ConnectOptions>
-            )
-          )}
+          {connectOptions.map(({ label, icon, onClick }, key) => (
+            <ConnectOptions
+              variant='outlined'
+              color='secondary'
+              onClick={onClick}
+              key={key}
+              startIcon={icon}
+            >
+              {label}
+            </ConnectOptions>
+          ))}
         </div>
       </DialogContent>
     </Dialog>
