@@ -41,7 +41,10 @@ const ConnectWalletOptionList = ({
     })
   })
 
-  availableInstallations.forEach((installType) => {
+  const filteredInstallation = availableInstallations.filter(
+    (installation) => installation.identifier !== 'falcon-wallet'
+  )
+  filteredInstallation.forEach((installType) => {
     connectOptions.unshift({
       label: `Install ${installType.name}`,
       icon: <img src={installType.icon} height='24' />,
