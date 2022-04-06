@@ -45,7 +45,7 @@ const ConnectWalletOptionList = ({
     (installation) => installation.identifier !== 'falcon-wallet'
   )
   filteredInstallation.forEach((installType) => {
-    connectOptions.unshift({
+    connectOptions.push({
       label: `Install ${installType.name}`,
       icon: <img src={installType.icon} height='24' />,
       onClick: () => window.open(installType.url, '_blank')
