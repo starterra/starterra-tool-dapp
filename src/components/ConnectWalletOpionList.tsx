@@ -34,7 +34,7 @@ const ConnectWalletOptionList = ({
   const connectOptions: ConnectOption[] = []
 
   availableConnections.forEach((connectType) => {
-    connectOptions.unshift({
+    connectOptions.push({
       label: connectType.name,
       icon: <img src={connectType.icon} height='24' />,
       onClick: () => connect(connectType.type, connectType.identifier)
