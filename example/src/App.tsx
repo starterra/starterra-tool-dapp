@@ -14,12 +14,14 @@ const avaliableNetworks: Record<string, NetworkInfo> = {
   0: {
     name: 'testnet',
     chainID: 'bombay-12',
-    lcd: 'https://bombay-lcd.terra.dev'
+    lcd: 'https://bombay-lcd.terra.dev',
+    walletconnectID:1
   },
   1: {
     name: 'mainnet',
     chainID: 'columbus-5',
-    lcd: 'https://lcd.terra.dev'
+    lcd: 'https://lcd.terra.dev',
+    walletconnectID:2
   },
 }
 

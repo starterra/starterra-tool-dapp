@@ -16,10 +16,8 @@ import {
   useWallet
 } from '@terra-money/wallet-provider'
 import ConnectWallet from './ConnectWallet'
-import {
-  NetworkInfo as NetworkInfoIm,
-  TxResult as TxResultIm
-} from '@terra-dev/wallet-types'
+import { NetworkInfo as NetworkInfoIm, TxResult as TxResultIm} from '@terra-money/wallet-provider'
+
 import { Theme } from '@material-ui/core'
 
 import {
