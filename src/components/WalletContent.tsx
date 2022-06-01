@@ -6,13 +6,13 @@ import React, { FC } from 'react'
 import Balance from './Balance'
 import FilterNone from '@material-ui/icons/FilterNone'
 import LaunchIcon from '@material-ui/icons/Launch'
-import { NetworkInfo } from '@terra-dev/wallet-types'
 import SendDialog from './SendDialog'
 import { TokenBalance } from '../types/token'
 import { getEllipsisTxt } from '../utils'
 import useClipboard from 'react-use-clipboard'
 import CloseIcon from '@material-ui/icons/Close'
 import { useMediaQuery } from 'react-responsive'
+import { NetworkInfo } from '@terra-money/wallet-provider'
 
 const DisconnectButton = withStyles((theme: Theme) => ({
   root: {
